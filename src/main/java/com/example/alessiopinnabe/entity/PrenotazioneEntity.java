@@ -1,6 +1,7 @@
 package com.example.alessiopinnabe.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -20,7 +21,7 @@ public class PrenotazioneEntity {
     private CorsoEntity corsoIdcorso;
 
     @Column(name = "qnt_ore")
-    private String qntOre;
+    private BigDecimal qntOre;
 
     @Column(name = "data_prenotazione")
     private LocalDate dataPrenotazione;
@@ -52,11 +53,11 @@ public class PrenotazioneEntity {
         this.corsoIdcorso = corsoIdcorso;
     }
 
-    public String getQntOre() {
+    public BigDecimal getQntOre() {
         return qntOre;
     }
 
-    public void setQntOre(String qntOre) {
+    public void setQntOre(BigDecimal qntOre) {
         this.qntOre = qntOre;
     }
 

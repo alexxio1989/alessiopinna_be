@@ -4,10 +4,8 @@ import com.example.alessiopinnabe.dto.core.ResponseCore;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
-public class ResponseCorsoDto extends ResponseCore {
-    private List<CorsoDto> corsi;
+public class ResponseUtenteDto extends ResponseCore {
+    private UtenteDto utente;
 }

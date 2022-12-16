@@ -3,6 +3,8 @@ package com.example.alessiopinnabe.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class UtenteDto {
@@ -11,4 +13,5 @@ public class UtenteDto {
     private String skypeID;
     private String email;
     private DominioDto tipo;
+    private List<PrenotazioneDto> prenotazioni;
 }

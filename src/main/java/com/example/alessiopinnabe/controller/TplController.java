@@ -1,10 +1,7 @@
 package com.example.alessiopinnabe.controller;
 
-import com.example.alessiopinnabe.dto.CorsoDto;
 import com.example.alessiopinnabe.dto.DominioDto;
-import com.example.alessiopinnabe.dto.ResponseCorsoDto;
-import com.example.alessiopinnabe.service.ServiceCorso;
-import com.example.alessiopinnabe.service.TplService;
+import com.example.alessiopinnabe.service.ServiceTpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +13,7 @@ import java.util.List;
 public class TplController {
 
     @Autowired
-    private TplService tplService;
+    private ServiceTpl tplService;
 
     @GetMapping("/all/utente")
     @CrossOrigin(origins = "*")

@@ -6,6 +6,7 @@ import com.example.alessiopinnabe.entity.CorsoEntity;
 import com.example.alessiopinnabe.mapper.CorsoMapper;
 import com.example.alessiopinnabe.repositories.CorsoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,17 +22,32 @@ public class ServiceCorso {
     @Transactional
     public ResponseCorsoDto getCorsi(){
         ResponseCorsoDto out = new ResponseCorsoDto();
-        List<CorsoEntity> all = corsoRepository.findAll();
+        try {
+            List<CorsoEntity> all = corsoRepository.findAll();
 
-        List<CorsoDto> corsiDTO = CorsoMapper.getCorsiDTO(all);
-        out.setCorsi(corsiDTO);
+            List<CorsoDto> corsiDTO = CorsoMapper.getCorsiDTO(all);
+            out.setCorsi(corsiDTO);
+        }catch (DataAccessException ex){
+            out.setSuccess(false);
+            out.setError(ex.getMessage());
+        }
+        out.setSuccess(true);
         return out;
     }
 
     @Transactional
     public ResponseCorsoDto save(CorsoDto corso){
-        CorsoEntity corsoEntity = CorsoMapper.getEntity(corso);
-        corsoRepository.save(corsoEntity);
+
+        try {
+            CorsoEntity corsoEntity = CorsoMapper.getEntity(corso);
+            corsoRepository.save(corsoEntity);
+        }catch (DataAccessException ex){
+            ResponseCorsoDto out = new ResponseCorsoDto();
+            out.setSuccess(false);
+            out.setError(ex.getMessage());
+            return out;
+        }
+
         return getCorsi();
     }
 

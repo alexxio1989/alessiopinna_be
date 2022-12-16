@@ -74,7 +74,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `freedb_alessiopinna`.`prenotazione` (
   `utente_idutente` INT NOT NULL,
   `corso_idcorso` INT NOT NULL,
-  `qnt_ore` VARCHAR(255) NULL DEFAULT NULL,
+  `qnt_ore` DECIMAL(6,2) NULL DEFAULT NULL,
   `data_prenotazione` DATE NULL DEFAULT NULL,
   `ora_inizio` VARCHAR(255) NULL DEFAULT NULL,
   PRIMARY KEY (`utente_idutente`, `corso_idcorso`),

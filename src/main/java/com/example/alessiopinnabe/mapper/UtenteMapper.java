@@ -5,7 +5,7 @@ import com.example.alessiopinnabe.entity.UtenteEntity;
 
 public class UtenteMapper{
 
-    public UtenteDto getDTO(UtenteEntity utente) {
+    public static UtenteDto getDTO(UtenteEntity utente) {
         UtenteDto out = new UtenteDto();
         out.setId(utente.getId());
         out.setEmail(utente.getEmail());
@@ -15,14 +15,16 @@ public class UtenteMapper{
         return out;
     }
 
-    public UtenteEntity getEntity(UtenteDto utente , String password) {
+    public static UtenteEntity getEntity(UtenteDto utente , String password) {
         UtenteEntity out = new UtenteEntity();
         out.setId(utente.getId());
         out.setEmail(utente.getEmail());
         out.setSkypeID(utente.getSkypeID());
         out.setUsername(utente.getUsername());
         out.setPassword(password);
-        out.setTplUtenteIdtplUtente(DominioMapper.getTipoUtenteEntity(utente.getTipo()));
+        if(utente.getTipo() != null){
+            out.setTplUtenteIdtplUtente(DominioMapper.getTipoUtenteEntity(utente.getTipo()));
+        }
         return out;
     }
 }
