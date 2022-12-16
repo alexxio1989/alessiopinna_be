@@ -8,12 +8,12 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class Corso {
+public class CorsoDto {
     private Integer id;
     private String titolo;
     private String descrizione;
     private String imgName;
-    private String tipo;
+    private DominioDto tipo;
     private String giorniOrari;
     private BigDecimal prezzo;
     private Date dataCreazione;

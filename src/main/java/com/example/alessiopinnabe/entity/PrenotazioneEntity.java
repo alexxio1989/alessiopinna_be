@@ -5,19 +5,19 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "prenotazione")
-public class Prenotazione {
+public class PrenotazioneEntity {
     @EmbeddedId
-    private PrenotazioneId id;
+    private PrenotazioneIdEntity id;
 
     @MapsId("utenteIdutente")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "utente_idutente", nullable = false)
-    private Utente utenteIdutente;
+    private UtenteEntity utenteIdutente;
 
     @MapsId("corsoIdcorso")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "corso_idcorso", nullable = false)
-    private Corso corsoIdcorso;
+    private CorsoEntity corsoIdcorso;
 
     @Column(name = "qnt_ore")
     private String qntOre;
@@ -28,27 +28,27 @@ public class Prenotazione {
     @Column(name = "ora_inizio")
     private String oraInizio;
 
-    public PrenotazioneId getId() {
+    public PrenotazioneIdEntity getId() {
         return id;
     }
 
-    public void setId(PrenotazioneId id) {
+    public void setId(PrenotazioneIdEntity id) {
         this.id = id;
     }
 
-    public Utente getUtenteIdutente() {
+    public UtenteEntity getUtenteIdutente() {
         return utenteIdutente;
     }
 
-    public void setUtenteIdutente(Utente utenteIdutente) {
+    public void setUtenteIdutente(UtenteEntity utenteIdutente) {
         this.utenteIdutente = utenteIdutente;
     }
 
-    public Corso getCorsoIdcorso() {
+    public CorsoEntity getCorsoIdcorso() {
         return corsoIdcorso;
     }
 
-    public void setCorsoIdcorso(Corso corsoIdcorso) {
+    public void setCorsoIdcorso(CorsoEntity corsoIdcorso) {
         this.corsoIdcorso = corsoIdcorso;
     }
 

@@ -7,6 +7,6 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ResponseCorso {
-    private List<Corso> corsi;
+public class ResponseCorsoDto {
+    private List<CorsoDto> corsi;
 }

@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class PrenotazioneId implements Serializable {
+public class PrenotazioneIdEntity implements Serializable {
     private static final long serialVersionUID = 7185426776927952403L;
     @Column(name = "utente_idutente", nullable = false)
     private Integer utenteIdutente;
@@ -36,7 +36,7 @@ public class PrenotazioneId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        PrenotazioneId entity = (PrenotazioneId) o;
+        PrenotazioneIdEntity entity = (PrenotazioneIdEntity) o;
         return Objects.equals(this.utenteIdutente, entity.utenteIdutente) &&
                 Objects.equals(this.corsoIdcorso, entity.corsoIdcorso);
     }

@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "utente")
-public class Utente {
+public class UtenteEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idutente", nullable = false)
@@ -22,8 +22,9 @@ public class Utente {
     @Column(name = "password", length = 45)
     private String password;
 
-    @Column(name = "role", length = 45)
-    private String role;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "tpl_utente_idtpl_utente", nullable = false)
+    private TplUtenteEntity tplUtenteIdtplUtente;
 
     public Integer getId() {
         return id;
@@ -65,12 +66,12 @@ public class Utente {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public TplUtenteEntity getTplUtenteIdtplUtente() {
+        return tplUtenteIdtplUtente;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setTplUtenteIdtplUtente(TplUtenteEntity tplUtenteIdtplUtente) {
+        this.tplUtenteIdtplUtente = tplUtenteIdtplUtente;
     }
 
 }

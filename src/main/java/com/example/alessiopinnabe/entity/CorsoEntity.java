@@ -3,11 +3,10 @@ package com.example.alessiopinnabe.entity;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "corso")
-public class Corso {
+public class CorsoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idcorso", nullable = false)
@@ -15,9 +14,6 @@ public class Corso {
 
     @Column(name = "titolo")
     private String titolo;
-
-    @Column(name = "tipo")
-    private String tipo;
 
     @Lob
     @Column(name = "descrizione")
@@ -39,6 +35,10 @@ public class Corso {
     @Column(name = "prezzo", precision = 9, scale = 2)
     private BigDecimal prezzo;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "tpl_corso_idtpl_corso", nullable = false)
+    private TplCorsoEntity tplCorsoIdtplCorso;
+
     public Integer getId() {
         return id;
     }
@@ -53,14 +53,6 @@ public class Corso {
 
     public void setTitolo(String titolo) {
         this.titolo = titolo;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
 
     public String getDescrizione() {
@@ -110,4 +102,13 @@ public class Corso {
     public void setPrezzo(BigDecimal prezzo) {
         this.prezzo = prezzo;
     }
+
+    public TplCorsoEntity getTplCorsoIdtplCorso() {
+        return tplCorsoIdtplCorso;
+    }
+
+    public void setTplCorsoIdtplCorso(TplCorsoEntity tplCorsoIdtplCorso) {
+        this.tplCorsoIdtplCorso = tplCorsoIdtplCorso;
+    }
+
 }

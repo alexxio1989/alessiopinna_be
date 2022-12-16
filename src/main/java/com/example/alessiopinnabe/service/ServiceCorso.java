@@ -1,7 +1,8 @@
 package com.example.alessiopinnabe.service;
 
-import com.example.alessiopinnabe.dto.Corso;
-import com.example.alessiopinnabe.dto.ResponseCorso;
+import com.example.alessiopinnabe.dto.CorsoDto;
+import com.example.alessiopinnabe.dto.ResponseCorsoDto;
+import com.example.alessiopinnabe.entity.CorsoEntity;
 import com.example.alessiopinnabe.mapper.CorsoMapper;
 import com.example.alessiopinnabe.repositories.CorsoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +19,18 @@ public class ServiceCorso {
 
 
     @Transactional
-    public ResponseCorso getCorsi(){
-        ResponseCorso out = new ResponseCorso();
-        List<com.example.alessiopinnabe.entity.Corso> all = corsoRepository.findAll();
+    public ResponseCorsoDto getCorsi(){
+        ResponseCorsoDto out = new ResponseCorsoDto();
+        List<CorsoEntity> all = corsoRepository.findAll();
 
-        List<Corso> corsiDTO = CorsoMapper.getCorsiDTO(all);
+        List<CorsoDto> corsiDTO = CorsoMapper.getCorsiDTO(all);
         out.setCorsi(corsiDTO);
         return out;
     }
 
     @Transactional
-    public ResponseCorso save(Corso corso){
-        com.example.alessiopinnabe.entity.Corso corsoEntity = CorsoMapper.getEntity(corso);
+    public ResponseCorsoDto save(CorsoDto corso){
+        CorsoEntity corsoEntity = CorsoMapper.getEntity(corso);
         corsoRepository.save(corsoEntity);
         return getCorsi();
     }
