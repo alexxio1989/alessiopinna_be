@@ -11,6 +11,7 @@ import java.util.Date;
 public class CorsoDto {
     private Integer id;
     private String titolo;
+    private String titoloExt;
     private String descrizione;
     private String imgName;
     private DominioDto tipo;

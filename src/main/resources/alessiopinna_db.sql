@@ -15,6 +15,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `freedb_alessiopinna`.`corso` (
   `idcorso` INT NOT NULL AUTO_INCREMENT,
   `titolo` VARCHAR(255) NULL DEFAULT NULL,
+  `titolo_ext` TEXT NULL DEFAULT NULL,
   `descrizione` LONGTEXT NULL DEFAULT NULL,
   `giorni_orari` TEXT NULL DEFAULT NULL,
   `img_name` VARCHAR(255) NULL DEFAULT NULL,

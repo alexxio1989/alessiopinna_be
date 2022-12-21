@@ -24,6 +24,7 @@ public class CorsoMapper{
         CorsoDto out = new CorsoDto();
         out.setId(entity.getId());
         out.setTitolo(entity.getTitolo());
+        out.setTitoloExt(entity.getTitoloExt());
         out.setDescrizione(entity.getDescrizione());
         out.setTipo(DominioMapper.getTipoCorsoDTO(entity.getTplCorsoIdtplCorso()));
         out.setImgName(entity.getImgName());
@@ -36,6 +37,7 @@ public class CorsoMapper{
         CorsoEntity out = new CorsoEntity();
         out.setId(dto.getId());
         out.setTitolo(dto.getTitolo());
+        out.setTitoloExt(dto.getTitoloExt());
         out.setDescrizione(dto.getDescrizione());
         out.setTplCorsoIdtplCorso(DominioMapper.getTipoCorsoEntity(dto.getTipo()));
         out.setImgName(dto.getImgName());

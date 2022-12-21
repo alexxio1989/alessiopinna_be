@@ -15,6 +15,9 @@ public class CorsoEntity {
     @Column(name = "titolo")
     private String titolo;
 
+    @Column(name = "titolo_ext")
+    private String titoloExt;
+
     @Lob
     @Column(name = "descrizione")
     private String descrizione;
@@ -111,4 +114,11 @@ public class CorsoEntity {
         this.tplCorsoIdtplCorso = tplCorsoIdtplCorso;
     }
 
+    public String getTitoloExt() {
+        return titoloExt;
+    }
+
+    public void setTitoloExt(String titoloExt) {
+        this.titoloExt = titoloExt;
+    }
 }
