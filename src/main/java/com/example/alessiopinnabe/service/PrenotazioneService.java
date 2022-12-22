@@ -13,12 +13,12 @@ public class PrenotazioneService {
     public ResponsePrenotazioneDto save(PrenotazioneDto prenotazione) {
         ResponsePrenotazioneDto out = new ResponsePrenotazioneDto();
         out.setSuccess(true);
-        return null;
+        return out;
     }
 
     public ResponsePrenotazioneDto delete(PrenotazioneDto prenotazione) {
         ResponsePrenotazioneDto out = new ResponsePrenotazioneDto();
         out.setSuccess(true);
-        return null;
+        return out;
     }
 }
