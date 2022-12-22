@@ -2,6 +2,7 @@ package com.example.alessiopinnabe.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 @Entity
@@ -24,10 +25,8 @@ public class PrenotazioneEntity {
     private BigDecimal qntOre;
 
     @Column(name = "data_prenotazione")
-    private LocalDate dataPrenotazione;
+    private Timestamp dataPrenotazione;
 
-    @Column(name = "ora_inizio")
-    private String oraInizio;
 
     public PrenotazioneIdEntity getId() {
         return id;
@@ -61,20 +60,14 @@ public class PrenotazioneEntity {
         this.qntOre = qntOre;
     }
 
-    public LocalDate getDataPrenotazione() {
+    public Timestamp getDataPrenotazione() {
         return dataPrenotazione;
     }
 
-    public void setDataPrenotazione(LocalDate dataPrenotazione) {
+    public void setDataPrenotazione(Timestamp dataPrenotazione) {
         this.dataPrenotazione = dataPrenotazione;
     }
 
-    public String getOraInizio() {
-        return oraInizio;
-    }
 
-    public void setOraInizio(String oraInizio) {
-        this.oraInizio = oraInizio;
-    }
 
 }

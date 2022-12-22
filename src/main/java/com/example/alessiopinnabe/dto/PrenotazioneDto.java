@@ -4,13 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Getter
 @Setter
 public class PrenotazioneDto {
+    private Integer id;
+    private UtenteDto utente;
     private CorsoDto corso;
     private BigDecimal qntOre;
-    private Date dataPrenotazione;
-    private String oraInizio;
+    private Timestamp dataPrenotazione;
 }
