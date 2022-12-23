@@ -13,6 +13,9 @@ import java.util.List;
 @Repository
 public interface PrenotazioneRepository extends JpaRepository<PrenotazioneEntity, PrenotazioneIdEntity> {
 
-    @Query(value = "SELECT * FROM prenotazione WHERE utenteIdutente=:idIutente", nativeQuery = true)
+    @Query(value = "SELECT * FROM prenotazione WHERE utente_idutente=:idIutente", nativeQuery = true)
     List<PrenotazioneEntity> getPrenotazioniByUtente(@Param("idIutente") Integer idIutente);
+
+    @Query(value = "SELECT * FROM prenotazione WHERE utente_idutente=:idIutente and corso_idcorso =: idCorso ", nativeQuery = true)
+    List<PrenotazioneEntity> getPrenotazioniByUtenteAndCorso(@Param("idIutente") Integer idIutente , @Param("idCorso") Integer idCorso);
 }

@@ -27,4 +27,24 @@ public class PrenotazioneController {
     public ResponsePrenotazioneDto delete(@RequestBody PrenotazioneDto prenotazione) {
         return prenotazioneService.delete(prenotazione);
     }
+
+    @GetMapping("/all")
+    @CrossOrigin(origins = "*")
+    public ResponsePrenotazioneDto getAll() {
+        return prenotazioneService.getAll();
+    }
+
+    @GetMapping("/getAllByUtente/{idUtente}")
+    @CrossOrigin(origins = "*")
+    public ResponsePrenotazioneDto getAllByUtente(@PathVariable Integer idUtente) {
+        return prenotazioneService.getAllByUtente(idUtente);
+    }
+
+    @GetMapping("/getAllByUtenteAndCorso/{idUtente}/{idCorso}")
+    @CrossOrigin(origins = "*")
+    public ResponsePrenotazioneDto getAllByUtenteAndCorso(@PathVariable Integer idUtente , @PathVariable Integer idCorso){
+        return prenotazioneService.getAllByUtenteAndCorso(idUtente,idCorso);
+    }
+
+
 }

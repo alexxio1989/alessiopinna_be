@@ -26,4 +26,10 @@ public class CorsoController {
         return serviceCorso.save(corso);
     }
 
+    @DeleteMapping("/delete/{id}")
+    @CrossOrigin(origins = "*")
+    public ResponseCorsoDto delete(@PathVariable Integer id) {
+        return serviceCorso.delete(id);
+    }
+
 }

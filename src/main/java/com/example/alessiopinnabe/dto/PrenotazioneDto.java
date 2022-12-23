@@ -10,9 +10,10 @@ import java.util.Date;
 @Getter
 @Setter
 public class PrenotazioneDto {
-    private Integer id;
+    private Long id;
     private UtenteDto utente;
     private CorsoDto corso;
     private BigDecimal qntOre;
     private Timestamp dataPrenotazione;
+    private boolean fromDetail;
 }

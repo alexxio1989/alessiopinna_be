@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class ServiceCorso {
     public ResponseCorsoDto getCorsi(){
         ResponseCorsoDto out = new ResponseCorsoDto();
         try {
-            List<CorsoEntity> all = corsoRepository.findAll();
+            List<CorsoEntity> all = corsoRepository.getAllEnabled();
 
             List<CorsoDto> corsiDTO = CorsoMapper.getCorsiDTO(all);
             out.setCorsi(corsiDTO);
@@ -50,5 +51,25 @@ public class ServiceCorso {
 
         return getCorsi();
     }
+
+    @Transactional
+    public ResponseCorsoDto delete(Integer id) {
+        try {
+            ResponseCorsoDto out = new ResponseCorsoDto();
+            int changed = corsoRepository.changeStatus(0,id);
+            if(changed == 0){
+                out.setSuccess(false);
+                return out;
+            }
+        }catch (DataAccessException ex){
+            ResponseCorsoDto out = new ResponseCorsoDto();
+            out.setSuccess(false);
+            out.setError(ex.getMessage());
+            return out;
+        }
+
+        return getCorsi();
+    }
+
 
 }

@@ -44,6 +44,7 @@ public class CorsoMapper{
         out.setPrezzo(dto.getPrezzo());
         out.setDataCreazione(new Date(System.currentTimeMillis()));
         out.setGiorniOrari(dto.getGiorniOrari());
+        out.setEnable(1);
         return out;
     }
 }
