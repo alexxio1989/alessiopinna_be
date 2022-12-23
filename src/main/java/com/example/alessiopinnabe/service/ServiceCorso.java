@@ -38,6 +38,22 @@ public class ServiceCorso {
     }
 
     @Transactional
+    public ResponseCorsoDto getCorsiFull(){
+        ResponseCorsoDto out = new ResponseCorsoDto();
+        try {
+            List<CorsoEntity> all = corsoRepository.findAll();
+
+            List<CorsoDto> corsiDTO = CorsoMapper.getCorsiDTO(all);
+            out.setCorsi(corsiDTO);
+        }catch (DataAccessException ex){
+            out.setSuccess(false);
+            out.setError(ex.getMessage());
+        }
+        out.setSuccess(true);
+        return out;
+    }
+
+    @Transactional
     public ResponseCorsoDto save(CorsoDto corso){
 
         try {

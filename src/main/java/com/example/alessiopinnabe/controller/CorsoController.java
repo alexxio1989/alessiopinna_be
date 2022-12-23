@@ -14,10 +14,16 @@ public class CorsoController {
     @Autowired
     private ServiceCorso serviceCorso;
 
-    @GetMapping("/all")
+    @GetMapping("/all/{full}")
     @CrossOrigin(origins = "*")
-    public ResponseCorsoDto getCorsi() {
-        return serviceCorso.getCorsi();
+    public ResponseCorsoDto getCorsi(@PathVariable Integer full) {
+
+        if(full == 0){
+            return serviceCorso.getCorsi();
+        } else {
+            return serviceCorso.getCorsiFull();
+        }
+
     }
 
     @PostMapping("/save")
