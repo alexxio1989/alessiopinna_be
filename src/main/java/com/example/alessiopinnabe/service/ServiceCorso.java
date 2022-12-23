@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServiceCorso {
@@ -54,15 +55,21 @@ public class ServiceCorso {
 
     @Transactional
     public ResponseCorsoDto delete(Integer id) {
+        ResponseCorsoDto out = new ResponseCorsoDto();
         try {
-            ResponseCorsoDto out = new ResponseCorsoDto();
-            int changed = corsoRepository.changeStatus(0,id);
+            int changed = 0;
+            Optional<CorsoEntity> byId = corsoRepository.findById(id);
+            if(byId.isPresent()){
+                CorsoEntity corsoEntity = byId.get();
+                corsoEntity.setEnable(0);
+                corsoRepository.save(corsoEntity);
+                changed = 1;
+            }
             if(changed == 0){
                 out.setSuccess(false);
                 return out;
             }
         }catch (DataAccessException ex){
-            ResponseCorsoDto out = new ResponseCorsoDto();
             out.setSuccess(false);
             out.setError(ex.getMessage());
             return out;

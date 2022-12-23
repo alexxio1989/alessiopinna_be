@@ -15,7 +15,4 @@ public interface CorsoRepository extends JpaRepository<CorsoEntity, Integer> {
     @Query(value = "select * from corso where enable = 1", nativeQuery = true)
     List<CorsoEntity> getAllEnabled ();
 
-    @Modifying
-    @Query("UPDATE corso c SET c.enable = :state WHERE c.id = :id")
-    int changeStatus(@Param("state") int state, @Param("id") Integer id);
 }
