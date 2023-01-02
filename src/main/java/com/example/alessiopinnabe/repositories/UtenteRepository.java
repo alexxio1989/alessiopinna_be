@@ -11,6 +11,6 @@ public interface UtenteRepository extends JpaRepository<UtenteEntity, Integer> {
     @Query(value = "SELECT * FROM utente WHERE email=:email and password=:password", nativeQuery = true)
     UtenteEntity login(@Param("email") String email , @Param("password") String password );
 
-    @Query(value = "select count(*) from utente where email = email=:email", nativeQuery = true)
+    @Query(value = "select count(*) from utente where email =:email", nativeQuery = true)
     long countEmail (@Param("email") String email);
 }
