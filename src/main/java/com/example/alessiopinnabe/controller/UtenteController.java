@@ -27,4 +27,11 @@ public class UtenteController {
         return serviceCorso.login(req);
     }
 
+
+    @PostMapping("/socialSignin")
+    @CrossOrigin(origins = "*")
+    public ResponseUtenteDto socialSignin(@RequestBody RequestLoginDto req) {
+        return serviceCorso.login(req);
+    }
+
 }
