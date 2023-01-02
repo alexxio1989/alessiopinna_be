@@ -31,7 +31,7 @@ public class UtenteController {
     @PostMapping("/socialSignin")
     @CrossOrigin(origins = "*")
     public ResponseUtenteDto socialSignin(@RequestBody RequestLoginDto req) {
-        return serviceCorso.login(req);
+        return serviceCorso.socialSignin(req);
     }
 
 }
