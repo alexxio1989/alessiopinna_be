@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -78,7 +80,9 @@ public class PrenotazioneService {
     public ResponsePrenotazioneDto getAllByUtente(Integer idUtente){
         ResponsePrenotazioneDto out = new ResponsePrenotazioneDto();
         try {
-            List<PrenotazioneEntity> all = prenotazioneRepository.getPrenotazioniByUtente(idUtente);
+            Date date = new Date();
+            Timestamp ts=new Timestamp(date.getTime());
+            List<PrenotazioneEntity> all = prenotazioneRepository.getPrenotazioniByUtente(idUtente,ts);
             out.setPrenotazioni(PrenotazioneMapper.getListDTO(all));
 
         } catch (DataAccessException ex){
@@ -93,7 +97,9 @@ public class PrenotazioneService {
     public ResponsePrenotazioneDto getAllByUtenteAndCorso(Integer idUtente , Integer idCorso){
         ResponsePrenotazioneDto out = new ResponsePrenotazioneDto();
         try {
-            List<PrenotazioneEntity> all = prenotazioneRepository.getPrenotazioniByUtenteAndCorso(idUtente,idCorso);
+            Date date = new Date();
+            Timestamp ts=new Timestamp(date.getTime());
+            List<PrenotazioneEntity> all = prenotazioneRepository.getPrenotazioniByUtenteAndCorso(idUtente,idCorso,ts);
             out.setPrenotazioni(PrenotazioneMapper.getListDTO(all));
 
         } catch (DataAccessException ex){
