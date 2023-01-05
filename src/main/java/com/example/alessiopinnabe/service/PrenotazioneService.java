@@ -41,6 +41,7 @@ public class PrenotazioneService {
         try {
             prenotazioneRepository.save(PrenotazioneMapper.getEntity(prenotazione));
             mailService.send(emailMapper.emailAddPrenotazione(prenotazione));
+            mailService.send(emailMapper.emailAddPrenotazioneToMe(prenotazione));
         } catch (DataAccessException ex){
             out.setSuccess(false);
             out.setError(ex.getMessage());
@@ -59,6 +60,7 @@ public class PrenotazioneService {
         try {
             prenotazioneRepository.delete(PrenotazioneMapper.getEntity(prenotazione));
             mailService.send(emailMapper.emailRemovePrenotazione(prenotazione));
+            mailService.send(emailMapper.emailRemovePrenotazioneToMe(prenotazione));
         } catch (DataAccessException ex){
             out.setSuccess(false);
             out.setError(ex.getMessage());
