@@ -10,16 +10,16 @@ public class EmailMapper {
     public Email emailAddPrenotazione(PrenotazioneDto prenotazione){
         Email email = getEmail(prenotazione.getUtente().getEmail(),
                 "Prenotazione lezione di " + prenotazione.getCorso().getTitolo(),
-                "Lezione di " + prenotazione.getCorso().getTitolo(),
-                prenotazione.getUtente().getEmail() + "ha prenotato una lezione di " + prenotazione.getCorso().getTitolo() + ", per un totale di " + prenotazione.getQntOre() + " ore");
+                "Nuova lezione di " + prenotazione.getCorso().getTitolo(),
+                prenotazione.getUtente().getEmail() + " ha prenotato una lezione di " + prenotazione.getCorso().getTitolo() + ", per un totale di " + prenotazione.getQntOre() + " ore" + " in data " + prenotazione.getDataPrenotazione()) ;
         return email;
     }
 
     public Email emailRemovePrenotazione(PrenotazioneDto prenotazione){
         Email email = getEmail(prenotazione.getUtente().getEmail(),
-                "Disdetta " + prenotazione.getCorso().getTitolo(),
-                 prenotazione.getCorso().getTitolo(),
-                prenotazione.getUtente().getEmail() + " ha appena disdetto la lezione di " + prenotazione.getCorso().getTitolo());
+                "Disdetta lezione " + prenotazione.getCorso().getTitolo(),
+                 "Disdetta lezione " + prenotazione.getCorso().getTitolo(),
+                prenotazione.getUtente().getEmail() + " ha appena disdetto la lezione di " + prenotazione.getCorso().getTitolo() +" in data " + prenotazione.getDataPrenotazione());
         return email;
     }
 
