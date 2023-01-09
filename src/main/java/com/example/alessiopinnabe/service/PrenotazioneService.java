@@ -95,7 +95,7 @@ public class PrenotazioneService {
             Date date = new Date();
             Timestamp ts=new Timestamp(date.getTime());
             List<PrenotazioneEntity> all = prenotazioneRepository.getPrenotazioniByUtente(idUtente,ts);
-            out.setPrenotazioni(PrenotazioneMapper.getListDTO(all));
+            out.setPrenotazioniUtente(PrenotazioneMapper.getListDTO(all));
 
         } catch (DataAccessException ex){
             out.setSuccess(false);
@@ -112,6 +112,8 @@ public class PrenotazioneService {
             Date date = new Date();
             Timestamp ts=new Timestamp(date.getTime());
             List<PrenotazioneEntity> all = prenotazioneRepository.getPrenotazioniByUtenteAndCorso(idUtente,idCorso,ts);
+            List<PrenotazioneEntity> allUtente = prenotazioneRepository.getPrenotazioniByUtente(idUtente,ts);
+            out.setPrenotazioniUtente(PrenotazioneMapper.getListDTO(allUtente));
             out.setPrenotazioni(PrenotazioneMapper.getListDTO(all));
 
         } catch (DataAccessException ex){

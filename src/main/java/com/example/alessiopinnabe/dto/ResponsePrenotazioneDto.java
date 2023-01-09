@@ -10,4 +10,5 @@ import java.util.List;
 @Setter
 public class ResponsePrenotazioneDto extends ResponseCore {
     private List<PrenotazioneDto> prenotazioni;
+    private List<PrenotazioneDto> prenotazioniUtente;
 }
