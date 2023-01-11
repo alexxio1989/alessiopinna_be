@@ -22,6 +22,9 @@ public class UtenteEntity {
     @Column(name = "password", length = 45)
     private String password;
 
+    @Column(name = "provider", length = 15)
+    private String provider;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tpl_utente_idtpl_utente", nullable = false)
     private TplUtenteEntity tplUtenteIdtplUtente;
@@ -74,4 +77,11 @@ public class UtenteEntity {
         this.tplUtenteIdtplUtente = tplUtenteIdtplUtente;
     }
 
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
 }

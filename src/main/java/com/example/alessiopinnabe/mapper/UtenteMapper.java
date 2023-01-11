@@ -10,8 +10,9 @@ public class UtenteMapper{
         out.setId(utente.getId());
         out.setEmail(utente.getEmail());
         out.setSkypeID(utente.getSkypeID());
-        out.setUsername(utente.getUsername());
+        out.setName(utente.getUsername());
         out.setTipo(DominioMapper.getTipoUtenteDTO(utente.getTplUtenteIdtplUtente()));
+        out.setProvider(utente.getProvider());
         return out;
     }
 
@@ -20,11 +21,12 @@ public class UtenteMapper{
         out.setId(utente.getId());
         out.setEmail(utente.getEmail());
         out.setSkypeID(utente.getSkypeID());
-        out.setUsername(utente.getUsername());
+        out.setUsername(utente.getName());
         out.setPassword(password);
         if(utente.getTipo() != null){
             out.setTplUtenteIdtplUtente(DominioMapper.getTipoUtenteEntity(utente.getTipo()));
         }
+        out.setProvider(utente.getProvider());
         return out;
     }
 }

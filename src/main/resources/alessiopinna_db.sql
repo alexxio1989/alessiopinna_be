@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS `freedb_alessiopinna`.`utente` (
   `email` VARCHAR(255) NULL DEFAULT NULL,
   `password` VARCHAR(45) NULL DEFAULT NULL,
   `tpl_utente_idtpl_utente` INT NOT NULL,
+  `provider` varchar(15),
   PRIMARY KEY (`idutente`),
   INDEX `fk_utente_tpl_utente1_idx` (`tpl_utente_idtpl_utente` ASC) VISIBLE,
   CONSTRAINT `fk_utente_tpl_utente1`
