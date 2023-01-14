@@ -5,9 +5,13 @@ import com.example.alessiopinnabe.dto.RequestLoginDto;
 import com.example.alessiopinnabe.dto.ResponseUtenteDto;
 import com.example.alessiopinnabe.dto.UtenteDto;
 import com.example.alessiopinnabe.entity.TplUtenteEntity;
+import com.example.alessiopinnabe.entity.UserTokenEntity;
 import com.example.alessiopinnabe.entity.UtenteEntity;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.services.oauth2.model.Userinfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UtenteMapper{
 
@@ -31,6 +35,16 @@ public class UtenteMapper{
         out.setName(utente.getUsername());
         out.setTipo(DominioMapper.getTipoUtenteDTO(utente.getTplUtenteIdtplUtente()));
         out.setProvider(utente.getProvider());
+        List<com.example.alessiopinnabe.dto.TokenResponse> tokenResponses = new ArrayList<>();
+
+        if(utente.getUserTokens() != null && utente.getUserTokens().size() > 0){
+            for (UserTokenEntity tokenEntity:
+                    utente.getUserTokens()) {
+                tokenResponses.add(TokenMapper.fromEntityToDto(tokenEntity));
+            }
+        }
+        out.setTokens(tokenResponses);
+
         return out;
     }
 
