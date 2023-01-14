@@ -3,13 +3,20 @@ package com.example.alessiopinnabe.service;
 import com.example.alessiopinnabe.dto.PrenotazioneDto;
 import com.example.alessiopinnabe.dto.ResponsePrenotazioneDto;
 import com.example.alessiopinnabe.entity.PrenotazioneEntity;
+import com.example.alessiopinnabe.entity.UserTokenEntity;
 import com.example.alessiopinnabe.mapper.EmailMapper;
 import com.example.alessiopinnabe.mapper.PrenotazioneMapper;
+import com.example.alessiopinnabe.mapper.TokenMapper;
 import com.example.alessiopinnabe.repositories.PrenotazioneRepository;
+import com.example.alessiopinnabe.repositories.UserTokenRepository;
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.services.calendar.Calendar;
+import com.google.api.services.calendar.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +32,12 @@ public class PrenotazioneService {
 
     @Autowired
     private EmailMapper emailMapper;
+
+    @Autowired
+    private GoogleService googleService;
+
+    @Autowired
+    private UserTokenRepository userTokenRepository;
 
     public ResponsePrenotazioneDto save(PrenotazioneDto prenotazione) {
         ResponsePrenotazioneDto out = new ResponsePrenotazioneDto();
@@ -83,12 +96,19 @@ public class PrenotazioneService {
     public ResponsePrenotazioneDto getAllByUtente(Integer idUtente){
         ResponsePrenotazioneDto out = new ResponsePrenotazioneDto();
         try {
+            UserTokenEntity googleTOKEN = userTokenRepository.getByProvidersAndUser(idUtente, "GOOGLE");
+            if(googleTOKEN != null){
+                Credential credential = googleService.getCredential(TokenMapper.fromEntityToGoogle(googleTOKEN));
+                Calendar calendar = googleService.getCalendar(credential);
+                List<Event> events = googleService.getEvents(calendar);
+
+            }
             Date date = new Date();
             Timestamp ts=new Timestamp(date.getTime());
             List<PrenotazioneEntity> all = prenotazioneRepository.getPrenotazioniByUtente(idUtente,ts);
             out.setPrenotazioniUtente(PrenotazioneMapper.getListDTO(all));
 
-        } catch (DataAccessException ex){
+        } catch (DataAccessException | IOException ex){
             out.setSuccess(false);
             out.setError(ex.getMessage());
             return out;
@@ -100,6 +120,14 @@ public class PrenotazioneService {
     public ResponsePrenotazioneDto getAllByUtenteAndCorso(Integer idUtente , Integer idCorso){
         ResponsePrenotazioneDto out = new ResponsePrenotazioneDto();
         try {
+            UserTokenEntity googleTOKEN = userTokenRepository.getByProvidersAndUser(idUtente, "GOOGLE");
+            List<Event> events = null;
+            if(googleTOKEN != null){
+                Credential credential = googleService.getCredential(TokenMapper.fromEntityToGoogle(googleTOKEN));
+                Calendar calendar = googleService.getCalendar(credential);
+                events = googleService.getEvents(calendar);
+
+            }
             Date date = new Date();
             Timestamp ts=new Timestamp(date.getTime());
             List<PrenotazioneEntity> all = prenotazioneRepository.getPrenotazioniByUtenteAndCorso(idUtente,idCorso,ts);
@@ -107,7 +135,7 @@ public class PrenotazioneService {
             out.setPrenotazioniUtente(PrenotazioneMapper.getListDTO(allUtente));
             out.setPrenotazioni(PrenotazioneMapper.getListDTO(all));
 
-        } catch (DataAccessException ex){
+        } catch (DataAccessException | IOException  ex){
             out.setSuccess(false);
             out.setError(ex.getMessage());
             return out;

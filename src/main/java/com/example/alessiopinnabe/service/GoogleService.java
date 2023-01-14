@@ -18,7 +18,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.google.api.services.calendar.Calendar;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -50,8 +52,20 @@ public class GoogleService {
     final DateTime date1 = new DateTime("2017-05-05T16:30:00.000+05:30");
     final DateTime date2 = new DateTime(new Date());
 
+    @PostConstruct
+    private void postConstruct() throws GeneralSecurityException, IOException {
+        instanceFlow();
+    }
+
     public String authorize() throws Exception {
         AuthorizationCodeRequestUrl authorizationUrl;
+        //instanceFlow();
+        authorizationUrl = flow.newAuthorizationUrl().setRedirectUri(redirectURI);
+        System.out.println("cal authorizationUrl->" + authorizationUrl);
+        return authorizationUrl.build();
+    }
+
+    private void instanceFlow() throws GeneralSecurityException, IOException {
         if (flow == null) {
             GoogleClientSecrets.Details web = new GoogleClientSecrets.Details();
             web.setClientId(clientId);
@@ -63,9 +77,6 @@ public class GoogleService {
             flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets,
                     Arrays.asList(split)).build();
         }
-        authorizationUrl = flow.newAuthorizationUrl().setRedirectUri(redirectURI);
-        System.out.println("cal authorizationUrl->" + authorizationUrl);
-        return authorizationUrl.build();
     }
 
     public TokenResponse newToken(String code) throws IOException {

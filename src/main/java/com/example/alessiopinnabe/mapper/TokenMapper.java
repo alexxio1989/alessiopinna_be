@@ -42,6 +42,15 @@ public class TokenMapper {
         return out;
     }
 
+    public static com.google.api.client.auth.oauth2.TokenResponse fromEntityToGoogle(UserTokenEntity Entity){
+        com.google.api.client.auth.oauth2.TokenResponse out = new com.google.api.client.auth.oauth2.TokenResponse();
+        out.setAccessToken(Entity.getAccessToken());
+        out.setTokenType(Entity.getTokenType());
+        out.setScope(Entity.getScope());
+        out.setExpiresInSeconds(new Long(Entity.getExpiresInSeconds()));
+        return out;
+    }
+
     public static com.google.api.client.auth.oauth2.TokenResponse fromDtoToGoogle(TokenResponse tokenResponse){
         com.google.api.client.auth.oauth2.TokenResponse out = new com.google.api.client.auth.oauth2.TokenResponse();
         out.setAccessToken(tokenResponse.getAccessToken());
