@@ -1,6 +1,8 @@
 package com.example.alessiopinnabe.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "utente")
@@ -22,12 +24,15 @@ public class UtenteEntity {
     @Column(name = "password", length = 45)
     private String password;
 
-    @Column(name = "provider", length = 15)
-    private String provider;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tpl_utente_idtpl_utente", nullable = false)
     private TplUtenteEntity tplUtenteIdtplUtente;
+
+    @Column(name = "provider", length = 15)
+    private String provider;
+
+    @OneToMany(mappedBy = "utenteIdutente")
+    private List<UserTokenEntity> userTokens = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -84,4 +89,13 @@ public class UtenteEntity {
     public void setProvider(String provider) {
         this.provider = provider;
     }
+
+    public List<UserTokenEntity> getUserTokens() {
+        return userTokens;
+    }
+
+    public void setUserTokens(List<UserTokenEntity> userTokens) {
+        this.userTokens = userTokens;
+    }
+
 }

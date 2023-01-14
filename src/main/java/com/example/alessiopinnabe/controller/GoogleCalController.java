@@ -1,5 +1,12 @@
 package com.example.alessiopinnabe.controller;
 
+import com.example.alessiopinnabe.dto.RequestLoginDto;
+import com.example.alessiopinnabe.dto.UtenteDto;
+import com.example.alessiopinnabe.entity.UtenteEntity;
+import com.example.alessiopinnabe.mapper.TokenMapper;
+import com.example.alessiopinnabe.mapper.UtenteMapper;
+import com.example.alessiopinnabe.service.GoogleService;
+import com.example.alessiopinnabe.service.ServiceUtente;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
 import com.google.api.client.auth.oauth2.Credential;
@@ -18,6 +25,7 @@ import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.model.Userinfo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,125 +47,31 @@ import java.util.Set;
 public class GoogleCalController {
 
 	private final static Log logger = LogFactory.getLog(GoogleCalController.class);
-	private static final String APPLICATION_NAME = "";
-	private static HttpTransport httpTransport;
-	private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-	private static com.google.api.services.calendar.Calendar client;
 
-	GoogleClientSecrets clientSecrets;
-	GoogleAuthorizationCodeFlow flow;
-	Credential credential;
+	@Autowired
+	private GoogleService googleService;
 
-	@Value("${google.client.client-id}")
-	private String clientId;
-	@Value("${google.client.client-secret}")
-	private String clientSecret;
-	@Value("${google.client.redirectUri}")
-	private String redirectURI;
-
-	@Value("${google.client.scope}")
-	private String scopes;
-
-	private Set<Event> events = new HashSet<>();
-
-	final DateTime date1 = new DateTime("2017-05-05T16:30:00.000+05:30");
-	final DateTime date2 = new DateTime(new Date());
-
-	public void setEvents(Set<Event> events) {
-		this.events = events;
-	}
+	@Autowired
+	private ServiceUtente serviceUtente;
 
 	@RequestMapping(value = "/login/google", method = RequestMethod.GET)
 	public RedirectView googleConnectionStatus(HttpServletRequest request) throws Exception {
-		return new RedirectView(authorize());
+		return new RedirectView(googleService.authorize());
 	}
 
 	@RequestMapping(value = "/login/google", method = RequestMethod.GET, params = "code")
-	public ResponseEntity<String> oauth2Callback(@RequestParam(value = "code") String code) {
+	public RedirectView oauth2Callback(@RequestParam(value = "code") String code) throws IOException {
 		com.google.api.services.calendar.model.Events eventList;
 		String message;
+		Userinfo userInfo = null;
 		try {
-
-			TokenResponse response = flow.newTokenRequest(code).setRedirectUri(redirectURI).execute();
-			com.example.alessiopinnabe.dto.TokenResponse outToken = new com.example.alessiopinnabe.dto.TokenResponse();
-			outToken.setAccessToken(response.getAccessToken());
-			outToken.setRefreshToken(response.getRefreshToken());
-			outToken.setTokenType(response.getTokenType());
-			outToken.setScope(response.getScope());
-			outToken.setExpiresInSeconds(response.getExpiresInSeconds());
-			String json = new ObjectMapper().writeValueAsString(outToken);
-			System.out.println("TOKEN:" + json);
-			credential = flow.createAndStoreCredential(response, "userID");
-			Oauth2 oauth2 = new Oauth2.Builder(httpTransport, JSON_FACTORY, credential).setApplicationName(
-					"Oauth2").build();
-			Userinfo userInfo = oauth2.userinfo().get().execute();
-			client = new com.google.api.services.calendar.Calendar.Builder(httpTransport, JSON_FACTORY, credential)
-					.setApplicationName(APPLICATION_NAME).build();
-			Events events = client.events();
-			eventList = events.list("primary").setTimeMin(date1).setTimeMax(date2).execute();
-			message = eventList.getItems().toString();
-			System.out.println("My:" + eventList.getItems());
+			TokenResponse token = googleService.newToken(code);
+			userInfo = googleService.getUserinfo(googleService.getCredential(token));
+			UtenteEntity utenteEntity = serviceUtente.fromGoogle(userInfo,token);
+			return new RedirectView("http://localhost:4200/?email="+utenteEntity.getEmail() + "&id="+utenteEntity.getPassword());
 		} catch (Exception e) {
-			logger.warn("Exception while handling OAuth2 callback (" + e.getMessage() + ")."
-					+ " Redirecting to google connection status page.");
-			message = "Exception while handling OAuth2 callback (" + e.getMessage() + ")."
-					+ " Redirecting to google connection status page.";
+			throw e;
 		}
-
-		System.out.println("cal message:" + message);
-		return new ResponseEntity<>(message, HttpStatus.OK);
 	}
 
-
-	@RequestMapping(value = "/login/google", method = RequestMethod.POST)
-	public ResponseEntity<String> oauth2Callback(@RequestBody com.example.alessiopinnabe.dto.TokenResponse response) {
-		com.google.api.services.calendar.model.Events eventList;
-		String message;
-		TokenResponse newTokenResponse = new TokenResponse();
-		newTokenResponse.setAccessToken(response.getAccessToken());
-		newTokenResponse.setRefreshToken(response.getRefreshToken());
-		newTokenResponse.setTokenType(response.getTokenType());
-		newTokenResponse.setScope(response.getScope());
-		newTokenResponse.setExpiresInSeconds(response.getExpiresInSeconds());
-		try {
-			credential = flow.createAndStoreCredential(newTokenResponse, "userID");
-			client = new com.google.api.services.calendar.Calendar.Builder(httpTransport, JSON_FACTORY, credential)
-					.setApplicationName(APPLICATION_NAME).build();
-			Events events = client.events();
-			eventList = events.list("primary").setTimeMin(date1).setTimeMax(date2).execute();
-			message = eventList.getItems().toString();
-			System.out.println("My:" + eventList.getItems());
-		} catch (Exception e) {
-			logger.warn("Exception while handling OAuth2 callback (" + e.getMessage() + ")."
-					+ " Redirecting to google connection status page.");
-			message = "Exception while handling OAuth2 callback (" + e.getMessage() + ")."
-					+ " Redirecting to google connection status page.";
-		}
-
-		System.out.println("cal message:" + message);
-		return new ResponseEntity<>(message, HttpStatus.OK);
-	}
-
-
-	public Set<Event> getEvents() throws IOException {
-		return this.events;
-	}
-
-	private String authorize() throws Exception {
-		AuthorizationCodeRequestUrl authorizationUrl;
-		if (flow == null) {
-			Details web = new Details();
-			web.setClientId(clientId);
-			web.setClientSecret(clientSecret);
-			clientSecrets = new GoogleClientSecrets().setWeb(web);
-			httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-			String[] split = scopes.split(",");
-
-			flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets,
-					Arrays.asList(split)).build();
-		}
-		authorizationUrl = flow.newAuthorizationUrl().setRedirectUri(redirectURI);
-		System.out.println("cal authorizationUrl->" + authorizationUrl);
-		return authorizationUrl.build();
-	}
 }

@@ -92,6 +92,29 @@ DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
+-- -----------------------------------------------------
+-- Table `freedb_alessiopinna`.`user_token`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `freedb_alessiopinna`.`user_token` (
+  `iduser_token` INT NOT NULL AUTO_INCREMENT,
+  `access_token` MEDIUMTEXT NULL,
+  `token_type` VARCHAR(255) NULL,
+  `expires_in_seconds` INT NULL,
+  `scope` MEDIUMTEXT NULL,
+  `date_creation` DATETIME NULL,
+  `date_exiration` DATETIME NULL,
+  `provider` VARCHAR(255)
+  `utente_idutente` INT NOT NULL,
+  PRIMARY KEY (`iduser_token`),
+  INDEX `fk_user_token_utente1_idx` (`utente_idutente` ASC) VISIBLE,
+  CONSTRAINT `fk_user_token_utente1`
+    FOREIGN KEY (`utente_idutente`)
+    REFERENCES `freedb_alessiopinna`.`utente` (`idutente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

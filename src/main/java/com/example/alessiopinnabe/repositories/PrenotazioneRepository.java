@@ -2,7 +2,6 @@ package com.example.alessiopinnabe.repositories;
 
 import com.example.alessiopinnabe.entity.PrenotazioneEntity;
 import com.example.alessiopinnabe.entity.PrenotazioneIdEntity;
-import com.example.alessiopinnabe.entity.UtenteEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

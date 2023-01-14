@@ -14,6 +14,6 @@ public class UtenteDto {
     private String email;
     private DominioDto tipo;
     private List<PrenotazioneDto> prenotazioni;
-    private String token;
+    private List<TokenResponse> tokens;
     private String provider;
 }

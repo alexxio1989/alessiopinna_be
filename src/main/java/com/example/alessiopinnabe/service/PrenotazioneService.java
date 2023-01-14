@@ -1,23 +1,14 @@
 package com.example.alessiopinnabe.service;
 
-import com.example.alessiopinnabe.dto.Email;
 import com.example.alessiopinnabe.dto.PrenotazioneDto;
-import com.example.alessiopinnabe.dto.ResponseCorsoDto;
 import com.example.alessiopinnabe.dto.ResponsePrenotazioneDto;
 import com.example.alessiopinnabe.entity.PrenotazioneEntity;
-import com.example.alessiopinnabe.entity.PrenotazioneIdEntity;
-import com.example.alessiopinnabe.entity.UtenteEntity;
 import com.example.alessiopinnabe.mapper.EmailMapper;
 import com.example.alessiopinnabe.mapper.PrenotazioneMapper;
-import com.example.alessiopinnabe.mapper.UtenteMapper;
 import com.example.alessiopinnabe.repositories.PrenotazioneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.sql.Timestamp;
 import java.util.Date;
