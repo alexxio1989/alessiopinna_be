@@ -10,6 +10,7 @@ import com.example.alessiopinnabe.mapper.TokenMapper;
 import com.example.alessiopinnabe.repositories.PrenotazioneRepository;
 import com.example.alessiopinnabe.repositories.UserTokenRepository;
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,7 +99,8 @@ public class PrenotazioneService {
         try {
             UserTokenEntity googleTOKEN = userTokenRepository.getByProvidersAndUser(idUtente, "GOOGLE");
             if(googleTOKEN != null){
-                Credential credential = googleService.getCredential(TokenMapper.fromEntityToGoogle(googleTOKEN));
+                TokenResponse tokenResponse = googleService.checkAndUpdateToken(googleTOKEN);
+                Credential credential = googleService.getCredential(tokenResponse);
                 Calendar calendar = googleService.getCalendar(credential);
                 List<Event> events = googleService.getEvents(calendar);
 
@@ -123,8 +125,8 @@ public class PrenotazioneService {
             UserTokenEntity googleTOKEN = userTokenRepository.getByProvidersAndUser(idUtente, "GOOGLE");
             List<Event> events = null;
             if(googleTOKEN != null){
-                Credential credential = googleService.getCredential(TokenMapper.fromEntityToGoogle(googleTOKEN));
-                Calendar calendar = googleService.getCalendar(credential);
+                TokenResponse tokenResponse = googleService.checkAndUpdateToken(googleTOKEN);
+                Credential credential = googleService.getCredential(tokenResponse);                Calendar calendar = googleService.getCalendar(credential);
                 events = googleService.getEvents(calendar);
 
             }

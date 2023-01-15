@@ -89,4 +89,17 @@ public class TokenMapper {
         out.setProvider("GOOGLE");
         return out;
     }
+
+    public static UserTokenEntity updateEntity(UserTokenEntity old , com.google.api.client.auth.oauth2.TokenResponse refreshedToken){
+        old.setAccessToken(refreshedToken.getAccessToken());
+        old.setTokenType(refreshedToken.getTokenType());
+        old.setScope(refreshedToken.getScope());
+        old.setExpiresInSeconds(refreshedToken.getExpiresInSeconds().intValue());
+        old.setDateCreation(Timestamp.from(Instant.now()));
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.SECOND, refreshedToken.getExpiresInSeconds().intValue());
+        Timestamp later = new Timestamp(cal.getTime().getTime());
+        old.setDateExiration(later);
+        return old;
+    }
 }
