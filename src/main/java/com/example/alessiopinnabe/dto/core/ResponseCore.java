@@ -8,4 +8,5 @@ import lombok.Setter;
 public class ResponseCore {
     private boolean success;
     private String error;
+    private int code;
 }

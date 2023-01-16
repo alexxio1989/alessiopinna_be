@@ -54,6 +54,9 @@ public class GoogleCalController {
 	@Autowired
 	private ServiceUtente serviceUtente;
 
+	@Value("${fe.path}")
+	private String fePath;
+
 	@RequestMapping(value = "/login/google", method = RequestMethod.GET)
 	public RedirectView googleConnectionStatus(HttpServletRequest request) throws Exception {
 		return new RedirectView(googleService.authorize());
@@ -68,7 +71,7 @@ public class GoogleCalController {
 			TokenResponse token = googleService.newToken(code);
 			userInfo = googleService.getUserinfo(googleService.getCredential(token));
 			UtenteEntity utenteEntity = serviceUtente.fromGoogle(userInfo,token);
-			return new RedirectView("http://localhost:4200/?email="+utenteEntity.getEmail() + "&id="+utenteEntity.getPassword());
+			return new RedirectView(fePath + "/?email="+utenteEntity.getEmail() + "&id="+utenteEntity.getPassword());
 		} catch (Exception e) {
 			throw e;
 		}

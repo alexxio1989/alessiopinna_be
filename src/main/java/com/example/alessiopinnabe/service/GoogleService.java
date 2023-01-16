@@ -1,15 +1,11 @@
 package com.example.alessiopinnabe.service;
 
-import com.example.alessiopinnabe.entity.UserTokenEntity;
-import com.example.alessiopinnabe.entity.UtenteEntity;
 import com.example.alessiopinnabe.mapper.TokenMapper;
 import com.example.alessiopinnabe.repositories.UserTokenRepository;
-import com.example.alessiopinnabe.util.Util;
 import com.google.api.client.auth.oauth2.*;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
@@ -19,7 +15,6 @@ import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.model.Userinfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import com.google.api.services.calendar.Calendar;
 
@@ -57,8 +52,7 @@ public class GoogleService {
 
     private Set<Event> events = new HashSet<>();
 
-    final DateTime date1 = new DateTime("2017-05-05T16:30:00.000+05:30");
-    final DateTime date2 = new DateTime(new Date());
+    final DateTime now = new DateTime(new Date());
 
     @PostConstruct
     private void postConstruct() throws GeneralSecurityException, IOException {
@@ -83,41 +77,6 @@ public class GoogleService {
 
             flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets,
                     Arrays.asList(split)).build();
-        }
-    }
-
-    public TokenResponse checkAndUpdateToken(UserTokenEntity googleTOKEN ) throws IOException ,DataAccessException {
-        TokenResponse tokenResponseIn = TokenMapper.fromEntityToGoogle(googleTOKEN);
-        if(Util.isTmspExpired(googleTOKEN.getDateExiration())){
-            Credential credential = getCredential(tokenResponseIn);
-            TokenResponse refreshedToken = refreshToken(credential);
-            if(refreshedToken != null){
-                UserTokenEntity updatedTokenEntity = TokenMapper.updateEntity(googleTOKEN, refreshedToken);
-
-                try{
-                    userTokenRepository.save(updatedTokenEntity);
-                    return refreshedToken;
-                } catch (DataAccessException ex){
-                    throw ex;
-                }
-            }
-        }
-        return tokenResponseIn;
-    }
-
-    public TokenResponse refreshToken(Credential credential)
-            throws IOException {
-        try {
-            return new RefreshTokenRequest(httpTransport,JSON_FACTORY,
-                            new GenericUrl(credential.getTokenServerEncodedUrl()),
-                            credential.getRefreshToken())
-                            .setClientAuthentication(credential.getClientAuthentication())
-                            .setRequestInitializer(credential.getRequestInitializer())
-                            .execute();
-
-        } catch (TokenResponseException e) {
-            TokenErrorResponse details = e.getDetails();
-            throw e;
         }
     }
 
@@ -147,7 +106,7 @@ public class GoogleService {
     public  java.util.List<com.google.api.services.calendar.model.Event> getEvents(Calendar calendar) throws IOException {
         Calendar.Events events = calendar.events();
         com.google.api.services.calendar.model.Events eventList = null;
-        eventList = events.list("primary").setTimeMin(date1).execute();
+        eventList = events.list("primary").setTimeMin(now).execute();
         return eventList.getItems();
     }
 }

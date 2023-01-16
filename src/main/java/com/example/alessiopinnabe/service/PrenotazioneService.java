@@ -40,7 +40,7 @@ public class PrenotazioneService {
     @Autowired
     private UserTokenRepository userTokenRepository;
 
-    public ResponsePrenotazioneDto save(PrenotazioneDto prenotazione) {
+    public ResponsePrenotazioneDto save(PrenotazioneDto prenotazione,com.example.alessiopinnabe.dto.TokenResponse tokenResponse) {
         ResponsePrenotazioneDto out = new ResponsePrenotazioneDto();
 
         try {
@@ -53,13 +53,13 @@ public class PrenotazioneService {
             return out;
         }
         if(prenotazione.isFromDetail()){
-            return getAllByUtenteAndCorso(prenotazione.getUtente().getId(),prenotazione.getCorso().getId());
+            return getAllByUtenteAndCorso(prenotazione.getUtente().getId(),prenotazione.getCorso().getId(),tokenResponse);
         } else {
-            return getAllByUtente(prenotazione.getUtente().getId());
+            return getAllByUtente(prenotazione.getUtente().getId(),tokenResponse);
         }
     }
 
-    public ResponsePrenotazioneDto delete(PrenotazioneDto prenotazione) {
+    public ResponsePrenotazioneDto delete(PrenotazioneDto prenotazione, com.example.alessiopinnabe.dto.TokenResponse tokenResponse) {
         ResponsePrenotazioneDto out = new ResponsePrenotazioneDto();
 
         try {
@@ -72,9 +72,9 @@ public class PrenotazioneService {
             return out;
         }
         if(prenotazione.isFromDetail()){
-            return getAllByUtenteAndCorso(prenotazione.getUtente().getId(),prenotazione.getCorso().getId());
+            return getAllByUtenteAndCorso(prenotazione.getUtente().getId(),prenotazione.getCorso().getId(),tokenResponse);
         } else {
-            return getAllByUtente(prenotazione.getUtente().getId());
+            return getAllByUtente(prenotazione.getUtente().getId(),tokenResponse);
         }
     }
 
@@ -94,13 +94,11 @@ public class PrenotazioneService {
         return out;
     }
 
-    public ResponsePrenotazioneDto getAllByUtente(Integer idUtente){
+    public ResponsePrenotazioneDto getAllByUtente(Integer idUtente, com.example.alessiopinnabe.dto.TokenResponse tokenResponse){
         ResponsePrenotazioneDto out = new ResponsePrenotazioneDto();
         try {
-            UserTokenEntity googleTOKEN = userTokenRepository.getByProvidersAndUser(idUtente, "GOOGLE");
-            if(googleTOKEN != null){
-                TokenResponse tokenResponse = googleService.checkAndUpdateToken(googleTOKEN);
-                Credential credential = googleService.getCredential(tokenResponse);
+            if(tokenResponse != null){
+                Credential credential = googleService.getCredential(TokenMapper.fromDtoToGoogle(tokenResponse));
                 Calendar calendar = googleService.getCalendar(credential);
                 List<Event> events = googleService.getEvents(calendar);
 
@@ -119,14 +117,13 @@ public class PrenotazioneService {
         return out;
     }
 
-    public ResponsePrenotazioneDto getAllByUtenteAndCorso(Integer idUtente , Integer idCorso){
+    public ResponsePrenotazioneDto getAllByUtenteAndCorso(Integer idUtente , Integer idCorso , com.example.alessiopinnabe.dto.TokenResponse tokenResponse){
         ResponsePrenotazioneDto out = new ResponsePrenotazioneDto();
         try {
-            UserTokenEntity googleTOKEN = userTokenRepository.getByProvidersAndUser(idUtente, "GOOGLE");
             List<Event> events = null;
-            if(googleTOKEN != null){
-                TokenResponse tokenResponse = googleService.checkAndUpdateToken(googleTOKEN);
-                Credential credential = googleService.getCredential(tokenResponse);                Calendar calendar = googleService.getCalendar(credential);
+            if(tokenResponse != null){
+                Credential credential = googleService.getCredential(TokenMapper.fromDtoToGoogle(tokenResponse));
+                Calendar calendar = googleService.getCalendar(credential);
                 events = googleService.getEvents(calendar);
 
             }
@@ -141,7 +138,8 @@ public class PrenotazioneService {
             out.setSuccess(false);
             out.setError(ex.getMessage());
             return out;
-        }        out.setSuccess(true);
+        }
+        out.setSuccess(true);
         return out;
     }
 }
