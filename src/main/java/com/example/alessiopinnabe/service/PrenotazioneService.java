@@ -51,10 +51,14 @@ public class PrenotazioneService {
             Event insert = googleService.addEvent(calendar, CalendarMapper.getEventFromDto(prenotazione));
             PrenotazioneEntity prenotazioneEntity = PrenotazioneMapper.getEntity(prenotazione);
             prenotazioneEntity.setIdEvent(insert.getId());
-            prenotazioneRepository.save(prenotazioneEntity);
-
-            mailService.send(emailMapper.emailAddPrenotazione(prenotazione));
-            mailService.send(emailMapper.emailAddPrenotazioneToMe(prenotazione));
+            if(insert != null && insert.getId() != null){
+                prenotazioneRepository.save(prenotazioneEntity);
+                mailService.send(emailMapper.emailAddPrenotazione(prenotazione));
+                mailService.send(emailMapper.emailAddPrenotazioneToMe(prenotazione));
+            } else {
+                out.setSuccess(false);
+                out.setError("Errore durante la creazione dell'evento google");
+            }
         } catch (DataAccessException | IOException ex){
             out.setSuccess(false);
             out.setError(ex.getMessage());
