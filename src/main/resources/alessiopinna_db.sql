@@ -78,6 +78,7 @@ CREATE TABLE IF NOT EXISTS `freedb_alessiopinna`.`prenotazione` (
   `corso_idcorso` INT NOT NULL,
   `qnt_ore` DECIMAL(6,2) NULL DEFAULT NULL,
   `data_prenotazione` TIMESTAMP NULL DEFAULT NULL,
+  `id_event` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`utente_idutente`, `corso_idcorso`),
   INDEX `fk_utente_has_corso_corso1_idx` (`corso_idcorso` ASC) VISIBLE,
   INDEX `fk_utente_has_corso_utente_idx` (`utente_idutente` ASC) VISIBLE,

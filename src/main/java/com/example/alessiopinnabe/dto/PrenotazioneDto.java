@@ -11,6 +11,7 @@ import java.util.Date;
 @Setter
 public class PrenotazioneDto {
     private Long id;
+    private String idEvent;
     private UtenteDto utente;
     private CorsoDto corso;
     private BigDecimal qntOre;

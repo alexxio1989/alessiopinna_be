@@ -19,6 +19,7 @@ public class PrenotazioneMapper {
         prenotazioneEntity.setUtenteIdutente(UtenteMapper.getEntity(dto.getUtente() , null));
         prenotazioneEntity.setQntOre(dto.getQntOre());
         prenotazioneEntity.setDataPrenotazione(dto.getDataPrenotazione());
+        prenotazioneEntity.setIdEvent(dto.getIdEvent());
         return prenotazioneEntity;
     }
 
@@ -29,6 +30,7 @@ public class PrenotazioneMapper {
         dto.setUtente(UtenteMapper.getDTO(entity.getUtenteIdutente()));
         dto.setQntOre(entity.getQntOre());
         dto.setId(entity.getDataPrenotazione().getTime()+entity.getId().getCorsoIdcorso().intValue()+entity.getId().getUtenteIdutente().intValue());
+        dto.setIdEvent(entity.getIdEvent());
         return dto;
     }
 

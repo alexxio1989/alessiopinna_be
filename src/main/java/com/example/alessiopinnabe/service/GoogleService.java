@@ -53,6 +53,7 @@ public class GoogleService {
     private Set<Event> events = new HashSet<>();
 
     final DateTime now = new DateTime(new Date());
+    final String calendarId = "primary";
 
     @PostConstruct
     private void postConstruct() throws GeneralSecurityException, IOException {
@@ -106,7 +107,18 @@ public class GoogleService {
     public  java.util.List<com.google.api.services.calendar.model.Event> getEvents(Calendar calendar) throws IOException {
         Calendar.Events events = calendar.events();
         com.google.api.services.calendar.model.Events eventList = null;
-        eventList = events.list("primary").setTimeMin(now).execute();
+        eventList = events.list(calendarId).setTimeMin(now).execute();
         return eventList.getItems();
     }
+
+    public  Event addEvent(Calendar calendar , Event event) throws IOException {
+        Calendar.Events events = calendar.events();
+        return events.insert(calendarId, event).execute();
+    }
+
+    public void removeEvent(Calendar calendar , String idEvent) throws IOException {
+        Calendar.Events events = calendar.events();
+        events.delete(calendarId ,idEvent).execute();
+    }
+
 }

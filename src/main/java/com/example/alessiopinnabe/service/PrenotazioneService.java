@@ -4,6 +4,7 @@ import com.example.alessiopinnabe.dto.PrenotazioneDto;
 import com.example.alessiopinnabe.dto.ResponsePrenotazioneDto;
 import com.example.alessiopinnabe.entity.PrenotazioneEntity;
 import com.example.alessiopinnabe.entity.UserTokenEntity;
+import com.example.alessiopinnabe.mapper.CalendarMapper;
 import com.example.alessiopinnabe.mapper.EmailMapper;
 import com.example.alessiopinnabe.mapper.PrenotazioneMapper;
 import com.example.alessiopinnabe.mapper.TokenMapper;
@@ -12,6 +13,7 @@ import com.example.alessiopinnabe.repositories.UserTokenRepository;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.services.calendar.Calendar;
+import com.google.api.services.calendar.CalendarRequest;
 import com.google.api.services.calendar.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -44,10 +46,16 @@ public class PrenotazioneService {
         ResponsePrenotazioneDto out = new ResponsePrenotazioneDto();
 
         try {
-            prenotazioneRepository.save(PrenotazioneMapper.getEntity(prenotazione));
+            Credential credential = googleService.getCredential(TokenMapper.fromDtoToGoogle(tokenResponse));
+            Calendar calendar = googleService.getCalendar(credential);
+            Event insert = googleService.addEvent(calendar, CalendarMapper.getEventFromDto(prenotazione));
+            PrenotazioneEntity prenotazioneEntity = PrenotazioneMapper.getEntity(prenotazione);
+            prenotazioneEntity.setIdEvent(insert.getId());
+            prenotazioneRepository.save(prenotazioneEntity);
+
             mailService.send(emailMapper.emailAddPrenotazione(prenotazione));
             mailService.send(emailMapper.emailAddPrenotazioneToMe(prenotazione));
-        } catch (DataAccessException ex){
+        } catch (DataAccessException | IOException ex){
             out.setSuccess(false);
             out.setError(ex.getMessage());
             return out;
@@ -63,10 +71,13 @@ public class PrenotazioneService {
         ResponsePrenotazioneDto out = new ResponsePrenotazioneDto();
 
         try {
+            Credential credential = googleService.getCredential(TokenMapper.fromDtoToGoogle(tokenResponse));
+            Calendar calendar = googleService.getCalendar(credential);
+            googleService.removeEvent(calendar , prenotazione.getIdEvent());
             prenotazioneRepository.delete(PrenotazioneMapper.getEntity(prenotazione));
             mailService.send(emailMapper.emailRemovePrenotazione(prenotazione));
             mailService.send(emailMapper.emailRemovePrenotazioneToMe(prenotazione));
-        } catch (DataAccessException ex){
+        } catch (DataAccessException | IOException ex){
             out.setSuccess(false);
             out.setError(ex.getMessage());
             return out;
