@@ -1,11 +1,10 @@
 package com.example.alessiopinnabe.mapper;
 
-import com.example.alessiopinnabe.dto.DominioDto;
 import com.example.alessiopinnabe.dto.RequestLoginDto;
-import com.example.alessiopinnabe.dto.ResponseUtenteDto;
+import com.example.alessiopinnabe.dto.TokenResponseDto;
 import com.example.alessiopinnabe.dto.UtenteDto;
+import com.example.alessiopinnabe.entity.TokenEntity;
 import com.example.alessiopinnabe.entity.TplUtenteEntity;
-import com.example.alessiopinnabe.entity.UserTokenEntity;
 import com.example.alessiopinnabe.entity.UtenteEntity;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.services.oauth2.model.Userinfo;
@@ -31,19 +30,18 @@ public class UtenteMapper{
         UtenteDto out = new UtenteDto();
         out.setId(utente.getId());
         out.setEmail(utente.getEmail());
-        out.setSkypeID(utente.getSkypeID());
         out.setName(utente.getUsername());
-        out.setTipo(DominioMapper.getTipoUtenteDTO(utente.getTplUtenteIdtplUtente()));
+        out.setTipo(DominioMapper.getTipoUtenteDTO(utente.getTplUtente()));
         out.setProvider(utente.getProvider());
-        List<com.example.alessiopinnabe.dto.TokenResponse> tokenResponses = new ArrayList<>();
+        List<TokenResponseDto> tokenResponsDtos = new ArrayList<>();
 
-        if(utente.getUserTokens() != null && utente.getUserTokens().size() > 0){
-            for (UserTokenEntity tokenEntity:
-                    utente.getUserTokens()) {
-                tokenResponses.add(TokenMapper.fromEntityToDto(tokenEntity));
+        if(utente.getTokens() != null && utente.getTokens().size() > 0){
+            for (TokenEntity tokenEntity:
+                    utente.getTokens()) {
+                tokenResponsDtos.add(TokenMapper.fromEntityToDto(tokenEntity));
             }
         }
-        out.setTokens(tokenResponses);
+        out.setTokens(tokenResponsDtos);
 
         return out;
     }
@@ -52,11 +50,10 @@ public class UtenteMapper{
         UtenteEntity out = new UtenteEntity();
         out.setId(utente.getId());
         out.setEmail(utente.getEmail());
-        out.setSkypeID(utente.getSkypeID());
         out.setUsername(utente.getName());
         out.setPassword(password);
         if(utente.getTipo() != null){
-            out.setTplUtenteIdtplUtente(DominioMapper.getTipoUtenteEntity(utente.getTipo()));
+            out.setTplUtente(DominioMapper.getTipoUtenteEntity(utente.getTipo()));
         }
         out.setProvider(utente.getProvider());
         return out;
@@ -69,7 +66,7 @@ public class UtenteMapper{
         out.setUsername(userInfo.getName());
         out.setPassword(userInfo.getId());
         if(userTpl != null){
-            out.setTplUtenteIdtplUtente(userTpl);
+            out.setTplUtente(userTpl);
         }
         out.setProvider("GOOGLE");
         return out;

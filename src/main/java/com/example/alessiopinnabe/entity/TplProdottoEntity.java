@@ -3,11 +3,11 @@ package com.example.alessiopinnabe.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tpl_corso")
-public class TplCorsoEntity {
+@Table(name = "tpl_prodotto")
+public class TplProdottoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idtpl_corso", nullable = false)
+    @Column(name = "id_tpl_prodotto", nullable = false)
     private Integer id;
 
     @Column(name = "codice", length = 100)

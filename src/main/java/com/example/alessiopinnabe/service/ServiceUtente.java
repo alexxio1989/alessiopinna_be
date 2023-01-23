@@ -3,20 +3,19 @@ package com.example.alessiopinnabe.service;
 import com.example.alessiopinnabe.dto.RequestLoginDto;
 import com.example.alessiopinnabe.dto.ResponseUtenteDto;
 import com.example.alessiopinnabe.dto.UtenteDto;
-import com.example.alessiopinnabe.entity.PrenotazioneEntity;
+import com.example.alessiopinnabe.entity.AcquistoEntity;
+import com.example.alessiopinnabe.entity.TokenEntity;
 import com.example.alessiopinnabe.entity.TplUtenteEntity;
-import com.example.alessiopinnabe.entity.UserTokenEntity;
 import com.example.alessiopinnabe.entity.UtenteEntity;
-import com.example.alessiopinnabe.mapper.PrenotazioneMapper;
+import com.example.alessiopinnabe.mapper.AcquistoMapper;
 import com.example.alessiopinnabe.mapper.TokenMapper;
 import com.example.alessiopinnabe.mapper.UtenteMapper;
-import com.example.alessiopinnabe.repositories.PrenotazioneRepository;
+import com.example.alessiopinnabe.repositories.AcquistoRepository;
 import com.example.alessiopinnabe.repositories.TplUtenteEntityRepository;
-import com.example.alessiopinnabe.repositories.UserTokenRepository;
+import com.example.alessiopinnabe.repositories.TokenRepository;
 import com.example.alessiopinnabe.repositories.UtenteRepository;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.services.oauth2.model.Userinfo;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -37,10 +36,10 @@ public class ServiceUtente {
     private TplUtenteEntityRepository tplUtenteEntityRepository;
 
     @Autowired
-    private PrenotazioneRepository prenotazioneRepository;
+    private AcquistoRepository prenotazioneRepository;
 
     @Autowired
-    private UserTokenRepository userTokenRepository;
+    private TokenRepository tokenRepository;
     
     public ResponseUtenteDto signin(RequestLoginDto req){
         ResponseUtenteDto out = new ResponseUtenteDto();
@@ -49,7 +48,7 @@ public class ServiceUtente {
             if(emailUsed == 0){
                 UtenteEntity entity = UtenteMapper.getEntity(req.getUtente(), req.getPassword());
                 TplUtenteEntity userTpl = tplUtenteEntityRepository.getUSER();
-                entity.setTplUtenteIdtplUtente(userTpl);
+                entity.setTplUtente(userTpl);
                 UtenteEntity utenteSaved = utenteRepository.save(entity);
                 out.setUtente(UtenteMapper.getDTO(utenteSaved));
             } else {
@@ -102,7 +101,7 @@ public class ServiceUtente {
         if(emailUsed == 0){
             UtenteEntity entity = UtenteMapper.getEntity(req.getUtente(), req.getPassword());
             TplUtenteEntity userTpl = tplUtenteEntityRepository.getUSER();
-            entity.setTplUtenteIdtplUtente(userTpl);
+            entity.setTplUtente(userTpl);
             UtenteEntity utenteSaved = utenteRepository.save(entity);
         }
         UtenteDto utenteDTO = getUtenteDto(req);
@@ -116,14 +115,14 @@ public class ServiceUtente {
         if(emailUsed == 0){
             TplUtenteEntity userTpl = tplUtenteEntityRepository.getUSER();
             UtenteEntity entity = UtenteMapper.getSocialEntity(userInfo, userTpl);
-            entity.setTplUtenteIdtplUtente(userTpl);
+            entity.setTplUtente(userTpl);
             utenteSaved = utenteRepository.save(entity);
         } else {
             utenteSaved = utenteRepository.login(userInfo.getEmail(), userInfo.getId());
         }
-        UserTokenEntity tokenRetrieved = userTokenRepository.getByProvidersAndUser(utenteSaved.getId(), "GOOGLE");
-        UserTokenEntity newToken = TokenMapper.fromGoogleToEntity(token, utenteSaved, tokenRetrieved != null ? tokenRetrieved.getId() : null);
-        userTokenRepository.save(newToken);
+        TokenEntity tokenRetrieved = tokenRepository.getByProvidersAndUser(utenteSaved.getId(), "GOOGLE");
+        TokenEntity newToken = TokenMapper.fromGoogleToEntity(token, utenteSaved, tokenRetrieved != null ? tokenRetrieved.getId() : null);
+        tokenRepository.save(newToken);
         return utenteSaved;
     }
 
@@ -131,9 +130,9 @@ public class ServiceUtente {
         UtenteEntity utenteSaved = utenteRepository.login(req.getUtente().getEmail(), req.getPassword());
         Date date = new Date();
         Timestamp ts=new Timestamp(date.getTime());
-        List<PrenotazioneEntity> prenotazioniByUtente = prenotazioneRepository.getPrenotazioniByUtente(utenteSaved.getId(),ts);
+        List<AcquistoEntity> acquistiByUtente = prenotazioneRepository.getAcquistiByUtente(utenteSaved.getId(),ts);
         UtenteDto utenteDTO = UtenteMapper.getDTO(utenteSaved);
-        utenteDTO.setPrenotazioni(PrenotazioneMapper.getListDTO(prenotazioniByUtente));
+        utenteDTO.setAcquisti(AcquistoMapper.getListDTO(acquistiByUtente));
         return utenteDTO;
     }
 

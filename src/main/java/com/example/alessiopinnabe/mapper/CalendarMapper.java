@@ -1,6 +1,6 @@
 package com.example.alessiopinnabe.mapper;
 
-import com.example.alessiopinnabe.dto.PrenotazioneDto;
+import com.example.alessiopinnabe.dto.AcquistoDto;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
@@ -11,15 +11,15 @@ import java.util.Arrays;
 import java.util.Date;
 
 public class CalendarMapper {
-    public static Event getEventFromDto(PrenotazioneDto prenotazioneDto){
+    public static Event getEventFromDto(AcquistoDto prenotazioneDto){
 
-        Date startDate = new Date(prenotazioneDto.getDataPrenotazione().getTime());
-        Date endDate = DateUtils.addHours(startDate, prenotazioneDto.getQntOre().intValue());
+        Date startDate = new Date(prenotazioneDto.getDataAcquisto().getTime());
+        Date endDate = DateUtils.addHours(startDate, prenotazioneDto.getQuantita().intValue());
 
         Event event = new Event()
-                .setSummary("alessiopinna.it :: Lezione di " + prenotazioneDto.getCorso().getTitolo())
+                .setSummary("alessiopinna.it :: Lezione di " + prenotazioneDto.getProdotto().getNome())
                 .setLocation("ONLINE")
-                .setDescription("Prenotazione di "+ prenotazioneDto.getQntOre() + " ore per la lezione di " + prenotazioneDto.getCorso().getTitolo());
+                .setDescription("Prenotazione di "+ prenotazioneDto.getQuantita() + " ore per la lezione di " + prenotazioneDto.getProdotto().getNome());
 
         DateTime startDateTime = new DateTime(startDate);
         EventDateTime start = new EventDateTime()
@@ -38,7 +38,7 @@ public class CalendarMapper {
         Event.Reminders reminders = new Event.Reminders()
                 .setUseDefault(false)
                 .setOverrides(Arrays.asList(reminderOverrides));
-
+        event.setReminders(reminders);
         return event;
     }
 

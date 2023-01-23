@@ -1,6 +1,6 @@
 package com.example.alessiopinnabe.dto;
 
-public class Email {
+public class EmailDto {
 	
 	private String from;
 	private String to;

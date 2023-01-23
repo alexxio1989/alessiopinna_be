@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ResponsePrenotazioneDto extends ResponseCore {
-    private List<PrenotazioneDto> prenotazioni;
-    private List<PrenotazioneDto> prenotazioniUtente;
+public class ResponseAcquistoDto extends ResponseCore {
+    private List<AcquistoDto> acquisti;
+    private List<AcquistoDto> acquistiUtente;
 }

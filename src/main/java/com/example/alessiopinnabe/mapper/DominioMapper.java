@@ -1,7 +1,7 @@
 package com.example.alessiopinnabe.mapper;
 
 import com.example.alessiopinnabe.dto.DominioDto;
-import com.example.alessiopinnabe.entity.TplCorsoEntity;
+import com.example.alessiopinnabe.entity.TplProdottoEntity;
 import com.example.alessiopinnabe.entity.TplUtenteEntity;
 
 import java.util.ArrayList;
@@ -9,10 +9,10 @@ import java.util.List;
 
 public class DominioMapper {
 
-    public static List<DominioDto> getListTipoCorsoDTO(List<TplCorsoEntity> listTplCorso){
+    public static List<DominioDto> getListTipoProdottiDTO(List<TplProdottoEntity> listTplprodotti){
         List<DominioDto> out = new ArrayList<>();
-        if(listTplCorso != null){
-            listTplCorso.forEach(t -> out.add(getTipoCorsoDTO(t)) );
+        if(listTplprodotti != null){
+            listTplprodotti.forEach(t -> out.add(getTipoProdottoDTO(t)) );
         }
         return out;
     }
@@ -24,20 +24,20 @@ public class DominioMapper {
         }
         return out;
     }
-    public static DominioDto getTipoCorsoDTO(TplCorsoEntity tplCorso){
+    public static DominioDto getTipoProdottoDTO(TplProdottoEntity tplProdottoEntity){
         DominioDto out = new DominioDto();
-        out.setId(tplCorso.getId());
-        out.setCodice(tplCorso.getCodice());
-        out.setDescrizione(tplCorso.getDescrizione());
+        out.setId(tplProdottoEntity.getId());
+        out.setCodice(tplProdottoEntity.getCodice());
+        out.setDescrizione(tplProdottoEntity.getDescrizione());
         return out;
     }
 
-    public static TplCorsoEntity getTipoCorsoEntity(DominioDto dominio){
-        TplCorsoEntity tplCorso = new TplCorsoEntity();
-        tplCorso.setId(dominio.getId());
-        tplCorso.setCodice(dominio.getCodice());
-        tplCorso.setDescrizione(dominio.getDescrizione());
-        return tplCorso;
+    public static TplProdottoEntity getTipoProdottoEntity(DominioDto dominio){
+        TplProdottoEntity tplProdotto = new TplProdottoEntity();
+        tplProdotto.setId(dominio.getId());
+        tplProdotto.setCodice(dominio.getCodice());
+        tplProdotto.setDescrizione(dominio.getDescrizione());
+        return tplProdotto;
     }
 
     public static DominioDto getTipoUtenteDTO(TplUtenteEntity tplUtente){

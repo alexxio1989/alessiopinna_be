@@ -1,15 +1,13 @@
 package com.example.alessiopinnabe.dto;
 
-import com.google.api.client.util.Key;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import java.sql.Timestamp;
 
 @Getter
 @Setter
-public class TokenResponse {
+public class TokenResponseDto {
     private Integer id;
     private String accessToken;
     private String tokenType;

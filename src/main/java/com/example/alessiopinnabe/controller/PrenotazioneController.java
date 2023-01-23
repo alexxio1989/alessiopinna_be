@@ -1,7 +1,7 @@
 package com.example.alessiopinnabe.controller;
 
 import com.example.alessiopinnabe.dto.*;
-import com.example.alessiopinnabe.service.PrenotazioneService;
+import com.example.alessiopinnabe.service.ServiceAcquisto;
 import com.example.alessiopinnabe.util.Util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,18 +16,18 @@ import java.util.Map;
 public class PrenotazioneController {
 
     @Autowired
-    private PrenotazioneService prenotazioneService;
+    private ServiceAcquisto prenotazioneService;
 
     @PostMapping("/save")
     @CrossOrigin(origins = "*")
-    public ResponsePrenotazioneDto save(@RequestHeader(value="token-google") String tokenString , @RequestBody PrenotazioneDto prenotazione) throws JsonProcessingException {
-        ResponsePrenotazioneDto out;
+    public ResponseAcquistoDto save(@RequestHeader(value="token-google") String tokenString , @RequestBody AcquistoDto prenotazione) throws JsonProcessingException {
+        ResponseAcquistoDto out;
         ObjectMapper mapper = new ObjectMapper();
-        TokenResponse tokenResponse = mapper.readValue(tokenString, TokenResponse.class);
-        if(tokenResponse != null && !Util.isTmspExpired(tokenResponse.getDateExiration())){
-            out = prenotazioneService.save(prenotazione, tokenResponse);
+        TokenResponseDto tokenResponseDto = mapper.readValue(tokenString, TokenResponseDto.class);
+        if(tokenResponseDto != null && !Util.isTmspExpired(tokenResponseDto.getDateExiration())){
+            out = prenotazioneService.save(prenotazione, tokenResponseDto);
         } else {
-            out = new ResponsePrenotazioneDto();
+            out = new ResponseAcquistoDto();
             out.setSuccess(false);
             out.setCode(999);
             out.setError("Token google assente o scaduto");
@@ -37,14 +37,14 @@ public class PrenotazioneController {
 
     @PostMapping("/delete")
     @CrossOrigin(origins = "*")
-    public ResponsePrenotazioneDto delete(@RequestHeader(value="token-google") String tokenString ,@RequestBody PrenotazioneDto prenotazione) throws JsonProcessingException {
-        ResponsePrenotazioneDto out;
+    public ResponseAcquistoDto delete(@RequestHeader(value="token-google") String tokenString , @RequestBody AcquistoDto prenotazione) throws JsonProcessingException {
+        ResponseAcquistoDto out;
         ObjectMapper mapper = new ObjectMapper();
-        TokenResponse tokenResponse = mapper.readValue(tokenString, TokenResponse.class);
-        if(tokenResponse != null && !Util.isTmspExpired(tokenResponse.getDateExiration())){
-            out = prenotazioneService.delete(prenotazione, tokenResponse);
+        TokenResponseDto tokenResponseDto = mapper.readValue(tokenString, TokenResponseDto.class);
+        if(tokenResponseDto != null && !Util.isTmspExpired(tokenResponseDto.getDateExiration())){
+            out = prenotazioneService.delete(prenotazione, tokenResponseDto);
         } else {
-            out = new ResponsePrenotazioneDto();
+            out = new ResponseAcquistoDto();
             out.setSuccess(false);
             out.setCode(999);
             out.setError("Token google assente o scaduto");
@@ -54,21 +54,21 @@ public class PrenotazioneController {
 
     @GetMapping("/all")
     @CrossOrigin(origins = "*")
-    public ResponsePrenotazioneDto getAll() {
+    public ResponseAcquistoDto getAll() {
         return prenotazioneService.getAll();
     }
 
     @GetMapping("/getAllByUtente/{idUtente}")
     @CrossOrigin(origins = "*")
-    public ResponsePrenotazioneDto getAllByUtente(@RequestHeader Map<String, String> headers , @PathVariable Integer idUtente) throws JsonProcessingException {
-        ResponsePrenotazioneDto out;
+    public ResponseAcquistoDto getAllByUtente(@RequestHeader Map<String, String> headers , @PathVariable Integer idUtente) throws JsonProcessingException {
+        ResponseAcquistoDto out;
         ObjectMapper mapper = new ObjectMapper();
         String tokenString = headers.get("token-google");
-        TokenResponse tokenResponse = mapper.readValue(tokenString, TokenResponse.class);
-        if(tokenResponse != null && !Util.isTmspExpired(tokenResponse.getDateExiration())){
-            out = prenotazioneService.getAllByUtente(idUtente,tokenResponse);
+        TokenResponseDto tokenResponseDto = mapper.readValue(tokenString, TokenResponseDto.class);
+        if(tokenResponseDto != null && !Util.isTmspExpired(tokenResponseDto.getDateExiration())){
+            out = prenotazioneService.getAllByUtente(idUtente, tokenResponseDto);
         } else {
-            out = new ResponsePrenotazioneDto();
+            out = new ResponseAcquistoDto();
             out.setSuccess(false);
             out.setCode(999);
             out.setError("Token google assente o scaduto");
@@ -78,15 +78,15 @@ public class PrenotazioneController {
 
     @GetMapping("/getAllByUtenteAndCorso/{idUtente}/{idCorso}")
     @CrossOrigin(origins = "*")
-    public ResponsePrenotazioneDto getAllByUtenteAndCorso(@RequestHeader Map<String, String> headers, @PathVariable Integer idUtente , @PathVariable Integer idCorso) throws JsonProcessingException {
-        ResponsePrenotazioneDto out;
+    public ResponseAcquistoDto getAllByUtenteAndCorso(@RequestHeader Map<String, String> headers, @PathVariable Integer idUtente , @PathVariable Integer idCorso) throws JsonProcessingException {
+        ResponseAcquistoDto out;
         ObjectMapper mapper = new ObjectMapper();
         String tokenString = headers.get("token-google");
-        TokenResponse tokenResponse = mapper.readValue(tokenString, TokenResponse.class);
-        if(tokenResponse != null && !Util.isTmspExpired(tokenResponse.getDateExiration())){
-            out = prenotazioneService.getAllByUtenteAndCorso(idUtente,idCorso,tokenResponse);
+        TokenResponseDto tokenResponseDto = mapper.readValue(tokenString, TokenResponseDto.class);
+        if(tokenResponseDto != null && !Util.isTmspExpired(tokenResponseDto.getDateExiration())){
+            out = prenotazioneService.getAllByUtenteAndProdotto(idUtente,idCorso, tokenResponseDto);
         } else {
-            out = new ResponsePrenotazioneDto();
+            out = new ResponseAcquistoDto();
             out.setCode(999);
             out.setError("Token google assente o scaduto");
         }

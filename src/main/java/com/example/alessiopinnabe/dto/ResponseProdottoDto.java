@@ -8,6 +8,6 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ResponseCorsoDto extends ResponseCore {
-    private List<CorsoDto> corsi;
+public class ResponseProdottoDto extends ResponseCore {
+    private List<ProdottoDto> prodotti;
 }

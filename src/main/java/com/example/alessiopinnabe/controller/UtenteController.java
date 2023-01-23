@@ -1,7 +1,6 @@
 package com.example.alessiopinnabe.controller;
 
 import com.example.alessiopinnabe.dto.*;
-import com.example.alessiopinnabe.service.ServiceCorso;
 import com.example.alessiopinnabe.service.ServiceUtente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

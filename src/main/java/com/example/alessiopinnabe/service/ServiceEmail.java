@@ -1,6 +1,6 @@
 package com.example.alessiopinnabe.service;
 
-import com.example.alessiopinnabe.dto.Email;
+import com.example.alessiopinnabe.dto.EmailDto;
 import org.springframework.stereotype.Service;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -18,11 +18,11 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 @Service
-public class MailService {
+public class ServiceEmail {
 
 
 
-    public static Integer send(Email email){
+    public static Integer send(EmailDto email){
         try {
             MimeMessage msg = new MimeMessage(getSession());
             // set message headers

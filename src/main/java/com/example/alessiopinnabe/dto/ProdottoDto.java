@@ -8,10 +8,10 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class CorsoDto {
+public class ProdottoDto {
     private Integer id;
-    private String titolo;
-    private String titoloExt;
+    private String nome;
+    private String nomeExt;
     private String descrizione;
     private String imgName;
     private DominioDto tipo;

@@ -1,10 +1,10 @@
 package com.example.alessiopinnabe.service;
 
 import com.example.alessiopinnabe.dto.DominioDto;
-import com.example.alessiopinnabe.entity.TplCorsoEntity;
+import com.example.alessiopinnabe.entity.TplProdottoEntity;
 import com.example.alessiopinnabe.entity.TplUtenteEntity;
 import com.example.alessiopinnabe.mapper.DominioMapper;
-import com.example.alessiopinnabe.repositories.TplCorsoEntityRepository;
+import com.example.alessiopinnabe.repositories.TplProdottoEntityRepository;
 import com.example.alessiopinnabe.repositories.TplUtenteEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.List;
 public class ServiceTpl {
 
     @Autowired
-    private TplCorsoEntityRepository tplCorsoEntityRepository;
+    private TplProdottoEntityRepository tplCorsoEntityRepository;
     @Autowired
     private TplUtenteEntityRepository tplUtenteEntityRepository;
 
@@ -24,14 +24,14 @@ public class ServiceTpl {
         return DominioMapper.getListTipoUtenteDTO(all);
     }
 
-    public List<DominioDto> getTipiCorsi(){
-        List<TplCorsoEntity> all = tplCorsoEntityRepository.findAll();
-        return DominioMapper.getListTipoCorsoDTO(all);
+    public List<DominioDto> getTipiProdotti(){
+        List<TplProdottoEntity> all = tplCorsoEntityRepository.findAll();
+        return DominioMapper.getListTipoProdottiDTO(all);
     }
 
-    public List<DominioDto> saveTplCorso(DominioDto dominioDto){
-        tplCorsoEntityRepository.save(DominioMapper.getTipoCorsoEntity(dominioDto));
-        return getTipiCorsi();
+    public List<DominioDto> saveTplProdotto(DominioDto dominioDto){
+        tplCorsoEntityRepository.save(DominioMapper.getTipoProdottoEntity(dominioDto));
+        return getTipiProdotti();
     }
 
     public List<DominioDto> saveTplUtente(DominioDto dominioDto){

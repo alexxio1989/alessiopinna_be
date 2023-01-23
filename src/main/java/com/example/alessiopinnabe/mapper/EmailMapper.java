@@ -1,7 +1,7 @@
 package com.example.alessiopinnabe.mapper;
 
-import com.example.alessiopinnabe.dto.Email;
-import com.example.alessiopinnabe.dto.PrenotazioneDto;
+import com.example.alessiopinnabe.dto.EmailDto;
+import com.example.alessiopinnabe.dto.AcquistoDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +19,8 @@ public class EmailMapper {
     @Value("${remove.prenotazione}")
     private String htmlRemovePrenotazione ;
 
-    public Email emailAddPrenotazione(PrenotazioneDto prenotazione){
-        Date date=new Date(prenotazione.getDataPrenotazione().getTime());
+    public EmailDto emailAddProdotto(AcquistoDto prenotazione){
+        Date date=new Date(prenotazione.getDataAcquisto().getTime());
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         StringBuilder sb = new StringBuilder();
         String strDate = dateFormat.format(date);
@@ -40,46 +40,46 @@ public class EmailMapper {
         }
         String oraInizio = sb.append(hours).append(":").append(minutesString).append(moment).toString();
         String htmlFormat = MessageFormat.format(htmlAddPrenotazione ,
-                  prenotazione.getCorso().getTitolo() ,
+                  prenotazione.getProdotto().getNome() ,
                   strDate ,
                   oraInizio,
-                  String.valueOf(prenotazione.getQntOre().intValue()));
-        Email email = getEmail(prenotazione.getUtente().getEmail(),
+                  String.valueOf(prenotazione.getQuantita().intValue()));
+        EmailDto email = getEmail(prenotazione.getUtente().getEmail(),
                 "alessiopinna.it" ,
-                "Nuova lezione di " + prenotazione.getCorso().getTitolo(),
+                "Nuova lezione di " + prenotazione.getProdotto().getNome(),
                 htmlFormat) ;
         return email;
     }
 
-    public Email emailRemovePrenotazione(PrenotazioneDto prenotazione){
+    public EmailDto emailRemovePrenotazione(AcquistoDto prenotazione){
         String htmlFormat = MessageFormat.format(htmlRemovePrenotazione ,
-                prenotazione.getCorso().getTitolo() );
-        Email email = getEmail(prenotazione.getUtente().getEmail(),
+                prenotazione.getProdotto().getNome() );
+        EmailDto email = getEmail(prenotazione.getUtente().getEmail(),
                 "alessiopinna.it",
-                "Disdetta lezione " + prenotazione.getCorso().getTitolo(),
+                "Disdetta lezione " + prenotazione.getProdotto().getNome(),
                 htmlFormat);
         return email;
     }
 
-    public Email emailAddPrenotazioneToMe(PrenotazioneDto prenotazione){
+    public EmailDto emailAddPrenotazioneToMe(AcquistoDto prenotazione){
 
-        Email email = getEmailToMe(
-                "Prenotazione lezione di " + prenotazione.getCorso().getTitolo(),
+        EmailDto email = getEmailToMe(
+                "Prenotazione lezione di " + prenotazione.getProdotto().getNome(),
                 "alessiopinna.it",
-                prenotazione.getUtente().getEmail() + " ha prenotato una lezione di " + prenotazione.getCorso().getTitolo() + ", per un totale di " + prenotazione.getQntOre() + " ore" + " in data " + prenotazione.getDataPrenotazione()) ;
+                prenotazione.getUtente().getEmail() + " ha prenotato una lezione di " + prenotazione.getProdotto().getNome() + ", per un totale di " + prenotazione.getQuantita() + " ore" + " in data " + prenotazione.getDataAcquisto()) ;
         return email;
     }
 
-    public Email emailRemovePrenotazioneToMe(PrenotazioneDto prenotazione){
-        Email email = getEmailToMe(
-                "Disdetta lezione " + prenotazione.getCorso().getTitolo(),
+    public EmailDto emailRemovePrenotazioneToMe(AcquistoDto acquisto){
+        EmailDto email = getEmailToMe(
+                "Disdetta lezione " + acquisto.getProdotto().getNome(),
                 "alessiopinna.it",
-                prenotazione.getUtente().getEmail() + " ha appena disdetto la lezione di " + prenotazione.getCorso().getTitolo() +" in data " + prenotazione.getDataPrenotazione());
+                acquisto.getUtente().getEmail() + " ha appena disdetto la lezione di " + acquisto.getProdotto().getNome() +" in data " + acquisto.getDataAcquisto());
         return email;
     }
 
-    public  Email getEmail(String to ,String title , String subject ,String html){
-        Email out = new Email();
+    public EmailDto getEmail(String to , String title , String subject , String html){
+        EmailDto out = new EmailDto();
         out.setFrom("apinna.elearn@gmail.com");
         out.setTo(to);
         out.setSubject(subject);
@@ -88,8 +88,8 @@ public class EmailMapper {
         return out;
     }
 
-    public  Email getEmailToMe(String title , String subject ,String text){
-        Email out = new Email();
+    public EmailDto getEmailToMe(String title , String subject , String text){
+        EmailDto out = new EmailDto();
         out.setFrom("apinna.elearn@gmail.com");
         out.setTo("apinna.elearn@gmail.com");
         out.setSubject(subject);

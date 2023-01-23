@@ -24,13 +24,13 @@ public class TplController {
     @GetMapping("/all/corsi")
     @CrossOrigin(origins = "*")
     public List<DominioDto> allCorsi() {
-        return tplService.getTipiCorsi();
+        return tplService.getTipiProdotti();
     }
 
     @PostMapping("/save/corso")
     @CrossOrigin(origins = "*")
     public List<DominioDto> saveTplCorso(@RequestBody DominioDto tpl) {
-        return tplService.saveTplCorso(tpl);
+        return tplService.saveTplProdotto(tpl);
     }
 
     @PostMapping("/save/utente")

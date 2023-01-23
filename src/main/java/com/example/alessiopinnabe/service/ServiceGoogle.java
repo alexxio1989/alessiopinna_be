@@ -1,7 +1,8 @@
 package com.example.alessiopinnabe.service;
 
+import com.example.alessiopinnabe.dto.TokenResponseDto;
 import com.example.alessiopinnabe.mapper.TokenMapper;
-import com.example.alessiopinnabe.repositories.UserTokenRepository;
+import com.example.alessiopinnabe.repositories.TokenRepository;
 import com.google.api.client.auth.oauth2.*;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
@@ -27,7 +28,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-public class GoogleService {
+public class ServiceGoogle {
 
     private static final String APPLICATION_NAME = "";
     private static HttpTransport httpTransport;
@@ -48,7 +49,7 @@ public class GoogleService {
     private String scopes;
 
     @Autowired
-    private UserTokenRepository userTokenRepository;
+    private TokenRepository userTokenRepository;
 
     private Set<Event> events = new HashSet<>();
 
@@ -89,8 +90,8 @@ public class GoogleService {
         return flow.createAndStoreCredential(tokenResponse, "userID");
     }
 
-    public Credential getCredentialFromDto(com.example.alessiopinnabe.dto.TokenResponse tokenResponse) throws IOException {
-        TokenResponse response = TokenMapper.fromDtoToGoogle(tokenResponse);
+    public Credential getCredentialFromDto(TokenResponseDto tokenResponseDto) throws IOException {
+        TokenResponse response = TokenMapper.fromDtoToGoogle(tokenResponseDto);
         return getCredential(response);
     }
 
