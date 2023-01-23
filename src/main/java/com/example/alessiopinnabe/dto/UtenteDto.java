@@ -13,6 +13,7 @@ public class UtenteDto {
     private String skypeID;
     private String email;
     private DominioDto tipo;
+    private String photoUrl;
     private List<AcquistoDto> acquisti;
     private List<TokenResponseDto> tokens;
     private String provider;
