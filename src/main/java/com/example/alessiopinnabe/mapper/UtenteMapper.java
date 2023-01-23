@@ -1,30 +1,16 @@
 package com.example.alessiopinnabe.mapper;
 
-import com.example.alessiopinnabe.dto.RequestLoginDto;
 import com.example.alessiopinnabe.dto.TokenResponseDto;
 import com.example.alessiopinnabe.dto.UtenteDto;
 import com.example.alessiopinnabe.entity.TokenEntity;
 import com.example.alessiopinnabe.entity.TplUtenteEntity;
 import com.example.alessiopinnabe.entity.UtenteEntity;
-import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.services.oauth2.model.Userinfo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UtenteMapper{
-
-    public static RequestLoginDto getRequestUtenteFromGoogle(Userinfo userinfo , TokenResponse response) {
-        RequestLoginDto req = new RequestLoginDto();
-        UtenteDto out = new UtenteDto();
-
-        out.setEmail(userinfo.getEmail());
-        out.setName(userinfo.getName());
-        out.setProvider("GOOGLE");
-        req.setPassword(userinfo.getId());
-        req.setUtente(out);
-        return req;
-    }
 
     public static UtenteDto getDTO(UtenteEntity utente) {
         UtenteDto out = new UtenteDto();
@@ -42,7 +28,7 @@ public class UtenteMapper{
             }
         }
         out.setTokens(tokenResponsDtos);
-
+        out.setAcquisti(AcquistoMapper.getListDTO(utente.getAcquisti()));
         return out;
     }
 
@@ -60,7 +46,7 @@ public class UtenteMapper{
     }
 
 
-    public static UtenteEntity getSocialEntity(Userinfo userInfo , TplUtenteEntity userTpl) {
+    public static UtenteEntity getEntityFromGoogle(Userinfo userInfo , TplUtenteEntity userTpl) {
         UtenteEntity out = new UtenteEntity();
         out.setEmail(userInfo.getEmail());
         out.setUsername(userInfo.getName());

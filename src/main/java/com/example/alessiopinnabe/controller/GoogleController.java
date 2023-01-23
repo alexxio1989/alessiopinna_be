@@ -19,9 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Controller
-public class GoogleCalController {
+public class GoogleController {
 
-	private final static Log logger = LogFactory.getLog(GoogleCalController.class);
+	private final static Log logger = LogFactory.getLog(GoogleController.class);
 
 	@Autowired
 	private ServiceGoogle googleService;

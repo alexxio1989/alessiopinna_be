@@ -35,5 +35,8 @@ public class UtenteEntity {
 
     @OneToMany(mappedBy = "utente")
     private List<TokenEntity> tokens = new ArrayList<>();
+
+    @OneToMany(mappedBy = "utente")
+    private List<AcquistoEntity> acquisti = new ArrayList<>();
     
 }

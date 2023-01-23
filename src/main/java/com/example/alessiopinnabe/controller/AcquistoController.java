@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("prenotazione")
+@RequestMapping("acquisto")
 @CrossOrigin(origins = "*")
-public class PrenotazioneController {
+public class AcquistoController {
 
     @Autowired
-    private ServiceAcquisto prenotazioneService;
+    private ServiceAcquisto serviceAcquisto;
 
     @PostMapping("/save")
     @CrossOrigin(origins = "*")
@@ -25,7 +25,7 @@ public class PrenotazioneController {
         ObjectMapper mapper = new ObjectMapper();
         TokenResponseDto tokenResponseDto = mapper.readValue(tokenString, TokenResponseDto.class);
         if(tokenResponseDto != null && !Util.isTmspExpired(tokenResponseDto.getDateExiration())){
-            out = prenotazioneService.save(prenotazione, tokenResponseDto);
+            out = serviceAcquisto.save(prenotazione, tokenResponseDto);
         } else {
             out = new ResponseAcquistoDto();
             out.setSuccess(false);
@@ -42,7 +42,7 @@ public class PrenotazioneController {
         ObjectMapper mapper = new ObjectMapper();
         TokenResponseDto tokenResponseDto = mapper.readValue(tokenString, TokenResponseDto.class);
         if(tokenResponseDto != null && !Util.isTmspExpired(tokenResponseDto.getDateExiration())){
-            out = prenotazioneService.delete(prenotazione, tokenResponseDto);
+            out = serviceAcquisto.delete(prenotazione, tokenResponseDto);
         } else {
             out = new ResponseAcquistoDto();
             out.setSuccess(false);
@@ -55,7 +55,7 @@ public class PrenotazioneController {
     @GetMapping("/all")
     @CrossOrigin(origins = "*")
     public ResponseAcquistoDto getAll() {
-        return prenotazioneService.getAll();
+        return serviceAcquisto.getAll();
     }
 
     @GetMapping("/getAllByUtente/{idUtente}")
@@ -66,7 +66,7 @@ public class PrenotazioneController {
         String tokenString = headers.get("token-google");
         TokenResponseDto tokenResponseDto = mapper.readValue(tokenString, TokenResponseDto.class);
         if(tokenResponseDto != null && !Util.isTmspExpired(tokenResponseDto.getDateExiration())){
-            out = prenotazioneService.getAllByUtente(idUtente, tokenResponseDto);
+            out = serviceAcquisto.getAllByUtente(idUtente, tokenResponseDto);
         } else {
             out = new ResponseAcquistoDto();
             out.setSuccess(false);
@@ -84,7 +84,7 @@ public class PrenotazioneController {
         String tokenString = headers.get("token-google");
         TokenResponseDto tokenResponseDto = mapper.readValue(tokenString, TokenResponseDto.class);
         if(tokenResponseDto != null && !Util.isTmspExpired(tokenResponseDto.getDateExiration())){
-            out = prenotazioneService.getAllByUtenteAndProdotto(idUtente,idCorso, tokenResponseDto);
+            out = serviceAcquisto.getAllByUtenteAndProdotto(idUtente,idCorso, tokenResponseDto);
         } else {
             out = new ResponseAcquistoDto();
             out.setCode(999);
