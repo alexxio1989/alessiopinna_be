@@ -17,19 +17,19 @@ public class TplController {
 
     @GetMapping("/all/utente")
     @CrossOrigin(origins = "*")
-    public List<DominioDto> allUtente() {
+    public List<DominioDto> getTipiUtenti() {
         return tplService.getTipiUtenti();
     }
 
-    @GetMapping("/all/corsi")
+    @GetMapping("/all/prodotti")
     @CrossOrigin(origins = "*")
-    public List<DominioDto> allCorsi() {
+    public List<DominioDto> getTipiProdotti() {
         return tplService.getTipiProdotti();
     }
 
-    @PostMapping("/save/corso")
+    @PostMapping("/save/prodotto")
     @CrossOrigin(origins = "*")
-    public List<DominioDto> saveTplCorso(@RequestBody DominioDto tpl) {
+    public List<DominioDto> saveTplProdotto(@RequestBody DominioDto tpl) {
         return tplService.saveTplProdotto(tpl);
     }
 

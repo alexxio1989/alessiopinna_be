@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.*;
 public class UtenteController {
 
     @Autowired
-    private ServiceUtente serviceCorso;
+    private ServiceUtente serviceUtente;
 
     @PostMapping("/signin")
     public ResponseUtenteDto signin(@RequestBody RequestLoginDto req) {
-        return serviceCorso.signin(req);
+        return serviceUtente.signin(req);
     }
 
     @PostMapping("/login")
     public ResponseUtenteDto login(@RequestBody RequestLoginDto req) {
-        return serviceCorso.login(req);
+        return serviceUtente.login(req);
     }
 
 }

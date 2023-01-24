@@ -15,7 +15,7 @@ import java.util.List;
 public class ServiceTpl {
 
     @Autowired
-    private TplProdottoEntityRepository tplCorsoEntityRepository;
+    private TplProdottoEntityRepository tplProdottoEntityRepository;
     @Autowired
     private TplUtenteEntityRepository tplUtenteEntityRepository;
 
@@ -25,12 +25,12 @@ public class ServiceTpl {
     }
 
     public List<DominioDto> getTipiProdotti(){
-        List<TplProdottoEntity> all = tplCorsoEntityRepository.findAll();
+        List<TplProdottoEntity> all = tplProdottoEntityRepository.findAll();
         return DominioMapper.getListTipoProdottiDTO(all);
     }
 
     public List<DominioDto> saveTplProdotto(DominioDto dominioDto){
-        tplCorsoEntityRepository.save(DominioMapper.getTipoProdottoEntity(dominioDto));
+        tplProdottoEntityRepository.save(DominioMapper.getTipoProdottoEntity(dominioDto));
         return getTipiProdotti();
     }
 

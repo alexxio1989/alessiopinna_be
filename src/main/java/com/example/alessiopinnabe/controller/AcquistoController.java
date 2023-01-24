@@ -58,7 +58,7 @@ public class AcquistoController {
         return serviceAcquisto.getAll();
     }
 
-    @GetMapping("/getAllByUtente/{idUtente}")
+    @GetMapping("/getAll/{idUtente}")
     @CrossOrigin(origins = "*")
     public ResponseAcquistoDto getAllByUtente(@RequestHeader Map<String, String> headers , @PathVariable Integer idUtente) throws JsonProcessingException {
         ResponseAcquistoDto out;
@@ -76,15 +76,15 @@ public class AcquistoController {
         return out;
     }
 
-    @GetMapping("/getAllByUtenteAndCorso/{idUtente}/{idCorso}")
+    @GetMapping("/getAll/{idUtente}/{idProdotto}")
     @CrossOrigin(origins = "*")
-    public ResponseAcquistoDto getAllByUtenteAndCorso(@RequestHeader Map<String, String> headers, @PathVariable Integer idUtente , @PathVariable Integer idCorso) throws JsonProcessingException {
+    public ResponseAcquistoDto getAllByUtenteAndProdotto(@RequestHeader Map<String, String> headers, @PathVariable Integer idUtente , @PathVariable Integer idProdotto) throws JsonProcessingException {
         ResponseAcquistoDto out;
         ObjectMapper mapper = new ObjectMapper();
         String tokenString = headers.get("token-google");
         TokenResponseDto tokenResponseDto = mapper.readValue(tokenString, TokenResponseDto.class);
         if(tokenResponseDto != null && !Util.isTmspExpired(tokenResponseDto.getDateExiration())){
-            out = serviceAcquisto.getAllByUtenteAndProdotto(idUtente,idCorso, tokenResponseDto);
+            out = serviceAcquisto.getAllByUtenteAndProdotto(idUtente,idProdotto, tokenResponseDto);
         } else {
             out = new ResponseAcquistoDto();
             out.setCode(999);

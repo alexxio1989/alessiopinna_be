@@ -13,8 +13,8 @@ public class ProdottoMapper {
     public static List<ProdottoDto> getListDTO(List<ProdottoEntity> entities){
         List<ProdottoDto> out = new ArrayList<>();
         if(entities != null){
-            for (ProdottoEntity corsoEntity:entities) {
-                out.add(getDTO(corsoEntity));
+            for (ProdottoEntity prodottoEntity:entities) {
+                out.add(getDTO(prodottoEntity));
             }
         }
          return out;
