@@ -121,5 +121,22 @@ public class ServiceGoogle {
         Calendar.Events events = calendar.events();
         events.delete(calendarId ,idEvent).execute();
     }
+    private Calendar getCalendar(TokenResponseDto tokenResponseDto) throws IOException {
+        Credential credential = getCredential(TokenMapper.fromDtoToGoogle(tokenResponseDto));
+        Calendar calendar = getCalendar(credential);
+        return calendar;
+    }
+
+
+    public Event createEventCalendar(TokenResponseDto tokenResponseDto, Event event) throws IOException {
+        Calendar calendar = getCalendar(tokenResponseDto);
+        Event insert = addEvent(calendar, event);
+        return insert;
+    }
+
+    public void deleteEventCalendar(TokenResponseDto tokenResponseDto, String idEvento) throws IOException {
+        Calendar calendar = getCalendar(tokenResponseDto);
+        removeEvent(calendar, idEvento);
+    }
 
 }

@@ -8,7 +8,6 @@ import com.example.alessiopinnabe.entity.TplUtenteEntity;
 import com.example.alessiopinnabe.entity.UtenteEntity;
 import com.example.alessiopinnabe.mapper.TokenMapper;
 import com.example.alessiopinnabe.mapper.UtenteMapper;
-import com.example.alessiopinnabe.repositories.AcquistoRepository;
 import com.example.alessiopinnabe.repositories.TplUtenteEntityRepository;
 import com.example.alessiopinnabe.repositories.TokenRepository;
 import com.example.alessiopinnabe.repositories.UtenteRepository;
@@ -82,7 +81,7 @@ public class ServiceUtente {
     }
 
     @Transactional
-    public UtenteEntity fromGoogle(Userinfo userInfo, TokenResponse token){
+    public UtenteEntity loginFromGoogle(Userinfo userInfo, TokenResponse token){
         UtenteEntity utenteSaved = null;
         long emailUsed = utenteRepository.countEmail(userInfo.getEmail());
         if(emailUsed == 0){

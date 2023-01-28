@@ -29,9 +29,6 @@ public class ProdottoEntity {
     @Column(name = "descrizione")
     private String descrizione;
 
-    @Column(name = "img_primaria")
-    private byte[] imgPrimaria;
-
     @Column(name = "data_creazione")
     private Date dataCreazione;
 
@@ -43,6 +40,9 @@ public class ProdottoEntity {
 
     @Column(name = "quantita")
     private Integer quantita;
+
+    @Column(name = "is_event")
+    private Integer isEvent;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_tpl_prodotto", nullable = false)

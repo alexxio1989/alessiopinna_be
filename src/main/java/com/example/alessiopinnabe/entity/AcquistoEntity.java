@@ -25,14 +25,18 @@ public class AcquistoEntity {
     @JoinColumn(name = "id_prodotto", nullable = false)
     private ProdottoEntity prodotto;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_evento")
+    private EventoEntity evento;
+
     @Column(name = "quantita", nullable = false)
     private Integer quantita;
 
     @Column(name = "data_acquisto", nullable = false)
     private Timestamp dataAcquisto;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_dati_evento")
-    private DatiEventoEntity datiEvento;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_detail_acquisto", nullable = false)
+    private DetailAcquistoEntity detailAcquisto;
 
 }

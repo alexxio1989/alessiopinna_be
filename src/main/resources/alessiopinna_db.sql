@@ -39,19 +39,17 @@ CREATE TABLE IF NOT EXISTS `freedb_alessiopinna`.`prodotto` (
   `nome` VARCHAR(255) NULL DEFAULT NULL,
   `nome_ext` TEXT NULL DEFAULT NULL,
   `descrizione` LONGTEXT NULL DEFAULT NULL,
-  `img_primaria` BLOB NULL DEFAULT NULL,
   `data_creazione` DATE NULL DEFAULT NULL,
   `enable` TINYINT NULL DEFAULT NULL,
   `prezzo` DECIMAL(9,2) NULL DEFAULT NULL,
-  `quantita` INT NULL,
+  `quantita` INT NULL DEFAULT NULL,
+  `is_event` TINYINT NULL,
   `id_tpl_prodotto` INT NOT NULL,
   PRIMARY KEY (`id_prodotto`),
   INDEX `fk_prodotto_tpl_prodotto1_idx` (`id_tpl_prodotto` ASC) VISIBLE,
   CONSTRAINT `fk_prodotto_tpl_prodotto1`
     FOREIGN KEY (`id_tpl_prodotto`)
-    REFERENCES `freedb_alessiopinna`.`tpl_prodotto` (`id_tpl_prodotto`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `freedb_alessiopinna`.`tpl_prodotto` (`id_tpl_prodotto`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 9
 DEFAULT CHARACTER SET = utf8mb4
@@ -67,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `freedb_alessiopinna`.`tpl_utente` (
   `descrizione` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id_tpl_utente`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
+AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -77,20 +75,82 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `freedb_alessiopinna`.`utente` (
   `id_utente` INT NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(255) NULL DEFAULT NULL,
+  `anagrafica` VARCHAR(100) NULL,
   `email` VARCHAR(255) NULL DEFAULT NULL,
   `password` VARCHAR(45) NULL DEFAULT NULL,
   `provider` VARCHAR(15) NULL DEFAULT NULL,
+  `photo_url` TEXT NULL,
   `id_tpl_utente` INT NOT NULL,
   PRIMARY KEY (`id_utente`),
   INDEX `fk_utente_tpl_utente1_idx` (`id_tpl_utente` ASC) VISIBLE,
   CONSTRAINT `fk_utente_tpl_utente1`
     FOREIGN KEY (`id_tpl_utente`)
-    REFERENCES `freedb_alessiopinna`.`tpl_utente` (`id_tpl_utente`)
+    REFERENCES `freedb_alessiopinna`.`tpl_utente` (`id_tpl_utente`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 11
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `freedb_alessiopinna`.`evento`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `freedb_alessiopinna`.`evento` (
+  `id_evento` INT NOT NULL AUTO_INCREMENT,
+  `id_event` VARCHAR(255) NOT NULL,
+  `data_inizio` TIMESTAMP NOT NULL,
+  `data_fine` TIMESTAMP NOT NULL,
+  `ore` INT NOT NULL,
+  PRIMARY KEY (`id_evento`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `freedb_alessiopinna`.`detail_acquisto`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `freedb_alessiopinna`.`detail_acquisto` (
+  `id_detail_acquisto` INT NOT NULL AUTO_INCREMENT,
+  `key_payment` VARCHAR(255) NULL,
+  `type` VARCHAR(100) NULL,
+  PRIMARY KEY (`id_detail_acquisto`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `freedb_alessiopinna`.`acquisto`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `freedb_alessiopinna`.`acquisto` (
+  `id_acquisto` INT NOT NULL AUTO_INCREMENT,
+  `id_utente` INT NOT NULL,
+  `id_prodotto` INT NOT NULL,
+  `id_evento` INT NULL,
+  `quantita` INT NOT NULL,
+  `data_acquisto` TIMESTAMP NOT NULL,
+  `id_detail_acquisto` INT NOT NULL,
+  PRIMARY KEY (`id_acquisto`),
+  INDEX `fk_aquisto_utente1_idx` (`id_utente` ASC) VISIBLE,
+  INDEX `fk_aquisto_prodotto1_idx` (`id_prodotto` ASC) VISIBLE,
+  INDEX `fk_acquisto_evento1_idx` (`id_evento` ASC) VISIBLE,
+  INDEX `fk_acquisto_detail_acquisto1_idx` (`id_detail_acquisto` ASC) VISIBLE,
+  CONSTRAINT `fk_aquisto_prodotto1`
+    FOREIGN KEY (`id_prodotto`)
+    REFERENCES `freedb_alessiopinna`.`prodotto` (`id_prodotto`),
+  CONSTRAINT `fk_aquisto_utente1`
+    FOREIGN KEY (`id_utente`)
+    REFERENCES `freedb_alessiopinna`.`utente` (`id_utente`),
+  CONSTRAINT `fk_acquisto_evento1`
+    FOREIGN KEY (`id_evento`)
+    REFERENCES `freedb_alessiopinna`.`evento` (`id_evento`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_acquisto_detail_acquisto1`
+    FOREIGN KEY (`id_detail_acquisto`)
+    REFERENCES `freedb_alessiopinna`.`detail_acquisto` (`id_detail_acquisto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 9
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -112,57 +172,31 @@ CREATE TABLE IF NOT EXISTS `freedb_alessiopinna`.`token` (
   INDEX `fk_token_utente1_idx` (`id_utente` ASC) VISIBLE,
   CONSTRAINT `fk_token_utente1`
     FOREIGN KEY (`id_utente`)
-    REFERENCES `freedb_alessiopinna`.`utente` (`id_utente`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `freedb_alessiopinna`.`utente` (`id_utente`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `freedb_alessiopinna`.`dati_evento`
+-- Table `freedb_alessiopinna`.`immagine`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `freedb_alessiopinna`.`dati_evento` (
-  `id_dati_evento` INT NOT NULL,
-  `id_event` VARCHAR(45) NULL DEFAULT NULL,
-  `data_inizio` TIMESTAMP NULL DEFAULT NULL,
-  `data_fine` TIMESTAMP NULL DEFAULT NULL,
-  PRIMARY KEY (`id_dati_evento`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
--- Table `freedb_alessiopinna`.`acquisto`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `freedb_alessiopinna`.`acquisto` (
-  `id_acquisto` INT NOT NULL AUTO_INCREMENT,
-  `id_utente` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `freedb_alessiopinna`.`immagine` (
+  `id_immagine` INT NOT NULL AUTO_INCREMENT,
   `id_prodotto` INT NOT NULL,
-  `quantita` INT NOT NULL,
-  `data_acquisto` TIMESTAMP NOT NULL,
-  `id_dati_evento` INT NULL,
-  PRIMARY KEY (`id_acquisto`),
-  INDEX `fk_aquisto_utente1_idx` (`id_utente` ASC) VISIBLE,
-  INDEX `fk_aquisto_prodotto1_idx` (`id_prodotto` ASC) VISIBLE,
-  INDEX `fk_acquisto_dati_evento1_idx` (`id_dati_evento` ASC) VISIBLE,
-  CONSTRAINT `fk_aquisto_prodotto1`
+  `key` VARCHAR(255) NULL,
+  `img_url` VARCHAR(45) NULL,
+  `img` BLOB NULL,
+  PRIMARY KEY (`id_immagine`),
+  INDEX `fk_immagine_prodotto1_idx` (`id_prodotto` ASC) VISIBLE,
+  CONSTRAINT `fk_immagine_prodotto1`
     FOREIGN KEY (`id_prodotto`)
-    REFERENCES `freedb_alessiopinna`.`prodotto` (`id_prodotto`),
-  CONSTRAINT `fk_aquisto_utente1`
-    FOREIGN KEY (`id_utente`)
-    REFERENCES `freedb_alessiopinna`.`utente` (`id_utente`),
-  CONSTRAINT `fk_acquisto_dati_evento1`
-    FOREIGN KEY (`id_dati_evento`)
-    REFERENCES `freedb_alessiopinna`.`dati_evento` (`id_dati_evento`)
+    REFERENCES `freedb_alessiopinna`.`prodotto` (`id_prodotto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+ENGINE = InnoDB;
+
 
 INSERT INTO tpl_utente (codice, descrizione) VALUES ('U', 'USER');
 INSERT INTO tpl_utente (codice, descrizione) VALUES ('SU', 'SUPER_USER');

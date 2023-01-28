@@ -1,28 +1,32 @@
 package com.example.alessiopinnabe.mapper;
 
 import com.example.alessiopinnabe.dto.AcquistoDto;
-import com.example.alessiopinnabe.dto.DatiEventoDto;
+import com.example.alessiopinnabe.dto.EventoDto;
 import com.example.alessiopinnabe.entity.AcquistoEntity;
-import com.example.alessiopinnabe.entity.DatiEventoEntity;
+import com.example.alessiopinnabe.entity.EventoEntity;
+import com.google.api.services.calendar.model.Event;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AcquistoMapper {
 
-    public static AcquistoEntity getEntity(AcquistoDto dto){
+    public static AcquistoEntity getEntity(AcquistoDto dto , Event eventCalendar){
         AcquistoEntity acquistoEntity = new AcquistoEntity();
         acquistoEntity.setProdotto(ProdottoMapper.getEntity(dto.getProdotto()));
         acquistoEntity.setUtente(UtenteMapper.getEntity(dto.getUtente() , null));
         acquistoEntity.setQuantita(dto.getQuantita());
-        DatiEventoDto datiEventoDto = dto.getDatiEvento();
+        EventoDto datiEventoDto = dto.getEvento();
         if(datiEventoDto != null){
-            DatiEventoEntity datiEventoEntity = new DatiEventoEntity();
+            EventoEntity datiEventoEntity = new EventoEntity();
             datiEventoEntity.setId(datiEventoDto.getId());
             datiEventoEntity.setDataInizio(datiEventoDto.getDataInizio());
             datiEventoEntity.setDataFine(datiEventoDto.getDataFine());
             datiEventoEntity.setIdEvent(datiEventoDto.getIdEvent());
-            acquistoEntity.setDatiEvento(datiEventoEntity);
+            acquistoEntity.setEvento(datiEventoEntity);
+        }
+        if(eventCalendar != null){
+            acquistoEntity.getEvento().setIdEvent(eventCalendar.getId());
         }
 
         return acquistoEntity;
@@ -35,14 +39,14 @@ public class AcquistoMapper {
         dto.setUtente(UtenteMapper.getDTO(entity.getUtente()));
         dto.setQuantita(entity.getQuantita());
         dto.setId(entity.getId());
-        DatiEventoEntity datiEventoEntity = entity.getDatiEvento();
+        EventoEntity datiEventoEntity = entity.getEvento();
         if(datiEventoEntity != null){
-            DatiEventoDto datiEventoDto = new DatiEventoDto();
+            EventoDto datiEventoDto = new EventoDto();
             datiEventoDto.setId(datiEventoEntity.getId());
             datiEventoDto.setDataInizio(datiEventoEntity.getDataInizio());
             datiEventoDto.setDataFine(datiEventoEntity.getDataFine());
             datiEventoDto.setIdEvent(datiEventoEntity.getIdEvent());
-            dto.setDatiEvento(datiEventoDto);
+            dto.setEvento(datiEventoDto);
         }
         return dto;
     }

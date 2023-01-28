@@ -1,5 +1,6 @@
 package com.example.alessiopinnabe.dto;
 
+import com.example.alessiopinnabe.dto.core.ObjectDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,8 +9,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class ProdottoDto {
-    private Integer id;
+public class ProdottoDto extends ObjectDTO {
     private String nome;
     private String nomeExt;
     private String descrizione;

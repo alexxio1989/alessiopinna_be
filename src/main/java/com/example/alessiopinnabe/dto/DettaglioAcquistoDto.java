@@ -4,9 +4,11 @@ import com.example.alessiopinnabe.dto.core.ObjectDTO;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
+
 @Getter
 @Setter
-public class DominioDto extends ObjectDTO {
-    private String codice;
-    private String descrizione;
+public class DettaglioAcquistoDto extends ObjectDTO {
+    private String keyPayment;
+    private String type;
 }

@@ -45,7 +45,7 @@ public class GoogleController {
 		try {
 			TokenResponse token = googleService.newToken(code);
 			userInfo = googleService.getUserinfo(googleService.getCredential(token));
-			UtenteEntity utenteEntity = serviceUtente.fromGoogle(userInfo,token);
+			UtenteEntity utenteEntity = serviceUtente.loginFromGoogle(userInfo,token);
 			return new RedirectView(fePath + "/?email="+utenteEntity.getEmail() + "&id="+utenteEntity.getPassword());
 		} catch (Exception e) {
 			throw e;

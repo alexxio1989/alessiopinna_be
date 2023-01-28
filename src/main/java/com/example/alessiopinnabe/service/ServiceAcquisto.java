@@ -44,12 +44,12 @@ public class ServiceAcquisto {
         ResponseAcquistoDto out = new ResponseAcquistoDto();
 
         try {
-            Credential credential = googleService.getCredential(TokenMapper.fromDtoToGoogle(tokenResponseDto));
-            Calendar calendar = googleService.getCalendar(credential);
-            Event insert = googleService.addEvent(calendar, CalendarMapper.getEventFromDto(acquistoDto));
-            AcquistoEntity acquistoEntity = AcquistoMapper.getEntity(acquistoDto);
-            acquistoEntity.getDatiEvento().setIdEvent(insert.getId());
-            if(insert != null && insert.getId() != null){
+            Event eventCalendar = null;
+            if(acquistoDto.isEvento()){
+                eventCalendar = googleService.createEventCalendar(tokenResponseDto, CalendarMapper.getEventFromDto(acquistoDto));
+            }
+            AcquistoEntity acquistoEntity = AcquistoMapper.getEntity(acquistoDto,eventCalendar);
+            if(eventCalendar != null && eventCalendar.getId() != null){
                 acquistoRepository.save(acquistoEntity);
                 mailService.send(emailMapper.emailAddProdotto(acquistoDto));
                 mailService.send(emailMapper.emailAddPrenotazioneToMe(acquistoDto));
@@ -69,14 +69,14 @@ public class ServiceAcquisto {
         }
     }
 
+
+
     public ResponseAcquistoDto delete(AcquistoDto acquistoDto, TokenResponseDto tokenResponseDto) {
         ResponseAcquistoDto out = new ResponseAcquistoDto();
 
         try {
-            Credential credential = googleService.getCredential(TokenMapper.fromDtoToGoogle(tokenResponseDto));
-            Calendar calendar = googleService.getCalendar(credential);
-            googleService.removeEvent(calendar , acquistoDto.getDatiEvento().getIdEvent());
-            acquistoRepository.delete(AcquistoMapper.getEntity(acquistoDto));
+            googleService.deleteEventCalendar(tokenResponseDto,acquistoDto.getEvento().getIdEvent());
+            acquistoRepository.delete(AcquistoMapper.getEntity(acquistoDto,null));
             mailService.send(emailMapper.emailRemovePrenotazione(acquistoDto));
             mailService.send(emailMapper.emailRemovePrenotazioneToMe(acquistoDto));
         } catch (DataAccessException | IOException ex){

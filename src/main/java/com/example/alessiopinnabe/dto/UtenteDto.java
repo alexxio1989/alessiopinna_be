@@ -1,5 +1,6 @@
 package com.example.alessiopinnabe.dto;
 
+import com.example.alessiopinnabe.dto.core.ObjectDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,8 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class UtenteDto {
-    private Integer id;
+public class UtenteDto extends ObjectDTO {
     private String name;
     private String skypeID;
     private String email;

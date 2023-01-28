@@ -16,7 +16,8 @@ public class UtenteMapper{
         UtenteDto out = new UtenteDto();
         out.setId(utente.getId());
         out.setEmail(utente.getEmail());
-        out.setName(utente.getUsername());
+        out.setName(utente.getAnagrafica());
+        out.setPhotoUrl(utente.getPhotoUrl());
         out.setTipo(DominioMapper.getTipoUtenteDTO(utente.getTplUtente()));
         out.setProvider(utente.getProvider());
         List<TokenResponseDto> tokenResponsDtos = new ArrayList<>();
@@ -36,7 +37,7 @@ public class UtenteMapper{
         UtenteEntity out = new UtenteEntity();
         out.setId(utente.getId());
         out.setEmail(utente.getEmail());
-        out.setUsername(utente.getName());
+        out.setAnagrafica(utente.getName());
         out.setPassword(password);
         if(utente.getTipo() != null){
             out.setTplUtente(DominioMapper.getTipoUtenteEntity(utente.getTipo()));
@@ -49,8 +50,9 @@ public class UtenteMapper{
     public static UtenteEntity getEntityFromGoogle(Userinfo userInfo , TplUtenteEntity userTpl) {
         UtenteEntity out = new UtenteEntity();
         out.setEmail(userInfo.getEmail());
-        out.setUsername(userInfo.getName());
+        out.setAnagrafica(userInfo.getName());
         out.setPassword(userInfo.getId());
+        out.setPhotoUrl(userInfo.getPicture());
         if(userTpl != null){
             out.setTplUtente(userTpl);
         }
