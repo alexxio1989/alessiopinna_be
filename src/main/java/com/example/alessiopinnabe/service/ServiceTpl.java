@@ -4,8 +4,8 @@ import com.example.alessiopinnabe.dto.DominioDto;
 import com.example.alessiopinnabe.entity.TplProdottoEntity;
 import com.example.alessiopinnabe.entity.TplUtenteEntity;
 import com.example.alessiopinnabe.mapper.DominioMapper;
-import com.example.alessiopinnabe.repositories.TplProdottoEntityRepository;
-import com.example.alessiopinnabe.repositories.TplUtenteEntityRepository;
+import com.example.alessiopinnabe.repositories.TplServizioRepository;
+import com.example.alessiopinnabe.repositories.TplUtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +15,9 @@ import java.util.List;
 public class ServiceTpl {
 
     @Autowired
-    private TplProdottoEntityRepository tplProdottoEntityRepository;
+    private TplServizioRepository tplProdottoEntityRepository;
     @Autowired
-    private TplUtenteEntityRepository tplUtenteEntityRepository;
+    private TplUtenteRepository tplUtenteEntityRepository;
 
     public List<DominioDto> getTipiUtenti(){
         List<TplUtenteEntity> all = tplUtenteEntityRepository.findAll();

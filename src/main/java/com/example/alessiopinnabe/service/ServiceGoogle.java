@@ -1,6 +1,6 @@
 package com.example.alessiopinnabe.service;
 
-import com.example.alessiopinnabe.dto.TokenResponseDto;
+import com.example.alessiopinnabe.dto.TokenDto;
 import com.example.alessiopinnabe.mapper.TokenMapper;
 import com.example.alessiopinnabe.repositories.TokenRepository;
 import com.google.api.client.auth.oauth2.*;
@@ -90,7 +90,7 @@ public class ServiceGoogle {
         return flow.createAndStoreCredential(tokenResponse, "userID");
     }
 
-    public Credential getCredentialFromDto(TokenResponseDto tokenResponseDto) throws IOException {
+    public Credential getCredentialFromDto(TokenDto tokenResponseDto) throws IOException {
         TokenResponse response = TokenMapper.fromDtoToGoogle(tokenResponseDto);
         return getCredential(response);
     }
@@ -121,20 +121,20 @@ public class ServiceGoogle {
         Calendar.Events events = calendar.events();
         events.delete(calendarId ,idEvent).execute();
     }
-    private Calendar getCalendar(TokenResponseDto tokenResponseDto) throws IOException {
+    private Calendar getCalendar(TokenDto tokenResponseDto) throws IOException {
         Credential credential = getCredential(TokenMapper.fromDtoToGoogle(tokenResponseDto));
         Calendar calendar = getCalendar(credential);
         return calendar;
     }
 
 
-    public Event createEventCalendar(TokenResponseDto tokenResponseDto, Event event) throws IOException {
+    public Event createEventCalendar(TokenDto tokenResponseDto, Event event) throws IOException {
         Calendar calendar = getCalendar(tokenResponseDto);
         Event insert = addEvent(calendar, event);
         return insert;
     }
 
-    public void deleteEventCalendar(TokenResponseDto tokenResponseDto, String idEvento) throws IOException {
+    public void deleteEventCalendar(TokenDto tokenResponseDto, String idEvento) throws IOException {
         Calendar calendar = getCalendar(tokenResponseDto);
         removeEvent(calendar, idEvento);
     }

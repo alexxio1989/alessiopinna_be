@@ -3,12 +3,15 @@ package com.example.alessiopinnabe.service;
 import com.example.alessiopinnabe.dto.RequestLoginDto;
 import com.example.alessiopinnabe.dto.ResponseUtenteDto;
 import com.example.alessiopinnabe.dto.UtenteDto;
-import com.example.alessiopinnabe.entity.TokenEntity;
-import com.example.alessiopinnabe.entity.TplUtenteEntity;
-import com.example.alessiopinnabe.entity.UtenteEntity;
+import com.example.alessiopinnabe.entity.Token;
+
+import com.example.alessiopinnabe.entity.TplUtente;
+
+import com.example.alessiopinnabe.entity.Utente;
+
 import com.example.alessiopinnabe.mapper.TokenMapper;
-import com.example.alessiopinnabe.mapper.UtenteMapper;
-import com.example.alessiopinnabe.repositories.TplUtenteEntityRepository;
+import com.example.alessiopinnabe.mapper.mapstruct.UtenteMapper;
+import com.example.alessiopinnabe.repositories.TplUtenteRepository;
 import com.example.alessiopinnabe.repositories.TokenRepository;
 import com.example.alessiopinnabe.repositories.UtenteRepository;
 import com.google.api.client.auth.oauth2.TokenResponse;
@@ -23,12 +26,12 @@ public class ServiceUtente {
 
     @Autowired
     private UtenteRepository utenteRepository;
-
     @Autowired
-    private TplUtenteEntityRepository tplUtenteEntityRepository;
-
+    private TplUtenteRepository tplUtenteEntityRepository;
     @Autowired
     private TokenRepository tokenRepository;
+    @Autowired
+    private UtenteMapper utenteMapper;
 
     @Transactional
     public ResponseUtenteDto signin(RequestLoginDto req){
@@ -36,11 +39,11 @@ public class ServiceUtente {
         try {
             long emailUsed = utenteRepository.countEmail(req.getUtente().getEmail());
             if(emailUsed == 0){
-                UtenteEntity entity = UtenteMapper.getEntity(req.getUtente(), req.getPassword());
-                TplUtenteEntity userTpl = tplUtenteEntityRepository.getUSER();
-                entity.setTplUtente(userTpl);
-                UtenteEntity utenteSaved = utenteRepository.save(entity);
-                out.setUtente(UtenteMapper.getDTO(utenteSaved));
+                Utente entity = utenteMapper.getEntity(req.getUtente(), req.getPassword());
+                TplUtente userTpl = tplUtenteEntityRepository.getUSER();
+                entity.setTipoUtente(userTpl);
+                Utente utenteSaved = utenteRepository.save(entity);
+                out.setUtente(utenteMapper.getDto(utenteSaved));
             } else {
                 out.setSuccess(false);
                 out.setError("EMAIL UTILIZZATA NON DISPONIBILE");
@@ -61,9 +64,9 @@ public class ServiceUtente {
     public ResponseUtenteDto login(RequestLoginDto req){
         ResponseUtenteDto out = new ResponseUtenteDto();
         try {
-            UtenteEntity utenteSaved = utenteRepository.login(req.getUtente().getEmail(), req.getPassword());
+            Utente utenteSaved = utenteRepository.findByEmailAndPassword(req.getUtente().getEmail(), req.getPassword());
             if(utenteSaved != null){
-                UtenteDto utenteDTO = UtenteMapper.getDTO(utenteSaved);
+                UtenteDto utenteDTO = utenteMapper.getDto(utenteSaved);
                 out.setUtente(utenteDTO);
             } else {
                 out.setSuccess(false);
@@ -81,19 +84,19 @@ public class ServiceUtente {
     }
 
     @Transactional
-    public UtenteEntity loginFromGoogle(Userinfo userInfo, TokenResponse token){
-        UtenteEntity utenteSaved = null;
+    public Utente loginFromGoogle(Userinfo userInfo, TokenResponse token){
+        Utente utenteSaved = null;
         long emailUsed = utenteRepository.countEmail(userInfo.getEmail());
         if(emailUsed == 0){
-            TplUtenteEntity userTpl = tplUtenteEntityRepository.getUSER();
-            UtenteEntity entity = UtenteMapper.getEntityFromGoogle(userInfo, userTpl);
-            entity.setTplUtente(userTpl);
+            TplUtente userTpl = tplUtenteEntityRepository.getUSER();
+            Utente entity = utenteMapper.getEntityFromGoogle(userInfo);
+            entity.setTipoUtente(userTpl);
             utenteSaved = utenteRepository.save(entity);
         } else {
-            utenteSaved = utenteRepository.login(userInfo.getEmail(), userInfo.getId());
+            utenteSaved = utenteRepository.findByEmailAndPassword(userInfo.getEmail(), userInfo.getId());
         }
-        TokenEntity tokenRetrieved = tokenRepository.getByProvidersAndUser(utenteSaved.getId(), "GOOGLE");
-        TokenEntity newToken = TokenMapper.fromGoogleToEntity(token, utenteSaved, tokenRetrieved != null ? tokenRetrieved.getId() : null);
+        Token tokenRetrieved = tokenRepository.getByProvidersAndUser(utenteSaved.getId(), "GOOGLE");
+        Token newToken = TokenMapper.fromGoogleToEntity(token, utenteSaved, tokenRetrieved != null ? tokenRetrieved.getId() : null);
         tokenRepository.save(newToken);
         return utenteSaved;
     }

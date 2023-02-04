@@ -1,23 +1,22 @@
 package com.example.alessiopinnabe.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "immagine")
+@Table(name = "img_servizio")
 @Getter
 @Setter
-public class ImmagineEntity {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class ImgServizio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_immagine", nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_prodotto", nullable = false)
-    private ProdottoEntity prodotto;
 
     @Column(name = "`key`")
     private String key;
@@ -27,5 +26,9 @@ public class ImmagineEntity {
 
     @Column(name = "img")
     private byte[] img;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id", nullable = false)
+    private Servizio servizio;
 
 }

@@ -1,7 +1,9 @@
 package com.example.alessiopinnabe.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -11,10 +13,11 @@ import java.time.Instant;
 @Table(name = "token")
 @Getter
 @Setter
-public class TokenEntity {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Token {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_token", nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
     @Lob
@@ -41,7 +44,7 @@ public class TokenEntity {
     private String provider;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_utente", nullable = false)
-    private UtenteEntity utente;
+    @JoinColumn(name = "utente_id", nullable = false)
+    private Utente utente;
 
 }

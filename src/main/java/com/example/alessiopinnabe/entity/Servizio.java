@@ -1,21 +1,29 @@
 package com.example.alessiopinnabe.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "prodotto")
+@Table(name = "servizio")
+@Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @Setter
-public class ProdottoEntity {
+@FieldDefaults(level = AccessLevel.PROTECTED)
+public class Servizio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_prodotto", nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
     @Column(name = "nome")
@@ -38,14 +46,11 @@ public class ProdottoEntity {
     @Column(name = "prezzo", precision = 9, scale = 2)
     private BigDecimal prezzo;
 
-    @Column(name = "quantita")
-    private Integer quantita;
-
-    @Column(name = "is_event")
-    private Integer isEvent;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_tpl_prodotto", nullable = false)
-    private TplProdottoEntity tplProdotto;
+    @JoinColumn(name = "tipo_servizio", nullable = false)
+    private TplServizio tipoServizio;
+
+    @OneToMany(mappedBy = "servizio")
+    private List<ImgServizio> images = new ArrayList<>();
 
 }

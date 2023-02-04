@@ -1,6 +1,6 @@
 package com.example.alessiopinnabe.controller;
 
-import com.example.alessiopinnabe.entity.UtenteEntity;
+import com.example.alessiopinnabe.entity.Utente;
 import com.example.alessiopinnabe.service.ServiceGoogle;
 import com.example.alessiopinnabe.service.ServiceUtente;
 import com.google.api.client.auth.oauth2.TokenResponse;
@@ -45,7 +45,7 @@ public class GoogleController {
 		try {
 			TokenResponse token = googleService.newToken(code);
 			userInfo = googleService.getUserinfo(googleService.getCredential(token));
-			UtenteEntity utenteEntity = serviceUtente.loginFromGoogle(userInfo,token);
+			Utente utenteEntity = serviceUtente.loginFromGoogle(userInfo,token);
 			return new RedirectView(fePath + "/?email="+utenteEntity.getEmail() + "&id="+utenteEntity.getPassword());
 		} catch (Exception e) {
 			throw e;

@@ -9,12 +9,13 @@ import java.util.List;
 @Getter
 @Setter
 public class UtenteDto extends ObjectDTO {
-    private String name;
-    private String skypeID;
+    private String anagrafica;
     private String email;
-    private DominioDto tipo;
-    private String photoUrl;
-    private List<AcquistoDto> acquisti;
-    private List<TokenResponseDto> tokens;
     private String provider;
+    private String photoUrl;
+    private DominioDto tipoUtente;
+    private Integer nAcquistiProdotti;
+    private Integer nAcquistiEventi;
+    private List<TokenDto> tokens;
+
 }

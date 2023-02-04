@@ -1,8 +1,8 @@
 package com.example.alessiopinnabe.mapper;
 
-import com.example.alessiopinnabe.dto.TokenResponseDto;
-import com.example.alessiopinnabe.entity.TokenEntity;
-import com.example.alessiopinnabe.entity.UtenteEntity;
+import com.example.alessiopinnabe.dto.TokenDto;
+import com.example.alessiopinnabe.entity.Token;
+import com.example.alessiopinnabe.entity.Utente;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -10,22 +10,22 @@ import java.util.Calendar;
 
 public class TokenMapper {
 
-    public static TokenResponseDto fromEntityToDto(TokenEntity Entity){
-        TokenResponseDto out = new TokenResponseDto();
-        out.setId(Entity.getId());
-        out.setAccessToken(Entity.getAccessToken());
-        //out.setRefreshToken(Entity.getRefreshToken());
-        out.setTokenType(Entity.getTokenType());
-        out.setScope(Entity.getScope());
-        out.setExpiresInSeconds(new Long(Entity.getExpiresInSeconds()));
-        out.setDateCreation(Entity.getDateCreation());
-        out.setDateExiration(Entity.getDateExiration());
-        out.setProvider(Entity.getProvider());
+    public static TokenDto fromEntityToDto(Token entity){
+        TokenDto out = new TokenDto();
+        out.setId(entity.getId());
+        out.setAccessToken(entity.getAccessToken());
+        //out.setRefreshToken(entity.getRefreshToken());
+        out.setTokenType(entity.getTokenType());
+        out.setScope(entity.getScope());
+        out.setExpiresInSeconds(new Long(entity.getExpiresInSeconds()));
+        out.setDateCreation(entity.getDateCreation());
+        out.setDateExiration(entity.getDateExiration());
+        out.setProvider(entity.getProvider());
         return out;
     }
 
-    public static TokenEntity fromDtoToEntity(TokenResponseDto tokenResponseDto, UtenteEntity utenteEntity){
-        TokenEntity out = new TokenEntity();
+    public static Token fromDtoToEntity(TokenDto tokenResponseDto, Utente utenteEntity){
+        Token out = new Token();
         out.setId(tokenResponseDto.getId());
         out.setAccessToken(tokenResponseDto.getAccessToken());
         //out.setRefreshToken(Entity.getRefreshToken());
@@ -42,16 +42,16 @@ public class TokenMapper {
         return out;
     }
 
-    public static com.google.api.client.auth.oauth2.TokenResponse fromEntityToGoogle(TokenEntity Entity){
+    public static com.google.api.client.auth.oauth2.TokenResponse fromEntityToGoogle(Token entity){
         com.google.api.client.auth.oauth2.TokenResponse out = new com.google.api.client.auth.oauth2.TokenResponse();
-        out.setAccessToken(Entity.getAccessToken());
-        out.setTokenType(Entity.getTokenType());
-        out.setScope(Entity.getScope());
-        out.setExpiresInSeconds(new Long(Entity.getExpiresInSeconds()));
+        out.setAccessToken(entity.getAccessToken());
+        out.setTokenType(entity.getTokenType());
+        out.setScope(entity.getScope());
+        out.setExpiresInSeconds(new Long(entity.getExpiresInSeconds()));
         return out;
     }
 
-    public static com.google.api.client.auth.oauth2.TokenResponse fromDtoToGoogle(TokenResponseDto tokenResponseDto){
+    public static com.google.api.client.auth.oauth2.TokenResponse fromDtoToGoogle(TokenDto tokenResponseDto){
         com.google.api.client.auth.oauth2.TokenResponse out = new com.google.api.client.auth.oauth2.TokenResponse();
         out.setAccessToken(tokenResponseDto.getAccessToken());
         out.setRefreshToken(tokenResponseDto.getRefreshToken());
@@ -61,8 +61,8 @@ public class TokenMapper {
         return out;
     }
 
-    public static TokenResponseDto fromGoogleToDto(com.google.api.client.auth.oauth2.TokenResponse tokenResponse){
-        TokenResponseDto out = new TokenResponseDto();
+    public static TokenDto fromGoogleToDto(com.google.api.client.auth.oauth2.TokenResponse tokenResponse){
+        TokenDto out = new TokenDto();
         out.setAccessToken(tokenResponse.getAccessToken());
         out.setRefreshToken(tokenResponse.getRefreshToken());
         out.setTokenType(tokenResponse.getTokenType());
@@ -71,8 +71,8 @@ public class TokenMapper {
         return out;
     }
 
-    public static TokenEntity fromGoogleToEntity(com.google.api.client.auth.oauth2.TokenResponse tokenResponse , UtenteEntity utenteEntity , Integer id){
-        TokenEntity out = new TokenEntity();
+    public static Token fromGoogleToEntity(com.google.api.client.auth.oauth2.TokenResponse tokenResponse , Utente utenteEntity , Integer id){
+        Token out = new Token();
         if(id != null){
             out.setId(id);
         }
@@ -90,7 +90,7 @@ public class TokenMapper {
         return out;
     }
 
-    public static TokenEntity updateEntity(TokenEntity old , com.google.api.client.auth.oauth2.TokenResponse refreshedToken){
+    public static Token updateEntity(Token old , com.google.api.client.auth.oauth2.TokenResponse refreshedToken){
         old.setAccessToken(refreshedToken.getAccessToken());
         old.setTokenType(refreshedToken.getTokenType());
         old.setScope(refreshedToken.getScope());

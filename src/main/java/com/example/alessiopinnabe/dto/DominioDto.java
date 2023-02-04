@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DominioDto extends ObjectDTO {
+public class DominioDto{
     private String codice;
     private String descrizione;
 }

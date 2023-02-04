@@ -23,7 +23,7 @@ public class AcquistoController {
     public ResponseAcquistoDto save(@RequestHeader(value="token-google") String tokenString , @RequestBody AcquistoDto prenotazione) throws JsonProcessingException {
         ResponseAcquistoDto out;
         ObjectMapper mapper = new ObjectMapper();
-        TokenResponseDto tokenResponseDto = mapper.readValue(tokenString, TokenResponseDto.class);
+        TokenDto tokenResponseDto = mapper.readValue(tokenString, TokenDto.class);
         if(tokenResponseDto != null && !Util.isTmspExpired(tokenResponseDto.getDateExiration())){
             out = serviceAcquisto.save(prenotazione, tokenResponseDto);
         } else {
@@ -40,7 +40,7 @@ public class AcquistoController {
     public ResponseAcquistoDto delete(@RequestHeader(value="token-google") String tokenString , @RequestBody AcquistoDto prenotazione) throws JsonProcessingException {
         ResponseAcquistoDto out;
         ObjectMapper mapper = new ObjectMapper();
-        TokenResponseDto tokenResponseDto = mapper.readValue(tokenString, TokenResponseDto.class);
+        TokenDto tokenResponseDto = mapper.readValue(tokenString, TokenDto.class);
         if(tokenResponseDto != null && !Util.isTmspExpired(tokenResponseDto.getDateExiration())){
             out = serviceAcquisto.delete(prenotazione, tokenResponseDto);
         } else {
@@ -64,7 +64,7 @@ public class AcquistoController {
         ResponseAcquistoDto out;
         ObjectMapper mapper = new ObjectMapper();
         String tokenString = headers.get("token-google");
-        TokenResponseDto tokenResponseDto = mapper.readValue(tokenString, TokenResponseDto.class);
+        TokenDto tokenResponseDto = mapper.readValue(tokenString, TokenDto.class);
         if(tokenResponseDto != null && !Util.isTmspExpired(tokenResponseDto.getDateExiration())){
             out = serviceAcquisto.getAllByUtente(idUtente, tokenResponseDto);
         } else {
@@ -82,7 +82,7 @@ public class AcquistoController {
         ResponseAcquistoDto out;
         ObjectMapper mapper = new ObjectMapper();
         String tokenString = headers.get("token-google");
-        TokenResponseDto tokenResponseDto = mapper.readValue(tokenString, TokenResponseDto.class);
+        TokenDto tokenResponseDto = mapper.readValue(tokenString, TokenDto.class);
         if(tokenResponseDto != null && !Util.isTmspExpired(tokenResponseDto.getDateExiration())){
             out = serviceAcquisto.getAllByUtenteAndProdotto(idUtente,idProdotto, tokenResponseDto);
         } else {

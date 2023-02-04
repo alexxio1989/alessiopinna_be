@@ -1,10 +1,13 @@
 package com.example.alessiopinnabe.service;
 
+import com.example.alessiopinnabe.dto.EventoDto;
 import com.example.alessiopinnabe.dto.ProdottoDto;
-import com.example.alessiopinnabe.dto.ResponseProdottoDto;
-import com.example.alessiopinnabe.entity.ProdottoEntity;
-import com.example.alessiopinnabe.mapper.ProdottoMapper;
-import com.example.alessiopinnabe.repositories.ProdottoRepository;
+import com.example.alessiopinnabe.dto.ResponseServiziDto;
+import com.example.alessiopinnabe.dto.ServizioDto;
+import com.example.alessiopinnabe.entity.Prodotto;
+import com.example.alessiopinnabe.entity.Servizio;
+import com.example.alessiopinnabe.mapper.mapstruct.ServizioMapper;
+import com.example.alessiopinnabe.repositories.ServizioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -17,17 +20,16 @@ import java.util.Optional;
 public class ServiceProdotto {
 
     @Autowired
-    private ProdottoRepository prodottoRepository;
-
+    private ServizioRepository servizioRepository;
+    @Autowired
+    private ServizioMapper servizioMapper;
 
     @Transactional
-    public ResponseProdottoDto getProdotti(){
-        ResponseProdottoDto out = new ResponseProdottoDto();
+    public ResponseServiziDto getProdotti(){
+        ResponseServiziDto out = null;
         try {
-            List<ProdottoEntity> all = prodottoRepository.getAllEnabled();
-
-            List<ProdottoDto> prodottiDTO = ProdottoMapper.getListDTO(all);
-            out.setProdotti(prodottiDTO);
+            List<Servizio> all = servizioRepository.findAll();
+            out = servizioMapper.getResponse(all);
         }catch (DataAccessException ex){
             out.setSuccess(false);
             out.setError(ex.getMessage());
@@ -36,30 +38,20 @@ public class ServiceProdotto {
         return out;
     }
 
-    @Transactional
-    public ResponseProdottoDto getProdottiFull(){
-        ResponseProdottoDto out = new ResponseProdottoDto();
-        try {
-            List<ProdottoEntity> all = prodottoRepository.findAll();
-
-            List<ProdottoDto> prodottiDTO = ProdottoMapper.getListDTO(all);
-            out.setProdotti(prodottiDTO);
-        }catch (DataAccessException ex){
-            out.setSuccess(false);
-            out.setError(ex.getMessage());
-        }
-        out.setSuccess(true);
-        return out;
-    }
 
     @Transactional
-    public ResponseProdottoDto save(ProdottoDto prodottoDto){
+    public ResponseServiziDto save(ServizioDto servizioDto){
 
+        Servizio servizio = null;
         try {
-            ProdottoEntity prodottoEntity = ProdottoMapper.getEntity(prodottoDto);
-            prodottoRepository.save(prodottoEntity);
+            if(servizioDto instanceof ProdottoDto){
+                servizio = servizioMapper.getProdottoEntity((ProdottoDto) servizioDto);
+            } else {
+                servizio = servizioMapper.getEventoEntity((EventoDto) servizioDto);
+            }
+            servizioRepository.save(servizio);
         }catch (DataAccessException ex){
-            ResponseProdottoDto out = new ResponseProdottoDto();
+            ResponseServiziDto out = new ResponseServiziDto();
             out.setSuccess(false);
             out.setError(ex.getMessage());
             return out;
@@ -69,15 +61,15 @@ public class ServiceProdotto {
     }
 
     @Transactional
-    public ResponseProdottoDto delete(Integer id) {
-        ResponseProdottoDto out = new ResponseProdottoDto();
+    public ResponseServiziDto delete(Integer id) {
+        ResponseServiziDto out = new ResponseServiziDto();
         try {
             int changed = 0;
-            Optional<ProdottoEntity> byId = prodottoRepository.findById(id);
+            Optional<Servizio> byId = servizioRepository.findById(id);
             if(byId.isPresent()){
-                ProdottoEntity prodottoEntity = byId.get();
+                Servizio prodottoEntity = byId.get();
                 prodottoEntity.setEnable(0);
-                prodottoRepository.save(prodottoEntity);
+                servizioRepository.save(prodottoEntity);
                 changed = 1;
             }
             if(changed == 0){

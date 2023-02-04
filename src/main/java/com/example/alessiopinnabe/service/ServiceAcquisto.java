@@ -2,8 +2,7 @@ package com.example.alessiopinnabe.service;
 
 import com.example.alessiopinnabe.dto.AcquistoDto;
 import com.example.alessiopinnabe.dto.ResponseAcquistoDto;
-import com.example.alessiopinnabe.dto.TokenResponseDto;
-import com.example.alessiopinnabe.entity.AcquistoEntity;
+import com.example.alessiopinnabe.dto.TokenDto;
 import com.example.alessiopinnabe.mapper.CalendarMapper;
 import com.example.alessiopinnabe.mapper.EmailMapper;
 import com.example.alessiopinnabe.mapper.AcquistoMapper;
@@ -40,7 +39,7 @@ public class ServiceAcquisto {
     @Autowired
     private TokenRepository userTokenRepository;
 
-    public ResponseAcquistoDto save(AcquistoDto acquistoDto, TokenResponseDto tokenResponseDto) {
+    public ResponseAcquistoDto save(AcquistoDto acquistoDto, TokenDto tokenResponseDto) {
         ResponseAcquistoDto out = new ResponseAcquistoDto();
 
         try {
@@ -71,7 +70,7 @@ public class ServiceAcquisto {
 
 
 
-    public ResponseAcquistoDto delete(AcquistoDto acquistoDto, TokenResponseDto tokenResponseDto) {
+    public ResponseAcquistoDto delete(AcquistoDto acquistoDto, TokenDto tokenResponseDto) {
         ResponseAcquistoDto out = new ResponseAcquistoDto();
 
         try {
@@ -107,7 +106,7 @@ public class ServiceAcquisto {
         return out;
     }
 
-    public ResponseAcquistoDto getAllByUtente(Integer idUtente, TokenResponseDto tokenResponseDto){
+    public ResponseAcquistoDto getAllByUtente(Integer idUtente, TokenDto tokenResponseDto){
         ResponseAcquistoDto out = new ResponseAcquistoDto();
         try {
             if(tokenResponseDto != null){
@@ -130,7 +129,7 @@ public class ServiceAcquisto {
         return out;
     }
 
-    public ResponseAcquistoDto getAllByUtenteAndProdotto(Integer idUtente , Integer idProdotto , TokenResponseDto tokenResponseDto){
+    public ResponseAcquistoDto getAllByUtenteAndProdotto(Integer idUtente , Integer idProdotto , TokenDto tokenResponseDto){
         ResponseAcquistoDto out = new ResponseAcquistoDto();
         try {
             List<Event> events = null;

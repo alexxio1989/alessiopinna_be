@@ -8,6 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ResponseProdottoDto extends ResponseCore {
+public class ResponseServiziDto extends ResponseCore {
     private List<ProdottoDto> prodotti;
+    private List<EventoDto> eventi;
 }

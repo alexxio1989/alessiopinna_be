@@ -1,15 +1,18 @@
 package com.example.alessiopinnabe.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "detail_acquisto")
+@Table(name = "detail_acquisto_evento")
 @Getter
 @Setter
-public class DetailAcquistoEntity {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class DetailAcquistoEvento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_detail_acquisto", nullable = false)
@@ -20,5 +23,9 @@ public class DetailAcquistoEntity {
 
     @Column(name = "type", length = 100)
     private String type;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id", nullable = false)
+    private AcquistoEvento acquistoEvento;
 
 }

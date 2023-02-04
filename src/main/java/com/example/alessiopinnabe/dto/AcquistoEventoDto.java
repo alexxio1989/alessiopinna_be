@@ -1,6 +1,5 @@
 package com.example.alessiopinnabe.dto;
 
-import com.example.alessiopinnabe.dto.core.ObjectDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +7,9 @@ import java.sql.Timestamp;
 
 @Getter
 @Setter
-public class EventoDto extends ServizioDto {
+public class AcquistoEventoDto extends AcquistoDto{
+    private EventoDto evento;
     private Timestamp dataInizio;
     private Timestamp dataFine;
+    private String idEventCalendar;
 }
