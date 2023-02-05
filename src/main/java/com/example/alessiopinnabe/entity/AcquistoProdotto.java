@@ -16,7 +16,7 @@ import java.time.Instant;
 public class AcquistoProdotto extends _Acquisto {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "id",referencedColumnName = "id", nullable = false ,insertable = false ,updatable = false)
     private Prodotto prodotto;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "acquistoProdotto")

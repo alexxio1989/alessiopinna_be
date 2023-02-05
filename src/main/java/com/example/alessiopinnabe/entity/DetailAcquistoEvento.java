@@ -25,7 +25,7 @@ public class DetailAcquistoEvento {
     private String type;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "id",referencedColumnName = "id", nullable = false ,insertable = false ,updatable = false)
     private AcquistoEvento acquistoEvento;
 
 }

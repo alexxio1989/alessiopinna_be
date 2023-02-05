@@ -17,7 +17,7 @@ import java.time.Instant;
 public class AcquistoEvento extends _Acquisto {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "id",referencedColumnName = "id", nullable = false ,insertable = false ,updatable = false)
     private Evento evento;
 
     @Column(name = "data_inizio")
