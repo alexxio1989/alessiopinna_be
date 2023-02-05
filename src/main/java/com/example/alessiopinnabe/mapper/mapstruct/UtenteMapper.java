@@ -9,8 +9,8 @@ import org.mapstruct.Mapping;
 @Mapper
 public interface UtenteMapper {
 
-    @Mapping(target = "nAcquistiProdotti" , expression = "java(utente.getProdottiAcquistati().size())")
-    @Mapping(target = "nAcquistiEventi" , expression = "java(utente.getEventiAcquistati().size())")
+    @Mapping(target = "totAcquistiProdotti" , expression = "java(utente.getProdottiAcquistati().size())")
+    @Mapping(target = "totAcquistiEventi" , expression = "java(utente.getEventiAcquistati().size())")
     UtenteDto getDto(Utente utente);
 
     @Mapping(target = "password" , source = "password")
@@ -18,7 +18,6 @@ public interface UtenteMapper {
 
     @Mapping(target = "anagrafica" , source = "name")
     @Mapping(target = "password" , source = "id")
-    @Mapping(target = "anagrafica" , source = "name")
     @Mapping(target = "photoUrl" , source = "picture")
     @Mapping(target = "provider" , constant = "GOOGLE")
     Utente getEntityFromGoogle(Userinfo userInfo);

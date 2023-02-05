@@ -12,4 +12,5 @@ public class AcquistoDto extends ObjectDTO {
     private Integer quantita;
     private Timestamp dataAcquisto;
     private UtenteDto utente;
+    private boolean fromDetail;
 }

@@ -26,10 +26,10 @@ public class ServiceProdotto {
 
     @Transactional
     public ResponseServiziDto getProdotti(){
-        ResponseServiziDto out = null;
+        ResponseServiziDto out = new ResponseServiziDto();
         try {
             List<Servizio> all = servizioRepository.findAll();
-            out = servizioMapper.getResponse(all);
+            servizioMapper.getResponse(out,all);
         }catch (DataAccessException ex){
             out.setSuccess(false);
             out.setError(ex.getMessage());

@@ -39,43 +39,63 @@ public class EmailMapper {
             minutesString = String.valueOf(minutes);
         }
         String oraInizio = sb.append(hours).append(":").append(minutesString).append(moment).toString();
-        String htmlFormat = MessageFormat.format(htmlAddPrenotazione ,
+        /*String htmlFormat = MessageFormat.format(htmlAddPrenotazione ,
                   prenotazione.getProdotto().getNome() ,
                   strDate ,
                   oraInizio,
                   String.valueOf(prenotazione.getQuantita().intValue()));
-        EmailDto email = getEmail(prenotazione.getUtente().getEmail(),
+        EmailDto email = getEmail(
+
+                prenotazione.getUtente().getEmail(),
                 "alessiopinna.it" ,
                 "Nuova lezione di " + prenotazione.getProdotto().getNome(),
-                htmlFormat) ;
-        return email;
+                htmlFormat
+
+        ) ;
+        return email;*/
+        return null;
     }
 
     public EmailDto emailRemovePrenotazione(AcquistoDto prenotazione){
-        String htmlFormat = MessageFormat.format(htmlRemovePrenotazione ,
-                prenotazione.getProdotto().getNome() );
-        EmailDto email = getEmail(prenotazione.getUtente().getEmail(),
+ /*       String htmlFormat = MessageFormat.format(
+                htmlRemovePrenotazione ,
+                prenotazione.getProdotto().getNome()
+        );
+        EmailDto email = getEmail(
+
+                prenotazione.getUtente().getEmail(),
                 "alessiopinna.it",
                 "Disdetta lezione " + prenotazione.getProdotto().getNome(),
-                htmlFormat);
-        return email;
+                htmlFormat
+
+        );
+        return email;*/
+        return null;
     }
 
     public EmailDto emailAddPrenotazioneToMe(AcquistoDto prenotazione){
 
-        EmailDto email = getEmailToMe(
+        /*EmailDto email = getEmailToMe(
+
                 "Prenotazione lezione di " + prenotazione.getProdotto().getNome(),
                 "alessiopinna.it",
-                prenotazione.getUtente().getEmail() + " ha prenotato una lezione di " + prenotazione.getProdotto().getNome() + ", per un totale di " + prenotazione.getQuantita() + " ore" + " in data " + prenotazione.getDataAcquisto()) ;
-        return email;
+                prenotazione.getUtente().getEmail() + " ha prenotato una lezione di " + prenotazione.getProdotto().getNome() + ", per un totale di " + prenotazione.getQuantita() + " ore" + " in data " + prenotazione.getDataAcquisto()
+
+        );
+        return email;*/
+        return  null;
     }
 
     public EmailDto emailRemovePrenotazioneToMe(AcquistoDto acquisto){
-        EmailDto email = getEmailToMe(
+        /*EmailDto email = getEmailToMe(
+
                 "Disdetta lezione " + acquisto.getProdotto().getNome(),
                 "alessiopinna.it",
-                acquisto.getUtente().getEmail() + " ha appena disdetto la lezione di " + acquisto.getProdotto().getNome() +" in data " + acquisto.getDataAcquisto());
-        return email;
+                acquisto.getUtente().getEmail() + " ha appena disdetto la lezione di " + acquisto.getProdotto().getNome() +" in data " + acquisto.getDataAcquisto()
+
+        );
+        return email;*/
+        return null;
     }
 
     public EmailDto getEmail(String to , String title , String subject , String html){

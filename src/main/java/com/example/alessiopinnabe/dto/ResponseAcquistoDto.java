@@ -9,6 +9,6 @@ import java.util.List;
 @Getter
 @Setter
 public class ResponseAcquistoDto extends ResponseCore {
-    private List<AcquistoDto> acquisti;
-    private List<AcquistoDto> acquistiUtente;
+    private List<AcquistoProdottoDto> acquistoProdotti;
+    private List<AcquistoEventoDto> acquistoEventi;
 }

@@ -1,4 +1,4 @@
-package com.example.alessiopinnabe.mapper.mapstruct;
+package com.example.alessiopinnabe.mapper.mapstruct.util;
 
 import com.example.alessiopinnabe.dto.ProdottoDto;
 import com.example.alessiopinnabe.entity.Evento;

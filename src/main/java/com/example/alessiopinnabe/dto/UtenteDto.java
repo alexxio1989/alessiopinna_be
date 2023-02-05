@@ -14,8 +14,8 @@ public class UtenteDto extends ObjectDTO {
     private String provider;
     private String photoUrl;
     private DominioDto tipoUtente;
-    private Integer nAcquistiProdotti;
-    private Integer nAcquistiEventi;
+    private Integer totAcquistiProdotti;
+    private Integer totAcquistiEventi;
     private List<TokenDto> tokens;
 
 }

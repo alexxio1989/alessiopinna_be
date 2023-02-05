@@ -52,12 +52,6 @@ public class AcquistoController {
         return out;
     }
 
-    @GetMapping("/all")
-    @CrossOrigin(origins = "*")
-    public ResponseAcquistoDto getAll() {
-        return serviceAcquisto.getAll();
-    }
-
     @GetMapping("/getAll/{idUtente}")
     @CrossOrigin(origins = "*")
     public ResponseAcquistoDto getAllByUtente(@RequestHeader Map<String, String> headers , @PathVariable Integer idUtente) throws JsonProcessingException {
@@ -66,7 +60,7 @@ public class AcquistoController {
         String tokenString = headers.get("token-google");
         TokenDto tokenResponseDto = mapper.readValue(tokenString, TokenDto.class);
         if(tokenResponseDto != null && !Util.isTmspExpired(tokenResponseDto.getDateExiration())){
-            out = serviceAcquisto.getAllByUtente(idUtente, tokenResponseDto);
+            out = serviceAcquisto.getAll(idUtente);
         } else {
             out = new ResponseAcquistoDto();
             out.setSuccess(false);
@@ -76,22 +70,6 @@ public class AcquistoController {
         return out;
     }
 
-    @GetMapping("/getAll/{idUtente}/{idProdotto}")
-    @CrossOrigin(origins = "*")
-    public ResponseAcquistoDto getAllByUtenteAndProdotto(@RequestHeader Map<String, String> headers, @PathVariable Integer idUtente , @PathVariable Integer idProdotto) throws JsonProcessingException {
-        ResponseAcquistoDto out;
-        ObjectMapper mapper = new ObjectMapper();
-        String tokenString = headers.get("token-google");
-        TokenDto tokenResponseDto = mapper.readValue(tokenString, TokenDto.class);
-        if(tokenResponseDto != null && !Util.isTmspExpired(tokenResponseDto.getDateExiration())){
-            out = serviceAcquisto.getAllByUtenteAndProdotto(idUtente,idProdotto, tokenResponseDto);
-        } else {
-            out = new ResponseAcquistoDto();
-            out.setCode(999);
-            out.setError("Token google assente o scaduto");
-        }
-        return out;
-    }
 
 
 }

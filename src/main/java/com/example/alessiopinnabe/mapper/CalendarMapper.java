@@ -17,9 +17,13 @@ public class CalendarMapper {
         Date endDate = DateUtils.addHours(startDate, prenotazioneDto.getQuantita().intValue());
 
         Event event = new Event()
-                .setSummary("alessiopinna.it :: Lezione di " + prenotazioneDto.getProdotto().getNome())
+                .setSummary("alessiopinna.it :: Lezione di "
+                        //+ prenotazioneDto.getProdotto().getNome()
+                )
                 .setLocation("ONLINE")
-                .setDescription("Prenotazione di "+ prenotazioneDto.getQuantita() + " ore per la lezione di " + prenotazioneDto.getProdotto().getNome());
+                .setDescription("Prenotazione di "+ prenotazioneDto.getQuantita() + " ore per la lezione di "
+                        // + prenotazioneDto.getProdotto().getNome()
+                );
 
         DateTime startDateTime = new DateTime(startDate);
         EventDateTime start = new EventDateTime()
