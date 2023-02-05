@@ -15,28 +15,17 @@ public class TplController {
     @Autowired
     private ServiceTpl tplService;
 
-    @GetMapping("/all/utente")
+    @GetMapping("/all/servizio")
     @CrossOrigin(origins = "*")
-    public List<DominioDto> getTipiUtenti() {
-        return tplService.getTipiUtenti();
-    }
-
-    @GetMapping("/all/prodotti")
-    @CrossOrigin(origins = "*")
-    public List<DominioDto> getTipiProdotti() {
+    public List<DominioDto> getTipiServizio() {
         return tplService.getTipiProdotti();
     }
 
-    @PostMapping("/save/prodotto")
+    @PostMapping("/save/servizo")
     @CrossOrigin(origins = "*")
-    public List<DominioDto> saveTplProdotto(@RequestBody DominioDto tpl) {
+    public List<DominioDto> saveTplServizio(@RequestBody DominioDto tpl) {
         return tplService.saveTplProdotto(tpl);
     }
 
-    @PostMapping("/save/utente")
-    @CrossOrigin(origins = "*")
-    public List<DominioDto> saveTplUtente(@RequestBody DominioDto tpl) {
-        return tplService.saveTplUtente(tpl);
-    }
 
 }
