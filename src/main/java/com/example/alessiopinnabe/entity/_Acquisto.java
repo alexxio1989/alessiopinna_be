@@ -21,7 +21,7 @@ public class _Acquisto implements Serializable {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid" ,strategy = "uuid")
     @Column(name = "id", nullable = false , length = 36)
-    private Integer id;
+    private String id;
 
     @Column(name = "quantita", nullable = false)
     private Integer quantita;

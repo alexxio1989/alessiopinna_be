@@ -70,7 +70,7 @@ public class ServiceProdotto {
     }
 
     @Transactional
-    public ResponseServiziDto delete(Integer id) {
+    public ResponseServiziDto delete(String id) {
         ResponseServiziDto out = new ResponseServiziDto();
         try {
             int changed = 0;

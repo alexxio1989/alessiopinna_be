@@ -104,7 +104,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `alessiopinna`.`acquisto_evento`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `alessiopinna`.`acquisto_evento` (
-  `id_acquisto_evento` INT NOT NULL,
+  `id_acquisto_evento` VARCHAR(36) NOT NULL,
   `data_acquisto` DATETIME(6) NOT NULL,
   `quantita` INT NOT NULL,
   `data_fine` DATETIME(6) NULL DEFAULT NULL,
@@ -145,7 +145,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `alessiopinna`.`acquisto_prodotto`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `alessiopinna`.`acquisto_prodotto` (
-  `id_acquisto_prodotto` INT NOT NULL,
+  `id_acquisto_prodotto` VARCHAR(36) NOT NULL,
   `data_acquisto` DATETIME(6) NOT NULL,
   `quantita` INT NOT NULL,
   `id_utente` VARCHAR(36) NOT NULL,
@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `alessiopinna`.`detail_acquisto_evento` (
   `id` INT NOT NULL,
   `key_payment` VARCHAR(255) NULL DEFAULT NULL,
   `type` VARCHAR(100) NULL DEFAULT NULL,
-  `id_acquisto_evento` INT NOT NULL,
+  `id_acquisto_evento` VARCHAR(36) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `FKn19uf397c5ojv993mtvv27lt8` (`id_acquisto_evento` ASC) VISIBLE,
   CONSTRAINT `FKn19uf397c5ojv993mtvv27lt8`
@@ -189,7 +189,7 @@ CREATE TABLE IF NOT EXISTS `alessiopinna`.`detail_acquisto_prodotto` (
   `id` INT NOT NULL,
   `key_payment` VARCHAR(255) NULL DEFAULT NULL,
   `type` VARCHAR(100) NULL DEFAULT NULL,
-  `id_acquisto_prodotto` INT NOT NULL,
+  `id_acquisto_prodotto` VARCHAR(36) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `FKqr3hx9je0ldxkwfv7ajoo6qa4` (`id_acquisto_prodotto` ASC) VISIBLE,
   CONSTRAINT `FKqr3hx9je0ldxkwfv7ajoo6qa4`

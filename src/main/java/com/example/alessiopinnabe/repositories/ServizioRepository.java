@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ServizioRepository extends CrudRepository<Servizio, Integer> {
+public interface ServizioRepository extends CrudRepository<Servizio, String> {
 }

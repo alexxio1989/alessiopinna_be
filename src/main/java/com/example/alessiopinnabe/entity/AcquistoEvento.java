@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
 @Entity
@@ -13,7 +14,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@AttributeOverride(name = "id" , column = @Column(name = "id_acquisto_evento"))
+@AttributeOverride(name = "id" , column = @Column(name = "id_acquisto_evento" , length = 36))
 public class AcquistoEvento extends _Acquisto {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

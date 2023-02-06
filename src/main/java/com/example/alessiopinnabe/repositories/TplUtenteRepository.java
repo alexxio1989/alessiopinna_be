@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TplUtenteRepository extends JpaRepository<TplUtente, Integer> {
+public interface TplUtenteRepository extends JpaRepository<TplUtente, String> {
     @Query(value = "SELECT * FROM tpl_utente WHERE codice='SU'", nativeQuery = true)
     TplUtente getSUPER_USER();
 

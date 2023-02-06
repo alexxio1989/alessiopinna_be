@@ -30,7 +30,7 @@ public class ServizioController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseServiziDto delete(@PathVariable Integer id) {
+    public ResponseServiziDto delete(@PathVariable String id) {
         return serviceProdotto.delete(id);
     }
 

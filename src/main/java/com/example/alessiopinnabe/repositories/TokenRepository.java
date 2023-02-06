@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TokenRepository extends JpaRepository<Token, Integer> {
+public interface TokenRepository extends JpaRepository<Token, String> {
 
     @Query(value = "select * from token where id_utente=:idIutente and provider=:provider", nativeQuery = true)
     Token getByProvidersAndUser (@Param("idIutente") String idIutente , @Param("provider") String provider);

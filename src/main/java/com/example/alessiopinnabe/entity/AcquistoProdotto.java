@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@AttributeOverride(name = "id" , column = @Column(name = "id_acquisto_prodotto"))
+@AttributeOverride(name = "id" , column = @Column(name = "id_acquisto_prodotto",length = 36))
 public class AcquistoProdotto extends _Acquisto {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
