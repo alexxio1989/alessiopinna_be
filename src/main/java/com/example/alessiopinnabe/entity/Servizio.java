@@ -4,8 +4,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -22,35 +24,35 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PROTECTED)
 public class Servizio {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Integer id;
+    @Size(max = 36)
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid" ,strategy = "uuid")
+    @Column(name = "id", nullable = false , length = 36)
+    String id;
 
     @Column(name = "nome")
-    private String nome;
+    String nome;
 
-    @Lob
     @Column(name = "nome_ext")
-    private String nomeExt;
+    String nomeExt;
 
-    @Lob
     @Column(name = "descrizione")
-    private String descrizione;
+    String descrizione;
 
     @Column(name = "data_creazione")
-    private Date dataCreazione;
+    Date dataCreazione;
 
     @Column(name = "enable")
-    private Integer enable;
+    Integer enable;
 
     @Column(name = "prezzo", precision = 9, scale = 2)
-    private BigDecimal prezzo;
+    BigDecimal prezzo;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tipo_servizio", nullable = false)
-    private TplServizio tipoServizio;
+    TplServizio tipoServizio;
 
     @OneToMany(mappedBy = "servizio")
-    private List<ImgServizio> images = new ArrayList<>();
+    List<ImgServizio> images = new ArrayList<>();
 
 }

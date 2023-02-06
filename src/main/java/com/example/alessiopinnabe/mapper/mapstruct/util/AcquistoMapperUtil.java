@@ -5,7 +5,7 @@ import com.example.alessiopinnabe.entity.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AcquistoUtil {
+public class AcquistoMapperUtil {
 
     public static List<AcquistoProdotto> getAcquistiProdotti(List<_Acquisto> entityList){
         return (List<AcquistoProdotto>)(List<?>) entityList.stream().filter(a -> a instanceof AcquistoProdotto).collect(Collectors.toList());

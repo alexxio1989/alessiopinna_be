@@ -6,13 +6,13 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.time.Instant;
 
 @Entity
 @Table(name = "acquisto_prodotto")
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@AttributeOverride(name = "id" , column = @Column(name = "id_acquisto_prodotto"))
 public class AcquistoProdotto extends _Acquisto {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

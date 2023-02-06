@@ -9,32 +9,27 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("servizio")
-@CrossOrigin(origins = "*")
 public class ServizioController {
 
     @Autowired
     private ServiceProdotto serviceProdotto;
 
     @GetMapping
-    @CrossOrigin(origins = "*")
-    public ResponseServiziDto getProdotti(@PathVariable Integer full) {
+    public ResponseServiziDto getProdotti() {
         return serviceProdotto.getProdotti();
     }
 
-    @PostMapping("/prodotto/save")
-    @CrossOrigin(origins = "*")
+    @PostMapping("/prodotto")
     public ResponseServiziDto saveProdotto(@RequestBody ProdottoDto dto) {
         return serviceProdotto.save(dto);
     }
 
-    @PostMapping("/evento/save")
-    @CrossOrigin(origins = "*")
+    @PostMapping("/evento")
     public ResponseServiziDto saveEvento(@RequestBody EventoDto dto) {
         return serviceProdotto.save(dto);
     }
 
     @DeleteMapping("/delete/{id}")
-    @CrossOrigin(origins = "*")
     public ResponseServiziDto delete(@PathVariable Integer id) {
         return serviceProdotto.delete(id);
     }

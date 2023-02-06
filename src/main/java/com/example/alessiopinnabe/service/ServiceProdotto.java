@@ -13,8 +13,13 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class ServiceProdotto {
@@ -28,8 +33,10 @@ public class ServiceProdotto {
     public ResponseServiziDto getProdotti(){
         ResponseServiziDto out = new ResponseServiziDto();
         try {
-            List<Servizio> all = servizioRepository.findAll();
-            servizioMapper.getResponse(out,all);
+            Iterable<Servizio> all = servizioRepository.findAll();
+            List<Servizio> collect = StreamSupport.stream(all.spliterator(), false)
+                    .collect(Collectors.toList());
+            out = servizioMapper.getResponse(out,collect);
         }catch (DataAccessException ex){
             out.setSuccess(false);
             out.setError(ex.getMessage());
@@ -44,6 +51,8 @@ public class ServiceProdotto {
 
         Servizio servizio = null;
         try {
+            servizioDto.setDataCreazione(new Date(Calendar.getInstance().getTime().getTime()));
+            servizioDto.setEnable(1);
             if(servizioDto instanceof ProdottoDto){
                 servizio = servizioMapper.getProdottoEntity((ProdottoDto) servizioDto);
             } else {

@@ -4,8 +4,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -18,9 +20,11 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Utente {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Integer id;
+    @Size(max = 36)
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid" ,strategy = "uuid")
+    @Column(name = "id_utente", nullable = false , length = 36)
+    private String id;
 
     @Column(name = "anagrafica", length = 100)
     private String anagrafica;

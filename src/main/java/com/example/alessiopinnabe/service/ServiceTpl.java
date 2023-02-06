@@ -22,7 +22,19 @@ public class ServiceTpl {
         return tplMapper.getDtoList(all);
     }
 
-    public List<DominioDto> saveTplProdotto(DominioDto dominioDto){
+    public List<DominioDto> saveTplProdotto(String tplDescription){
+        String tplCode = tplDescription.replaceAll(" ", "_").toUpperCase();
+        DominioDto dominioDto = new DominioDto();
+        dominioDto.setCodice(tplCode);
+        dominioDto.setDescrizione(tplDescription.toUpperCase());
+        tplServizioRepository.save(tplMapper.getEntity(dominioDto));
+        return getTipiProdotti();
+    }
+
+    public List<DominioDto> updateTplProdotto(String code , String tplDescription){
+        DominioDto dominioDto = new DominioDto();
+        dominioDto.setCodice(code);
+        dominioDto.setDescrizione(tplDescription.toUpperCase());
         tplServizioRepository.save(tplMapper.getEntity(dominioDto));
         return getTipiProdotti();
     }

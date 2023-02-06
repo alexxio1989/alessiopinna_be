@@ -71,7 +71,7 @@ public class TokenMapper {
         return out;
     }
 
-    public static Token fromGoogleToEntity(com.google.api.client.auth.oauth2.TokenResponse tokenResponse , Utente utenteEntity , Integer id){
+    public static Token fromGoogleToEntity(com.google.api.client.auth.oauth2.TokenResponse tokenResponse , Utente utenteEntity , String id){
         Token out = new Token();
         if(id != null){
             out.setId(id);

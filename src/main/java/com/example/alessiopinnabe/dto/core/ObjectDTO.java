@@ -6,5 +6,5 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ObjectDTO {
-    protected Integer id;
+    protected String id;
 }

@@ -4,8 +4,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "detail_acquisto_prodotto")
@@ -14,8 +16,10 @@ import javax.persistence.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DetailAcquistoProdotto {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Size(max = 36)
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid" ,strategy = "uuid")
+    @Column(name = "id", nullable = false , length = 36)
     private Integer id;
 
     @Column(name = "key_payment")
@@ -25,7 +29,7 @@ public class DetailAcquistoProdotto {
     private String type;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id",referencedColumnName = "id", nullable = false ,insertable = false ,updatable = false)
+    @JoinColumn(name = "id_acquisto_prodotto",referencedColumnName = "id_acquisto_prodotto", nullable = false ,insertable = false ,updatable = false)
     private AcquistoProdotto acquistoProdotto;
 
 }

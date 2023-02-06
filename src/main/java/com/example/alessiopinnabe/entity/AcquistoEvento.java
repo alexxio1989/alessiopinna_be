@@ -7,13 +7,13 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.time.Instant;
 
 @Entity
 @Table(name = "acquisto_evento")
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@AttributeOverride(name = "id" , column = @Column(name = "id_acquisto_evento"))
 public class AcquistoEvento extends _Acquisto {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

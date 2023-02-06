@@ -5,19 +5,14 @@ import com.example.alessiopinnabe.entity._Acquisto;
 import com.example.alessiopinnabe.mapper.CalendarMapper;
 import com.example.alessiopinnabe.mapper.EmailMapper;
 import com.example.alessiopinnabe.mapper.mapstruct.AcquistoMapper;
-import com.example.alessiopinnabe.mapper.TokenMapper;
 import com.example.alessiopinnabe.repositories.AcquistoRepository;
 import com.example.alessiopinnabe.repositories.TokenRepository;
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -86,7 +81,7 @@ public class ServiceAcquisto {
         return getAll(acquistoDto.getUtente().getId());
     }
 
-    public ResponseAcquistoDto getAll(Integer idUtente){
+    public ResponseAcquistoDto getAll(String idUtente){
         ResponseAcquistoDto out = new ResponseAcquistoDto();
         try {
             List<_Acquisto> all = acquistoRepository.findAll();

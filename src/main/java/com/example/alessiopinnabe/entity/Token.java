@@ -4,8 +4,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.time.Instant;
 
@@ -16,9 +18,11 @@ import java.time.Instant;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Token {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Integer id;
+    @Size(max = 36)
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid" ,strategy = "uuid")
+    @Column(name = "id", nullable = false , length = 36)
+    private String id;
 
     @Lob
     @Column(name = "access_token")
@@ -44,7 +48,7 @@ public class Token {
     private String provider;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "utente_id", nullable = false)
+    @JoinColumn(name = "id_utente", nullable = false)
     private Utente utente;
 
 }

@@ -4,11 +4,12 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.time.Instant;
 
 @MappedSuperclass
 @Getter
@@ -16,8 +17,10 @@ import java.time.Instant;
 @FieldDefaults(level = AccessLevel.PROTECTED)
 public class _Acquisto implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Size(max = 36)
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid" ,strategy = "uuid")
+    @Column(name = "id", nullable = false , length = 36)
     private Integer id;
 
     @Column(name = "quantita", nullable = false)
@@ -27,7 +30,7 @@ public class _Acquisto implements Serializable {
     private Timestamp dataAcquisto;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id",referencedColumnName = "id", nullable = false ,insertable = false ,updatable = false)
+    @JoinColumn(name = "id_utente",referencedColumnName = "id_utente", nullable = false ,insertable = false ,updatable = false)
     private Utente utente;
 
 }

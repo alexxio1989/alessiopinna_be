@@ -54,7 +54,7 @@ public class AcquistoController {
 
     @GetMapping("/getAll/{idUtente}")
     @CrossOrigin(origins = "*")
-    public ResponseAcquistoDto getAllByUtente(@RequestHeader Map<String, String> headers , @PathVariable Integer idUtente) throws JsonProcessingException {
+    public ResponseAcquistoDto getAllByUtente(@RequestHeader Map<String, String> headers , @PathVariable String idUtente) throws JsonProcessingException {
         ResponseAcquistoDto out;
         ObjectMapper mapper = new ObjectMapper();
         String tokenString = headers.get("token-google");
