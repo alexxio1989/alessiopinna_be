@@ -1,6 +1,7 @@
 package com.example.alessiopinnabe.controller;
 
-import com.example.alessiopinnabe.dto.*;
+import com.example.alessiopinnabe.dto.request.RequestLoginDto;
+import com.example.alessiopinnabe.dto.response.ResponseUtenteDto;
 import com.example.alessiopinnabe.entity.Utente;
 import com.example.alessiopinnabe.service.ServiceGoogle;
 import com.example.alessiopinnabe.service.ServiceUtente;

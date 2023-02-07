@@ -11,16 +11,18 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-@MappedSuperclass
+@Entity
+@Table(name = "acquisto")
+@Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PROTECTED)
-public class _Acquisto implements Serializable {
+public class Acquisto implements Serializable {
     @Id
     @Size(max = 36)
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid" ,strategy = "uuid")
-    @Column(name = "id", nullable = false , length = 36)
+    @Column(name = "id_acquisto", nullable = false , length = 36)
     private String id;
 
     @Column(name = "quantita", nullable = false)

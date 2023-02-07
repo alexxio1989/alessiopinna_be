@@ -14,7 +14,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@PrimaryKeyJoinColumn(name = "id")
+@PrimaryKeyJoinColumn(name = "id_servizio")
 public class Evento extends Servizio{
 
     @Column(name = "data_inizio")

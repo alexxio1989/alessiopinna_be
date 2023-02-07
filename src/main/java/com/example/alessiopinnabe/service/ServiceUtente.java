@@ -1,7 +1,7 @@
 package com.example.alessiopinnabe.service;
 
-import com.example.alessiopinnabe.dto.RequestLoginDto;
-import com.example.alessiopinnabe.dto.ResponseUtenteDto;
+import com.example.alessiopinnabe.dto.request.RequestLoginDto;
+import com.example.alessiopinnabe.dto.response.ResponseUtenteDto;
 import com.example.alessiopinnabe.dto.UtenteDto;
 import com.example.alessiopinnabe.entity.Token;
 
@@ -14,6 +14,7 @@ import com.example.alessiopinnabe.mapper.mapstruct.UtenteMapper;
 import com.example.alessiopinnabe.repositories.TplUtenteRepository;
 import com.example.alessiopinnabe.repositories.TokenRepository;
 import com.example.alessiopinnabe.repositories.UtenteRepository;
+import com.example.alessiopinnabe.util.Constants;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.services.oauth2.model.Userinfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,7 +96,7 @@ public class ServiceUtente {
         } else {
             utenteSaved = utenteRepository.findByEmailAndPassword(userInfo.getEmail(), userInfo.getId());
         }
-        Token tokenRetrieved = tokenRepository.getByProvidersAndUser(utenteSaved.getId(), "GOOGLE");
+        Token tokenRetrieved = tokenRepository.getByProvidersAndUser(utenteSaved.getId(), Constants.GOOGLE);
         Token newToken = TokenMapper.fromGoogleToEntity(token, utenteSaved, tokenRetrieved != null ? tokenRetrieved.getId() : null);
         tokenRepository.save(newToken);
         return utenteSaved;

@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -22,12 +23,13 @@ import java.util.Set;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PROTECTED)
-public class Servizio {
+public class Servizio implements Serializable {
+
     @Id
     @Size(max = 36)
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid" ,strategy = "uuid")
-    @Column(name = "id", nullable = false , length = 36)
+    @Column(name = "id_servizio", nullable = false , length = 36)
     String id;
 
     @Column(name = "nome")

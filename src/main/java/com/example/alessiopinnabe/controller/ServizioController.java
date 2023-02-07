@@ -2,7 +2,7 @@ package com.example.alessiopinnabe.controller;
 
 import com.example.alessiopinnabe.dto.EventoDto;
 import com.example.alessiopinnabe.dto.ProdottoDto;
-import com.example.alessiopinnabe.dto.ResponseServiziDto;
+import com.example.alessiopinnabe.dto.response.ResponseServiziDto;
 import com.example.alessiopinnabe.service.ServiceProdotto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

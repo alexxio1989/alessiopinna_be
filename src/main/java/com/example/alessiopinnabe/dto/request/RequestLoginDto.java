@@ -1,5 +1,6 @@
-package com.example.alessiopinnabe.dto;
+package com.example.alessiopinnabe.dto.request;
 
+import com.example.alessiopinnabe.dto.UtenteDto;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -12,14 +12,11 @@ import javax.persistence.*;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@AttributeOverride(name = "id" , column = @Column(name = "id_acquisto_prodotto",length = 36))
-public class AcquistoProdotto extends _Acquisto {
+@PrimaryKeyJoinColumn(name = "id_acquisto")
+public class AcquistoProdotto extends Acquisto {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id",referencedColumnName = "id", nullable = false ,insertable = false ,updatable = false)
+    @JoinColumn(name = "id_servizio",referencedColumnName = "id_servizio", nullable = false ,insertable = false ,updatable = false)
     private Prodotto prodotto;
-
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "acquistoProdotto")
-    private DetailAcquistoProdotto detailAcquistoProdotto;
 
 }

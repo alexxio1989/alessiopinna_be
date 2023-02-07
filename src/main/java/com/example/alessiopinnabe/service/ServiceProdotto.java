@@ -2,9 +2,8 @@ package com.example.alessiopinnabe.service;
 
 import com.example.alessiopinnabe.dto.EventoDto;
 import com.example.alessiopinnabe.dto.ProdottoDto;
-import com.example.alessiopinnabe.dto.ResponseServiziDto;
+import com.example.alessiopinnabe.dto.response.ResponseServiziDto;
 import com.example.alessiopinnabe.dto.ServizioDto;
-import com.example.alessiopinnabe.entity.Prodotto;
 import com.example.alessiopinnabe.entity.Servizio;
 import com.example.alessiopinnabe.mapper.mapstruct.ServizioMapper;
 import com.example.alessiopinnabe.repositories.ServizioRepository;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;

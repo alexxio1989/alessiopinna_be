@@ -1,5 +1,7 @@
-package com.example.alessiopinnabe.dto;
+package com.example.alessiopinnabe.dto.response;
 
+import com.example.alessiopinnabe.dto.EventoDto;
+import com.example.alessiopinnabe.dto.ProdottoDto;
 import com.example.alessiopinnabe.dto.core.ResponseCore;
 import lombok.Getter;
 import lombok.Setter;

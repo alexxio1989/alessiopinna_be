@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
 @Entity
@@ -14,11 +13,11 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@AttributeOverride(name = "id" , column = @Column(name = "id_acquisto_evento" , length = 36))
-public class AcquistoEvento extends _Acquisto {
+@PrimaryKeyJoinColumn(name = "id_acquisto")
+public class AcquistoEvento extends Acquisto {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id",referencedColumnName = "id", nullable = false ,insertable = false ,updatable = false)
+    @JoinColumn(name = "id_servizio",referencedColumnName = "id_servizio", nullable = false ,insertable = false ,updatable = false)
     private Evento evento;
 
     @Column(name = "data_inizio")
@@ -29,8 +28,5 @@ public class AcquistoEvento extends _Acquisto {
 
     @Column(name = "id_event_calendar")
     private String idEventCalendar;
-
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "acquistoEvento")
-    private DetailAcquistoEvento detailAcquistoEvento;
 
 }

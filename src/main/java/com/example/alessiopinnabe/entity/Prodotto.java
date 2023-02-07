@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@PrimaryKeyJoinColumn(name = "id")
+@PrimaryKeyJoinColumn(name = "id_servizio")
 public class Prodotto extends Servizio{
 
     @Column(name = "magazzino")
