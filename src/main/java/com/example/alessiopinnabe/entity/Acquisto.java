@@ -32,7 +32,7 @@ public class Acquisto implements Serializable {
     private Timestamp dataAcquisto;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_utente",referencedColumnName = "id_utente", nullable = false ,insertable = false ,updatable = false)
+    @JoinColumn(name = "id_utente",referencedColumnName = "id_utente", nullable = false)
     private Utente utente;
 
 }

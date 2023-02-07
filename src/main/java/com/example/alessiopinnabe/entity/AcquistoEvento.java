@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 public class AcquistoEvento extends Acquisto {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_servizio",referencedColumnName = "id_servizio", nullable = false ,insertable = false ,updatable = false)
+    @JoinColumn(name = "id_servizio",referencedColumnName = "id_servizio", nullable = false )
     private Evento evento;
 
     @Column(name = "data_inizio")

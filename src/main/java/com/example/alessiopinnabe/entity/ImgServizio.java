@@ -32,7 +32,7 @@ public class ImgServizio {
     private byte[] img;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_servizio",referencedColumnName = "id_servizio", nullable = false ,insertable = false ,updatable = false)
+    @JoinColumn(name = "id_servizio",referencedColumnName = "id_servizio", nullable = false)
     private Servizio servizio;
 
 }
