@@ -62,8 +62,7 @@ public class ServiceAcquisto {
             out.setError(ex.getMessage());
             return out;
         }
-        //return getAll(carrello.getUtente().getId());
-        return out;
+        return getAll(carrello.getUtente().getId());
     }
 
     private void saveAcquistoEvento(AcquistoEventoDto acquistoEventoDto , TokenDto tokenResponseDto) throws DataAccessException , IOException{
