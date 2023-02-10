@@ -1,5 +1,6 @@
 package com.example.alessiopinnabe.service;
 
+import com.example.alessiopinnabe.dto.UtenteDtoFull;
 import com.example.alessiopinnabe.dto.request.RequestLoginDto;
 import com.example.alessiopinnabe.dto.response.ResponseUtenteDto;
 import com.example.alessiopinnabe.dto.UtenteDto;
@@ -85,7 +86,8 @@ public class ServiceUtente {
     }
 
     @Transactional
-    public Utente loginFromGoogle(Userinfo userInfo, TokenResponse token){
+    public UtenteDtoFull loginFromGoogle(Userinfo userInfo, TokenResponse token){
+        UtenteDtoFull out = new UtenteDtoFull();
         Utente utenteSaved = null;
         long emailUsed = utenteRepository.countEmail(userInfo.getEmail());
         if(emailUsed == 0){
@@ -99,7 +101,9 @@ public class ServiceUtente {
         Token tokenRetrieved = tokenRepository.getByProvidersAndUser(utenteSaved.getId(), Constants.GOOGLE);
         Token newToken = TokenMapper.fromGoogleToEntity(token, utenteSaved, tokenRetrieved != null ? tokenRetrieved.getId() : null);
         tokenRepository.save(newToken);
-        return utenteSaved;
+        out.setUtente(utenteMapper.getDto(utenteSaved) );
+        out.setPassword(utenteSaved.getPassword());
+        return out;
     }
 
 }

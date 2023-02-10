@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Utente {
+public class Utente implements Serializable {
     @Id
     @Size(max = 36)
     @GeneratedValue(generator = "system-uuid")

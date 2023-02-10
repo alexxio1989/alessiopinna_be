@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
 
@@ -16,7 +17,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Token {
+public class Token implements Serializable {
     @Id
     @Size(max = 36)
     @GeneratedValue(generator = "system-uuid")

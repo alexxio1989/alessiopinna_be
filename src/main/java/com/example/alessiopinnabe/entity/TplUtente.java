@@ -9,13 +9,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "tpl_utente")
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TplUtente {
+public class TplUtente implements Serializable {
     @Id
     @Column(name = "codice", nullable = false, length = 100)
     private String codice;

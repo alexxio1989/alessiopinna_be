@@ -8,13 +8,14 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "img_servizio")
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ImgServizio {
+public class ImgServizio implements Serializable {
     @Id
     @Size(max = 36)
     @GeneratedValue(generator = "system-uuid")
