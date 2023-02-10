@@ -14,12 +14,17 @@ import java.util.List;
 public class UtenteDto extends ObjectDTO implements UserDetails {
     private String anagrafica;
     private String email;
+    private String username;
     private String provider;
     private String photoUrl;
     private DominioDto tipoUtente;
     private Integer totAcquistiProdotti;
     private Integer totAcquistiEventi;
     private List<TokenDto> tokens;
+    private boolean accountNonExpired;
+    private boolean accountNonLocked;
+    private boolean CredentialsNonExpired;
+    private boolean enabled;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -26,6 +26,8 @@ public class SecurityConfiguration{
 
     @Value("${allowed.origin}")
     private String allowedOrigin;
+    @Value("${allowed.methods}")
+    private String allowedMethods;
 
     @Autowired
     private UtenteRepository userRepository;
@@ -59,7 +61,7 @@ public class SecurityConfiguration{
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(new AuthorizationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), this.userRepository), UsernamePasswordAuthenticationFilter.class).authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers(allowedMethods.split(",")).permitAll()
                 .anyRequest().authenticated();
         return http.build();
     }

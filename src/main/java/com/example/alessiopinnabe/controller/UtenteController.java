@@ -69,7 +69,8 @@ public class UtenteController {
         userNode.remove("password");
         Map claimMap = new HashMap(0);
         claimMap.put("user", userNode);
-        return JwtProvider.createJwt(utente.getUtente().getEmail(), claimMap);
+        String jwt = JwtProvider.createJwt(utente.getUtente().getEmail(), claimMap);
+        return "Bearer_"+jwt;
     }
 
 }

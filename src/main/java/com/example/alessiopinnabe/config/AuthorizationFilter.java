@@ -8,6 +8,7 @@ import com.example.alessiopinnabe.repositories.UtenteRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,6 +30,9 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
     @Autowired
     private UtenteMapper utenteMapper;
 
+    @Value("${security.prefix}")
+    private String prefix;
+
     public AuthorizationFilter(AuthenticationManager authenticationManager, UtenteRepository userRepository) {
         super(authenticationManager);
         this.userRepository = userRepository;
@@ -41,11 +45,13 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         if (header != null && header.startsWith(JwtProvider.prefix)) {
             final DecodedJWT decoded = JwtProvider.verifyJwt(header.replace(JwtProvider.prefix, ""));
             final ObjectNode userNode = this.mapper.readValue(decoded.getClaim("user").asString(), ObjectNode.class);
-            final Utente user = this.mapper.convertValue(userNode, Utente.class);
-            this.userRepository.findById(user.getId()).ifPresent(entity -> {
+            final UtenteDto user = this.mapper.convertValue(userNode, UtenteDto.class);
+            /*this.userRepository.findById(user.getId()).ifPresent(entity -> {
                 UtenteDto dto = utenteMapper.getDto(entity);
                 SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(dto, null, dto.getAuthorities()));
-            });
+            });*/
+            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities()));
+
         }
         chain.doFilter(request, response);
     }

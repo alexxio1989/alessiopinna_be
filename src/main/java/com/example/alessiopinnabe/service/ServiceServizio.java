@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
-public class ServiceProdotto {
+public class ServiceServizio {
 
     @Autowired
     private ServizioRepository servizioRepository;
