@@ -56,9 +56,8 @@ public class UtenteController {
         try {
             TokenResponse token = googleService.newToken(code);
             userInfo = googleService.getUserinfo(googleService.getCredential(token));
-            UtenteDtoFull utente = serviceUtente.loginFromGoogle(userInfo,token);
-            String tokenJWT = generateJWT(utente);
-            return new RedirectView(fePath + "/?email=" + utente.getUtente().getEmail() + "&id=" +utente.getPassword() + "&token=" + tokenJWT);
+            UtenteDtoFull utenteFull = serviceUtente.loginFromGoogle(userInfo,token);
+            return new RedirectView(fePath + "/?email=" + utenteFull.getUtente().getEmail() + "&id=" +utenteFull.getPassword());
         } catch (Exception e) {
             throw e;
         }

@@ -25,58 +25,23 @@ public class AcquistoController {
     @PostMapping("/save/carrello")
     @CrossOrigin(origins = "*")
     public ResponseAcquistoDto save(@Nullable @RequestHeader(value="token-google") String tokenString , @RequestBody RequestCarrelloDto carrello) throws JsonProcessingException {
-        ResponseAcquistoDto out;
-        TokenDto tokenResponseDto = null;
-        UtenteDto utente = carrello.getUtente();
-        if(Constants.GOOGLE.equalsIgnoreCase(utente.getProvider()) && Util.isTmspExpired(tokenResponseDto.getDateExiration())){
-            if(tokenResponseDto == null || Util.isTmspExpired(tokenResponseDto.getDateExiration())){
-                out = new ResponseAcquistoDto();
-                out.setSuccess(false);
-                out.setCode(999);
-                out.setError("Token google assente o scaduto");
-                return out;
-            }
-            ObjectMapper mapper = new ObjectMapper();
-            tokenResponseDto = mapper.readValue(tokenString, TokenDto.class);
-        }
-        out = serviceAcquisto.saveCarrello(carrello, tokenResponseDto);
-        return out;
+        ObjectMapper mapper = new ObjectMapper();
+        TokenDto tokenResponseDto = mapper.readValue(tokenString, TokenDto.class);
+        return serviceAcquisto.saveCarrello(carrello, tokenResponseDto);
     }
 
     @PostMapping("/delete")
     @CrossOrigin(origins = "*")
     public ResponseAcquistoDto delete(@RequestHeader(value="token-google") String tokenString , @RequestBody AcquistoDto prenotazione) throws JsonProcessingException {
-        ResponseAcquistoDto out;
         ObjectMapper mapper = new ObjectMapper();
         TokenDto tokenResponseDto = mapper.readValue(tokenString, TokenDto.class);
-        UtenteDto utente = prenotazione.getUtente();
-        if(Constants.DEFAULT.equalsIgnoreCase(utente.getProvider()) || (tokenResponseDto != null && !Util.isTmspExpired(tokenResponseDto.getDateExiration()))){
-            out = serviceAcquisto.delete(prenotazione, tokenResponseDto);
-        } else {
-            out = new ResponseAcquistoDto();
-            out.setSuccess(false);
-            out.setCode(999);
-            out.setError("Token google assente o scaduto");
-        }
-        return out;
+        return serviceAcquisto.delete(prenotazione, tokenResponseDto);
     }
 
     @GetMapping("/getAll/{idUtente}")
     @CrossOrigin(origins = "*")
-    public ResponseAcquistoDto getAllByUtente(@RequestHeader Map<String, String> headers , @PathVariable String idUtente) throws JsonProcessingException {
-        ResponseAcquistoDto out;
-        ObjectMapper mapper = new ObjectMapper();
-        String tokenString = headers.get("token-google");
-        TokenDto tokenResponseDto = mapper.readValue(tokenString, TokenDto.class);
-        if(tokenResponseDto != null && !Util.isTmspExpired(tokenResponseDto.getDateExiration())){
-            out = serviceAcquisto.getAll(idUtente);
-        } else {
-            out = new ResponseAcquistoDto();
-            out.setSuccess(false);
-            out.setCode(999);
-            out.setError("Token google assente o scaduto");
-        }
-        return out;
+    public ResponseAcquistoDto getAllByUtente(@RequestHeader(value="token-google") String tokenString , @PathVariable String idUtente) throws JsonProcessingException {
+        return serviceAcquisto.getAll(idUtente);
     }
 
 

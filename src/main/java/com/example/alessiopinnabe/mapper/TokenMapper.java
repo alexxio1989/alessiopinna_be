@@ -71,10 +71,10 @@ public class TokenMapper {
         return out;
     }
 
-    public static Token fromGoogleToEntity(com.google.api.client.auth.oauth2.TokenResponse tokenResponse , Utente utenteEntity , String id){
+    public static Token fromGoogleToEntity(com.google.api.client.auth.oauth2.TokenResponse tokenResponse , Utente utenteEntity , Token tokenEntityGoogle){
         Token out = new Token();
-        if(id != null){
-            out.setId(id);
+        if(tokenEntityGoogle != null && tokenEntityGoogle.getId() != null){
+            out.setId(tokenEntityGoogle.getId());
         }
         out.setAccessToken(tokenResponse.getAccessToken());
         out.setTokenType(tokenResponse.getTokenType());
