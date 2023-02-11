@@ -23,6 +23,6 @@ public class ServizioDto extends ObjectDTO{
     private Integer enable;
     private BigDecimal prezzo;
     private DominioDto tipoServizio;
-    private List<ImgServizio> images = new ArrayList<>();
+    private List<ImageDto> images = new ArrayList<>();
 
 }
