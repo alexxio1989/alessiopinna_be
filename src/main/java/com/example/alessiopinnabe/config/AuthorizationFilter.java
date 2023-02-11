@@ -15,6 +15,7 @@ import com.example.alessiopinnabe.util.Util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +23,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -33,75 +38,61 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
+public class AuthorizationFilter extends OncePerRequestFilter {
 
-public class AuthorizationFilter extends BasicAuthenticationFilter {
 
-
-    private final UtenteRepository userRepository;
-    private final ObjectMapper mapper;
+    @Autowired
+    private UtenteRepository userRepository;
     @Autowired
     private UtenteMapper utenteMapper;
 
     @Value("${security.prefix}")
     private String prefix;
 
-    public AuthorizationFilter(AuthenticationManager authenticationManager, UtenteRepository userRepository) {
-        super(authenticationManager);
-        this.userRepository = userRepository;
-        this.mapper = new ObjectMapper();
-    }
+
 
     @Override
+    @Transactional
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        final String email = request.getHeader("email");
-        this.userRepository.findByEmail(email).ifPresent(entity -> {
-            UtenteDto dto = utenteMapper.getDto(entity);
-            List<Token> tokensEntities = entity.getTokens();
-            Token tokenGoogle = null;
-            Token tokenDefault = null;
-            boolean isTokenGoogleExpired = true ;
-            boolean isTokenDefaultExpired = true ;
-            if(CollectionUtils.isNotEmpty(tokensEntities)){
-                Optional<Token> optTokenDefault = tokensEntities.stream().filter(t -> Constants.DEFAULT.equalsIgnoreCase(t.getProvider())).findFirst();
-                if(optTokenDefault.isPresent()){
-                    tokenDefault = optTokenDefault.get();
-                }
-                Optional<Token> optTokenGoogle = tokensEntities.stream().filter(t -> Constants.GOOGLE.equalsIgnoreCase(t.getProvider())).findFirst();
-                if(optTokenGoogle.isPresent()){
-                    tokenGoogle = optTokenGoogle.get();
-                }
-                isTokenGoogleExpired = tokenGoogle != null ? Util.isTmspExpired(tokenGoogle.getDateExiration()) : true;
-                isTokenDefaultExpired = tokenDefault != null ? Util.isTmspExpired(tokenDefault.getDateExiration()) : true;
-            }
-            if(CollectionUtils.isEmpty(tokensEntities) ||
-                    tokenGoogle == null ||
-                    tokenDefault == null ||
-                    isTokenGoogleExpired ||
-                    isTokenDefaultExpired
-            ){
-                response.setStatus(999);
-            } else {
-                SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(dto, null, dto.getAuthorities()));
-            }
-        });
-        /*if (header != null && header.startsWith(JwtProvider.prefix)) {
-            final DecodedJWT decoded = JwtProvider.verifyJwt(header.replace(JwtProvider.prefix, ""));
-            final ObjectNode userNode = this.mapper.readValue(decoded.getClaim("user").asString(), ObjectNode.class);
-            final UtenteDto user = this.mapper.convertValue(userNode, UtenteDto.class);
-            String tokenGoogle = request.getHeader("token-google");
-            TokenDto tokenResponseDto = tokenGoogle != null ? mapper.readValue(tokenGoogle, TokenDto.class) : null;
-            boolean tokenJwtExpired = decoded.getExpiresAt().before(new Date());
-            boolean tokenGoogleExpired = Constants.GOOGLE.equalsIgnoreCase(user.getProvider()) && (tokenResponseDto == null || Util.isTmspExpired(tokenResponseDto.getDateExiration()));
-            if(tokenJwtExpired || tokenGoogleExpired){
-                response.setStatus(999);
-            }
-            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities()));
 
-        }*/
+        final String id = request.getHeader("ID_UTENTE");
+        if(StringUtils.isNotEmpty(id)){
+            this.userRepository.findById(id).ifPresent(entity -> {
+                UtenteDto dto = utenteMapper.getDtoLight(entity);
+                List<Token> tokensEntities = entity.getTokens();
+                Token tokenGoogle = null;
+                Token tokenDefault = null;
+                boolean isTokenGoogleExpired = true ;
+                boolean isTokenDefaultExpired = true ;
+                if(CollectionUtils.isNotEmpty(tokensEntities)){
+                    Optional<Token> optTokenDefault = tokensEntities.stream().filter(t -> Constants.DEFAULT.equalsIgnoreCase(t.getProvider())).findFirst();
+                    if(optTokenDefault.isPresent()){
+                        tokenDefault = optTokenDefault.get();
+                    }
+                    Optional<Token> optTokenGoogle = tokensEntities.stream().filter(t -> Constants.GOOGLE.equalsIgnoreCase(t.getProvider())).findFirst();
+                    if(optTokenGoogle.isPresent()){
+                        tokenGoogle = optTokenGoogle.get();
+                    }
+                    isTokenGoogleExpired = tokenGoogle != null ? Util.isTmspExpired(tokenGoogle.getDateExiration()) : true;
+                    isTokenDefaultExpired = tokenDefault != null ? Util.isTmspExpired(tokenDefault.getDateExiration()) : true;
+                }
+                if(CollectionUtils.isEmpty(tokensEntities) ||
+                        tokenGoogle == null ||
+                        tokenDefault == null ||
+                        isTokenGoogleExpired ||
+                        isTokenDefaultExpired
+                ){
+                    response.setStatus(999);
+                } else {
+                    SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(dto, null, dto.getAuthorities()));
+                }
+            });
+        }
         chain.doFilter(request, response);
     }
 
-    private void handleError(HttpServletResponse response, Integer error , String errorDescription) throws IOException {
+    /*private void handleError(HttpServletResponse response, Integer error , String errorDescription) throws IOException {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setError(error);
         errorResponse.setErrorDescription(errorDescription);
@@ -109,5 +100,5 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         response.setStatus(500);
         String s = mapper.writeValueAsString(errorResponse);
         response.getOutputStream().println(s);
-    }
+    }*/
 }

@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.cors.CorsConfiguration;
@@ -29,18 +30,13 @@ public class SecurityConfiguration{
     @Value("${allowed.methods}")
     private String allowedMethods;
 
-    @Autowired
-    private UtenteRepository userRepository;
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+    @Autowired
+    private AuthorizationFilter authorizationFilter;
 
     @Bean
     public CorsFilter corsFilter() {
@@ -56,11 +52,12 @@ public class SecurityConfiguration{
     }
 
     @Bean
+    @Transactional
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(new AuthorizationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), this.userRepository), UsernamePasswordAuthenticationFilter.class).authorizeRequests()
+                .addFilterBefore(authorizationFilter,UsernamePasswordAuthenticationFilter.class).authorizeRequests()
                 .antMatchers(allowedMethods.split(",")).permitAll()
                 .anyRequest().authenticated();
         return http.build();

@@ -48,7 +48,7 @@ public class Token implements Serializable {
     @Column(name = "provider")
     private String provider;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_utente", nullable = false)
     private Utente utente;
 

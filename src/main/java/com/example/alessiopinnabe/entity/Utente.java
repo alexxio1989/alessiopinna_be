@@ -43,7 +43,7 @@ public class Utente implements Serializable {
     @Column(name = "photo_url")
     private String photoUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "tipo_utente", nullable = false)
     private TplUtente tipoUtente;
 
@@ -53,7 +53,7 @@ public class Utente implements Serializable {
     @OneToMany(mappedBy = "utente")
     private List<AcquistoEvento> eventiAcquistati = new ArrayList<>();
 
-    @OneToMany(mappedBy = "utente")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "utente")
     private List<Token> tokens = new ArrayList<>();
 
 }

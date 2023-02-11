@@ -13,6 +13,7 @@ public interface UtenteMapper {
     @Mapping(target = "totAcquistiProdotti" , expression = "java(utente.getProdottiAcquistati() != null ? utente.getProdottiAcquistati().size() : 0)")
     @Mapping(target = "totAcquistiEventi" , expression = "java(utente.getEventiAcquistati() != null ? utente.getEventiAcquistati().size() : 0)")
     UtenteDto getDto(Utente utente);
+    UtenteDto getDtoLight(Utente utente);
 
     @Mapping(target = "password" , source = "password")
     @Mapping(target = "provider" , constant = Constants.DEFAULT)
