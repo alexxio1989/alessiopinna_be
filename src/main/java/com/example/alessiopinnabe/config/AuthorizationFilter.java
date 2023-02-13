@@ -74,12 +74,10 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                     if(optTokenGoogle.isPresent()){
                         tokenGoogle = optTokenGoogle.get();
                     }
-                    isTokenGoogleExpired = tokenGoogle != null ? Util.isTmspExpired(tokenGoogle.getDateExiration()) : true;
+                    isTokenGoogleExpired = Constants.GOOGLE.equalsIgnoreCase(entity.getProvider()) ? tokenGoogle != null ? Util.isTmspExpired(tokenGoogle.getDateExiration()) : true : false;
                     isTokenDefaultExpired = tokenDefault != null ? Util.isTmspExpired(tokenDefault.getDateExiration()) : true;
                 }
                 if(CollectionUtils.isEmpty(tokensEntities) ||
-                        tokenGoogle == null ||
-                        tokenDefault == null ||
                         isTokenGoogleExpired ||
                         isTokenDefaultExpired
                 ){

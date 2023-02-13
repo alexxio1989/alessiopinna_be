@@ -93,6 +93,34 @@ public class ServiceUtente {
         return out;
     }
 
+
+    @Transactional
+    public ResponseUtenteDto loginAdmin(RequestLoginDto req){
+        ResponseUtenteDto out = new ResponseUtenteDto();
+        try {
+            Utente utenteSaved = utenteRepository.findByEmailAndPassword(req.getUtente().getEmail(), req.getPassword());
+            if(utenteSaved != null){
+                UtenteDto utenteDTO = utenteMapper.getDto(utenteSaved);
+                Token tokenEntityDefault = tokenRepository.getByProvidersAndUser(utenteSaved.getId(), Constants.DEFAULT);
+                String tokenDefaultGenerated = generateJWT(utenteDTO, utenteSaved.getPassword());
+                Token newTokenEntityDefault = tokenMapper.fromDefaultToEntity(tokenDefaultGenerated, utenteSaved, tokenEntityDefault);
+                tokenRepository.save(newTokenEntityDefault);
+                out.setUtente(utenteDTO);
+            } else {
+                out.setSuccess(false);
+                out.setError("UTENTE NON TROVATO");
+                return out;
+            }
+
+        } catch (DataAccessException ex){
+            out.setSuccess(false);
+            out.setError(ex.getMessage());
+            return out;
+        }
+        out.setSuccess(true);
+        return out;
+    }
+
     @Transactional
     public UtenteDtoFull loginFromGoogle(Userinfo userInfo, TokenResponse tokenGOOGLE){
         UtenteDtoFull out = new UtenteDtoFull();

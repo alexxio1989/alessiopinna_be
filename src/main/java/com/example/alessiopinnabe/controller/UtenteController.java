@@ -43,6 +43,11 @@ public class UtenteController {
         return serviceUtente.login(req);
     }
 
+    @PostMapping("/login/admin")
+    public ResponseUtenteDto loginAdmin(@RequestBody RequestLoginDto req) {
+        return serviceUtente.loginAdmin(req);
+    }
+
     @RequestMapping(value = "/login/google", method = RequestMethod.GET)
     public RedirectView googleConnectionStatus(HttpServletRequest request) throws Exception {
         return new RedirectView(googleService.authorize());

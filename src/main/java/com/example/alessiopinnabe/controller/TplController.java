@@ -31,9 +31,9 @@ public class TplController {
         return tplService.saveTplProdotto(tplDescription);
     }
 
-    @PutMapping("/{code}")
-    public List<DominioDto> updateTplServizio(@RequestBody @NotBlank @Valid @PathVariable String code ,@RequestBody @NotBlank @Valid @Size(max = 50) String tplDescription ) {
-        return tplService.updateTplProdotto(code,tplDescription);
+    @PutMapping
+    public List<DominioDto> updateTplServizio(@RequestBody @NotBlank @Valid DominioDto dominio) {
+        return tplService.updateTplProdotto(dominio.getCodice(),dominio.getDescrizione());
     }
 
 }
