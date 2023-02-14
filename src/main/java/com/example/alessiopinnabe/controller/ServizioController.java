@@ -29,7 +29,7 @@ public class ServizioController {
         return serviceProdotto.save(dto);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseServiziDto delete(@PathVariable String id) {
         return serviceProdotto.delete(id);
     }
