@@ -38,6 +38,7 @@ public class Servizio implements Serializable {
     @Column(name = "nome_ext")
     String nomeExt;
 
+    @Lob
     @Column(name = "descrizione")
     String descrizione;
 
@@ -51,7 +52,7 @@ public class Servizio implements Serializable {
     BigDecimal prezzo;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "tipo_servizio", nullable = false)
+    @JoinColumn(name = "id_tpl_servizio", nullable = false)
     TplServizio tipoServizio;
 
     @OneToMany(mappedBy = "servizio")

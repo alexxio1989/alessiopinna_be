@@ -4,11 +4,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "tpl_servizio")
@@ -17,10 +16,17 @@ import javax.persistence.Table;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TplServizio {
     @Id
-    @Column(name = "codice", nullable = false, length = 100)
-    private String codice;
+    @Size(max = 36)
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid" ,strategy = "uuid")
+    @Column(name = "id_tpl_servizio", nullable = false , length = 36)
+    String id;
 
     @Column(name = "descrizione")
     private String descrizione;
+
+    @Lob
+    @Column(name = "desc_ext")
+    private String descExt;
 
 }

@@ -7,6 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DominioDto{
+    private String id;
     private String codice;
     private String descrizione;
+    private String descExt;
 }

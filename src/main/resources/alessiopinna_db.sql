@@ -221,3 +221,4 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 INSERT INTO tpl_utente (codice, descrizione) VALUES ('U', 'USER');
 INSERT INTO tpl_utente (codice, descrizione) VALUES ('SU', 'SUPER_USER');
+INSERT INTO utente (id_utente,anagrafica, email, password, photo_url, provider, tipo_utente) VALUES ( MID(UUID(),1,36),'ADMIN', 'apinna.elearn@gmail.com', 'apinna.elearn@gmail.com', '', '', 'SU');

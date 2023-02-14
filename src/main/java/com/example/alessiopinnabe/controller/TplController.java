@@ -27,13 +27,8 @@ public class TplController {
     }
 
     @PostMapping
-    public List<DominioDto> saveTplServizio(@RequestBody @NotBlank @Valid @Size(max = 50) String tplDescription) {
-        return tplService.saveTplProdotto(tplDescription);
-    }
-
-    @PutMapping
-    public List<DominioDto> updateTplServizio(@RequestBody @NotBlank @Valid DominioDto dominio) {
-        return tplService.updateTplProdotto(dominio.getCodice(),dominio.getDescrizione());
+    public List<DominioDto> saveTplServizio(@RequestBody @NotBlank @Valid DominioDto dominio) {
+        return tplService.saveTplProdotto(dominio);
     }
 
 }
