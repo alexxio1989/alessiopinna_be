@@ -8,4 +8,5 @@ public interface CrudService <I,O>{
     ResponseEntity<O> delete(String id , TokenDto token);
     ResponseEntity<O> getAll();
     ResponseEntity<O> getAll(String id);
+    ResponseEntity<O> get(I request , TokenDto token);
 }

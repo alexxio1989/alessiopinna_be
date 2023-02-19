@@ -1,7 +1,7 @@
 package com.example.alessiopinnabe.components;
 
 import com.example.alessiopinnabe.dto.TokenDto;
-import com.example.alessiopinnabe.mapper.TokenMapper;
+import com.example.alessiopinnabe.mapper.mapstruct.TokenMapper;
 import com.example.alessiopinnabe.repositories.TokenRepository;
 import com.google.api.client.auth.oauth2.*;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
@@ -37,6 +37,9 @@ public class GoogleManager {
 
     GoogleClientSecrets clientSecrets;
     GoogleAuthorizationCodeFlow flow;
+
+    @Autowired
+    TokenMapper tokenMapper;
 
     @Value("${google.client.client-id}")
     private String clientId;
@@ -91,7 +94,7 @@ public class GoogleManager {
     }
 
     public Credential getCredentialFromDto(TokenDto tokenResponseDto) throws IOException {
-        TokenResponse response = TokenMapper.fromDtoToGoogle(tokenResponseDto);
+        TokenResponse response = tokenMapper.fromDtoToGoogle(tokenResponseDto);
         return getCredential(response);
     }
 
@@ -122,7 +125,7 @@ public class GoogleManager {
         events.delete(calendarId ,idEvent).execute();
     }
     private Calendar getCalendar(TokenDto tokenResponseDto) throws IOException {
-        Credential credential = getCredential(TokenMapper.fromDtoToGoogle(tokenResponseDto));
+        Credential credential = getCredential(tokenMapper.fromDtoToGoogle(tokenResponseDto));
         Calendar calendar = getCalendar(credential);
         return calendar;
     }

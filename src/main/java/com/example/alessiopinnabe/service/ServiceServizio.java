@@ -53,6 +53,12 @@ public class ServiceServizio implements CrudService<ServizioDto,ResponseServiziD
         throw new CoreException("Metodo non implementato",HttpStatus.METHOD_NOT_ALLOWED , null);
     }
 
+    @Override
+    public ResponseEntity<ResponseServiziDto> get(ServizioDto request, TokenDto token) {
+        throw new CoreException("Metodo non implementato",HttpStatus.METHOD_NOT_ALLOWED , null);
+
+    }
+
 
     @Transactional
     @Override

@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 @Setter
 public class UtenteDto extends ObjectDTO implements UserDetails {
     private String anagrafica;
-    private String email;
+    @NotNull private String email;
     private String username;
     private String provider;
     private String photoUrl;

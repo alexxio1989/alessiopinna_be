@@ -2,6 +2,7 @@ package com.example.alessiopinnabe.mapper;
 
 import com.example.alessiopinnabe.dto.EmailDto;
 import com.example.alessiopinnabe.dto.AcquistoDto;
+import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -10,8 +11,8 @@ import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@Component
-public class EmailMapper {
+@Mapper
+public abstract class EmailMapper {
 
     @Value("${add.prenotazione}")
     private String htmlAddPrenotazione ;

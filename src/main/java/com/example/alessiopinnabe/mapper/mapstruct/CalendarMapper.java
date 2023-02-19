@@ -1,4 +1,4 @@
-package com.example.alessiopinnabe.mapper;
+package com.example.alessiopinnabe.mapper.mapstruct;
 
 import com.example.alessiopinnabe.dto.AcquistoDto;
 import com.google.api.client.util.DateTime;
@@ -6,12 +6,14 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.EventReminder;
 import org.apache.commons.lang3.time.DateUtils;
+import org.mapstruct.Mapper;
 
 import java.util.Arrays;
 import java.util.Date;
 
-public class CalendarMapper {
-    public static Event getEventFromDto(AcquistoDto prenotazioneDto){
+@Mapper
+public interface CalendarMapper {
+    default Event getEventFromDto(AcquistoDto prenotazioneDto){
 
         Date startDate = new Date(prenotazioneDto.getDataAcquisto().getTime());
         Date endDate = DateUtils.addHours(startDate, prenotazioneDto.getQuantita().intValue());

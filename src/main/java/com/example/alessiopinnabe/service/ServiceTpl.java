@@ -60,5 +60,10 @@ public class ServiceTpl implements CrudService<DominioDto, List<DominioDto>> {
         return null;
     }
 
+    @Override
+    public ResponseEntity<List<DominioDto>> get(DominioDto request, TokenDto token) {
+        throw new CoreException("Metodo non implementato",HttpStatus.METHOD_NOT_ALLOWED , null);
+    }
+
 
 }
