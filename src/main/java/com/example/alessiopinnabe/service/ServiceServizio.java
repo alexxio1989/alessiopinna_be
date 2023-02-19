@@ -3,6 +3,7 @@ package com.example.alessiopinnabe.service;
 import com.example.alessiopinnabe.dto.EventoDto;
 import com.example.alessiopinnabe.dto.ProdottoDto;
 import com.example.alessiopinnabe.dto.TokenDto;
+import com.example.alessiopinnabe.dto.request.RequestServizioDto;
 import com.example.alessiopinnabe.dto.response.ResponseServiziDto;
 import com.example.alessiopinnabe.dto.ServizioDto;
 import com.example.alessiopinnabe.entity.Servizio;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
-public class ServiceServizio implements CrudService<ServizioDto,ResponseServiziDto>{
+public class ServiceServizio implements CrudService<RequestServizioDto,ResponseServiziDto>{
 
     @Autowired
     private ServizioRepository servizioRepository;
@@ -54,7 +55,7 @@ public class ServiceServizio implements CrudService<ServizioDto,ResponseServiziD
     }
 
     @Override
-    public ResponseEntity<ResponseServiziDto> get(ServizioDto request, TokenDto token) {
+    public ResponseEntity<ResponseServiziDto> get(RequestServizioDto request, TokenDto token) {
         throw new CoreException("Metodo non implementato",HttpStatus.METHOD_NOT_ALLOWED , null);
 
     }
@@ -62,13 +63,13 @@ public class ServiceServizio implements CrudService<ServizioDto,ResponseServiziD
 
     @Transactional
     @Override
-    public ResponseEntity<ResponseServiziDto> save(ServizioDto servizioDto, TokenDto token){
+    public ResponseEntity<ResponseServiziDto> save(RequestServizioDto request, TokenDto token){
 
         Servizio servizio = null;
         try {
-            servizioDto.setDataCreazione(new Date(Calendar.getInstance().getTime().getTime()));
-            servizioDto.setEnable(1);
-            servizio = servizioMapper.getEntity(servizioDto);
+            request.getServizioSelected().setDataCreazione(new Date(Calendar.getInstance().getTime().getTime()));
+            request.getServizioSelected().setEnable(1);
+            servizio = servizioMapper.getEntity(request.getServizioSelected());
             servizioRepository.save(servizio);
         } catch (DataAccessException ex){
             throw new CoreException("Errore durante il salvataggio del servizio",HttpStatus.INTERNAL_SERVER_ERROR , ex.getMessage());

@@ -2,6 +2,7 @@ package com.example.alessiopinnabe.controller;
 
 import com.example.alessiopinnabe.dto.EventoDto;
 import com.example.alessiopinnabe.dto.ProdottoDto;
+import com.example.alessiopinnabe.dto.request.RequestServizioDto;
 import com.example.alessiopinnabe.dto.response.ResponseServiziDto;
 import com.example.alessiopinnabe.service.ServiceServizio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +17,12 @@ public class ServizioController {
     private ServiceServizio serviceProdotto;
 
     @GetMapping
-    public ResponseEntity<ResponseServiziDto> getProdotti() {
+    public ResponseEntity<ResponseServiziDto> getAll() {
         return serviceProdotto.getAll();
     }
 
-    @PostMapping("/prodotto")
-    public ResponseEntity<ResponseServiziDto> saveProdotto(@RequestBody ProdottoDto dto) {
-        return serviceProdotto.save(dto,null);
-    }
-
-    @PostMapping("/evento")
-    public ResponseEntity<ResponseServiziDto> saveEvento(@RequestBody EventoDto dto) {
+    @PostMapping
+    public ResponseEntity<ResponseServiziDto> save(@RequestBody RequestServizioDto dto) {
         return serviceProdotto.save(dto,null);
     }
 
