@@ -16,6 +16,6 @@ import javax.persistence.*;
 public class Prodotto extends Servizio{
 
     @Column(name = "magazzino")
-    private Integer magazzino;
+    Integer magazzino;
 
 }

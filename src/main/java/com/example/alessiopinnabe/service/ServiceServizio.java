@@ -2,13 +2,18 @@ package com.example.alessiopinnabe.service;
 
 import com.example.alessiopinnabe.dto.EventoDto;
 import com.example.alessiopinnabe.dto.ProdottoDto;
+import com.example.alessiopinnabe.dto.TokenDto;
 import com.example.alessiopinnabe.dto.response.ResponseServiziDto;
 import com.example.alessiopinnabe.dto.ServizioDto;
 import com.example.alessiopinnabe.entity.Servizio;
+import com.example.alessiopinnabe.exceptions.CoreException;
 import com.example.alessiopinnabe.mapper.mapstruct.ServizioMapper;
 import com.example.alessiopinnabe.repositories.ServizioRepository;
+import com.example.alessiopinnabe.service.core.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +25,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
-public class ServiceServizio {
+public class ServiceServizio implements CrudService<ServizioDto,ResponseServiziDto>{
 
     @Autowired
     private ServizioRepository servizioRepository;
@@ -28,68 +33,61 @@ public class ServiceServizio {
     private ServizioMapper servizioMapper;
 
     @Transactional
-    public ResponseServiziDto getProdotti(){
+    @Override
+    public ResponseEntity<ResponseServiziDto> getAll(){
+
         ResponseServiziDto out = new ResponseServiziDto();
         try {
             Iterable<Servizio> all = servizioRepository.findAll();
-            List<Servizio> collect = StreamSupport.stream(all.spliterator(), false)
-                    .collect(Collectors.toList());
+            List<Servizio> collect = StreamSupport.stream(all.spliterator(), false).collect(Collectors.toList());
             out = servizioMapper.getResponse(out,collect);
-        }catch (DataAccessException ex){
-            out.setSuccess(false);
-            out.setError(ex.getMessage());
+        } catch (DataAccessException ex){
+            throw new CoreException("Errore durante il recupero dei servizi",HttpStatus.INTERNAL_SERVER_ERROR , ex.getMessage());
         }
-        out.setSuccess(true);
-        return out;
+        ResponseEntity<ResponseServiziDto> response = new ResponseEntity<>(out,HttpStatus.OK);
+        return response;
+    }
+
+    @Override
+    public ResponseEntity<ResponseServiziDto> getAll(String id) {
+        throw new CoreException("Metodo non implementato",HttpStatus.METHOD_NOT_ALLOWED , null);
     }
 
 
     @Transactional
-    public ResponseServiziDto save(ServizioDto servizioDto){
+    @Override
+    public ResponseEntity<ResponseServiziDto> save(ServizioDto servizioDto, TokenDto token){
 
         Servizio servizio = null;
         try {
             servizioDto.setDataCreazione(new Date(Calendar.getInstance().getTime().getTime()));
             servizioDto.setEnable(1);
-            if(servizioDto instanceof ProdottoDto){
-                servizio = servizioMapper.getProdottoEntity((ProdottoDto) servizioDto);
-            } else {
-                servizio = servizioMapper.getEventoEntity((EventoDto) servizioDto);
-            }
+            servizio = servizioMapper.getEntity(servizioDto);
             servizioRepository.save(servizio);
-        }catch (DataAccessException ex){
-            ResponseServiziDto out = new ResponseServiziDto();
-            out.setSuccess(false);
-            out.setError(ex.getMessage());
-            return out;
+        } catch (DataAccessException ex){
+            throw new CoreException("Errore durante il salvataggio del servizio",HttpStatus.INTERNAL_SERVER_ERROR , ex.getMessage());
         }
-
-        return getProdotti();
+        return getAll();
     }
 
     @Transactional
-    public ResponseServiziDto delete(String id) {
+    @Override
+    public ResponseEntity<ResponseServiziDto> delete(String id, TokenDto token) {
         ResponseServiziDto out = new ResponseServiziDto();
         try {
-            int changed = 0;
             Optional<Servizio> byId = servizioRepository.findById(id);
             if(byId.isPresent()){
                 Servizio prodottoEntity = byId.get();
                 prodottoEntity.setEnable(0);
                 servizioRepository.save(prodottoEntity);
-                changed = 1;
-            }
-            if(changed == 0){
-                out.setSuccess(false);
-                return out;
+            } else {
+                throw new CoreException("Non è stato possibile eliminare alcun servizio con ID : " + id ,HttpStatus.BAD_REQUEST , null);
             }
         }catch (DataAccessException ex){
-            out.setSuccess(false);
-            out.setError(ex.getMessage());
-            return out;
+            throw new CoreException("Errore durante l'eliminazione del servizio",HttpStatus.INTERNAL_SERVER_ERROR , ex.getMessage());
         }
 
-        return getProdotti();
+        return getAll();
     }
 
 

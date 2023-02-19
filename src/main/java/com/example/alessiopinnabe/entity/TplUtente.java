@@ -19,9 +19,9 @@ import java.io.Serializable;
 public class TplUtente implements Serializable {
     @Id
     @Column(name = "codice", nullable = false, length = 100)
-    private String codice;
+    String codice;
 
     @Column(name = "descrizione", length = 45)
-    private String descrizione;
+    String descrizione;
 
 }

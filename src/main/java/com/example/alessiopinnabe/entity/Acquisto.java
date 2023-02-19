@@ -23,16 +23,16 @@ public class Acquisto implements Serializable {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid" ,strategy = "uuid")
     @Column(name = "id_acquisto", nullable = false , length = 36)
-    private String id;
+    String id;
 
     @Column(name = "quantita", nullable = false)
-    private Integer quantita;
+    Integer quantita;
 
     @Column(name = "data_acquisto", nullable = false)
-    private Timestamp dataAcquisto;
+    Timestamp dataAcquisto;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_utente",referencedColumnName = "id_utente", nullable = false)
-    private Utente utente;
+    Utente utente;
 
 }

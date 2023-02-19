@@ -5,6 +5,7 @@ import com.example.alessiopinnabe.dto.ProdottoDto;
 import com.example.alessiopinnabe.dto.response.ResponseServiziDto;
 import com.example.alessiopinnabe.service.ServiceServizio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,23 +16,23 @@ public class ServizioController {
     private ServiceServizio serviceProdotto;
 
     @GetMapping
-    public ResponseServiziDto getProdotti() {
-        return serviceProdotto.getProdotti();
+    public ResponseEntity<ResponseServiziDto> getProdotti() {
+        return serviceProdotto.getAll();
     }
 
     @PostMapping("/prodotto")
-    public ResponseServiziDto saveProdotto(@RequestBody ProdottoDto dto) {
-        return serviceProdotto.save(dto);
+    public ResponseEntity<ResponseServiziDto> saveProdotto(@RequestBody ProdottoDto dto) {
+        return serviceProdotto.save(dto,null);
     }
 
     @PostMapping("/evento")
-    public ResponseServiziDto saveEvento(@RequestBody EventoDto dto) {
-        return serviceProdotto.save(dto);
+    public ResponseEntity<ResponseServiziDto> saveEvento(@RequestBody EventoDto dto) {
+        return serviceProdotto.save(dto,null);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseServiziDto delete(@PathVariable String id) {
-        return serviceProdotto.delete(id);
+    public ResponseEntity<ResponseServiziDto> delete(@PathVariable String id) {
+        return serviceProdotto.delete(id,null);
     }
 
 }

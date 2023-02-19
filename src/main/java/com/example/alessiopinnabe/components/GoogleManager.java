@@ -1,4 +1,4 @@
-package com.example.alessiopinnabe.service;
+package com.example.alessiopinnabe.components;
 
 import com.example.alessiopinnabe.dto.TokenDto;
 import com.example.alessiopinnabe.mapper.TokenMapper;
@@ -28,7 +28,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-public class ServiceGoogle {
+public class GoogleManager {
 
     private static final String APPLICATION_NAME = "";
     private static HttpTransport httpTransport;

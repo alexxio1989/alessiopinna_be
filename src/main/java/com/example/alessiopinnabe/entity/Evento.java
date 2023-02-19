@@ -18,9 +18,9 @@ import java.time.Instant;
 public class Evento extends Servizio{
 
     @Column(name = "data_inizio")
-    private Timestamp dataInizio;
+    Timestamp dataInizio;
 
     @Column(name = "data_fine")
-    private Timestamp dataFine;
+    Timestamp dataFine;
 
 }

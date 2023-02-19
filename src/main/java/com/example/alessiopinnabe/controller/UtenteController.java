@@ -1,12 +1,10 @@
 package com.example.alessiopinnabe.controller;
 
 import com.example.alessiopinnabe.config.JwtProvider;
-import com.example.alessiopinnabe.dto.UtenteDto;
 import com.example.alessiopinnabe.dto.UtenteDtoFull;
 import com.example.alessiopinnabe.dto.request.RequestLoginDto;
 import com.example.alessiopinnabe.dto.response.ResponseUtenteDto;
-import com.example.alessiopinnabe.entity.Utente;
-import com.example.alessiopinnabe.service.ServiceGoogle;
+import com.example.alessiopinnabe.components.GoogleManager;
 import com.example.alessiopinnabe.service.ServiceUtente;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -14,7 +12,6 @@ import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.services.oauth2.model.Userinfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -29,7 +26,7 @@ public class UtenteController {
     @Autowired
     private ServiceUtente serviceUtente;
     @Autowired
-    private ServiceGoogle googleService;
+    private GoogleManager googleService;
     @Value("${fe.path}")
     private String fePath;
 

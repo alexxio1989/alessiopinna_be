@@ -23,33 +23,33 @@ public class Token implements Serializable {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid" ,strategy = "uuid")
     @Column(name = "id", nullable = false , length = 36)
-    private String id;
+    String id;
 
     @Lob
     @Column(name = "access_token")
-    private String accessToken;
+    String accessToken;
 
     @Column(name = "token_type")
-    private String tokenType;
+    String tokenType;
 
     @Column(name = "expires_in_seconds")
-    private Integer expiresInSeconds;
+    Integer expiresInSeconds;
 
     @Lob
     @Column(name = "scope")
-    private String scope;
+    String scope;
 
     @Column(name = "date_creation")
-    private Timestamp dateCreation;
+    Timestamp dateCreation;
 
     @Column(name = "date_exiration")
-    private Timestamp dateExiration;
+    Timestamp dateExiration;
 
     @Column(name = "provider")
-    private String provider;
+    String provider;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_utente", nullable = false)
-    private Utente utente;
+    Utente utente;
 
 }

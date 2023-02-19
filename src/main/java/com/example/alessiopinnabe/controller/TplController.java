@@ -4,6 +4,7 @@ import com.example.alessiopinnabe.dto.DominioDto;
 import com.example.alessiopinnabe.service.ServiceTpl;
 import org.checkerframework.checker.units.qual.Length;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,13 +23,13 @@ public class TplController {
     private ServiceTpl tplService;
 
     @GetMapping
-    public List<DominioDto> getTipiServizio() {
-        return tplService.getTipiProdotti();
+    public ResponseEntity<List<DominioDto>> getTipiServizio() {
+        return tplService.getAll();
     }
 
     @PostMapping
-    public List<DominioDto> saveTplServizio(@RequestBody @NotBlank @Valid DominioDto dominio) {
-        return tplService.saveTplProdotto(dominio);
+    public ResponseEntity<List<DominioDto>> saveTplServizio(@RequestBody @NotBlank @Valid DominioDto dominio) {
+        return tplService.save(dominio, null);
     }
 
 }

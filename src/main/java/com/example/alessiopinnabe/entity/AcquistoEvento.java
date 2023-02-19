@@ -18,15 +18,15 @@ public class AcquistoEvento extends Acquisto {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_servizio",referencedColumnName = "id_servizio", nullable = false )
-    private Evento evento;
+    Evento evento;
 
     @Column(name = "data_inizio")
-    private Timestamp dataInizio;
+    Timestamp dataInizio;
 
     @Column(name = "data_fine")
-    private Timestamp dataFine;
+    Timestamp dataFine;
 
     @Column(name = "id_event_calendar")
-    private String idEventCalendar;
+    String idEventCalendar;
 
 }

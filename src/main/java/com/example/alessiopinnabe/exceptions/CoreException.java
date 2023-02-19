@@ -6,13 +6,16 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @Setter
-public class CoreExceptions extends RuntimeException{
+public class CoreException extends RuntimeException{
     private HttpStatus status;
     private String message;
 
-    public CoreExceptions(String message, HttpStatus status) {
+    private String detailError;
+
+    public CoreException(String message, HttpStatus status , String detailError) {
         super(message);
         this.message = message;
         this.status = status;
+        this.detailError = detailError;
     }
 }

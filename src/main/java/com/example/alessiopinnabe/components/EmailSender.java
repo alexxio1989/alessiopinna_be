@@ -1,6 +1,7 @@
-package com.example.alessiopinnabe.service;
+package com.example.alessiopinnabe.components;
 
 import com.example.alessiopinnabe.dto.EmailDto;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -17,8 +18,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-@Service
-public class ServiceEmail {
+@Component
+public class EmailSender {
 
 
 

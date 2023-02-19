@@ -1,9 +1,10 @@
-package com.example.alessiopinnabe.service;
+package com.example.alessiopinnabe.components;
 
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service
-public class ServicePaypal {
+@Component
+public class PaypalManager {
 
     @Value("${paypal.clientID}")
     private String clientID;

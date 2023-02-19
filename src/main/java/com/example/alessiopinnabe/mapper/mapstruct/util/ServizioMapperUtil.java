@@ -17,7 +17,9 @@ public class ServizioMapperUtil {
         List<Prodotto> out = new ArrayList<>();
         out = (List<Prodotto>)(List<?>) entityList.stream().filter(s-> s instanceof Prodotto).collect(Collectors.toList());
         if(CollectionUtils.isNotEmpty(out)){
-            out.forEach(s -> s.setImages(getDefaultImages(s)));
+            out.forEach(s ->{
+                s.setImages(getDefaultImages(s));
+            });
         }
         return out;
     }
@@ -26,12 +28,14 @@ public class ServizioMapperUtil {
         List<Evento> out = new ArrayList<>();
         out = (List<Evento>)(List<?>) entityList.stream().filter(s-> s instanceof Evento).collect(Collectors.toList());
         if(CollectionUtils.isNotEmpty(out)){
-            out.forEach(s -> s.setImages(getDefaultImages(s)));
+            out.forEach(s -> {
+                s.setImages(getDefaultImages(s));
+            });
         }
         return out;
     }
 
-    public static List<ImgServizio> getDefaultImages(Servizio servizio){
+    private static List<ImgServizio> getDefaultImages(Servizio servizio){
         List<ImgServizio> out = new ArrayList<>();
         if(CollectionUtils.isEmpty(servizio.getImages())){
             ImgServizio img = new ImgServizio();

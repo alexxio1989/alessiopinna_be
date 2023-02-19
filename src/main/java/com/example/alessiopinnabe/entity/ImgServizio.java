@@ -21,19 +21,19 @@ public class ImgServizio implements Serializable {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid" ,strategy = "uuid")
     @Column(name = "id_image", nullable = false , length = 36)
-    private String id;
+    String id;
 
     @Column(name = "`key`")
-    private String key;
+    String key;
 
     @Column(name = "img_url", length = 45)
-    private String imgUrl;
+    String imgUrl;
 
     @Column(name = "img")
-    private byte[] img;
+    byte[] img;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_servizio",referencedColumnName = "id_servizio", nullable = false)
-    private Servizio servizio;
+    Servizio servizio;
 
 }

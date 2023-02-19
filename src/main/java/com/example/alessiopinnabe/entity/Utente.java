@@ -25,35 +25,35 @@ public class Utente implements Serializable {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid" ,strategy = "uuid")
     @Column(name = "id_utente", nullable = false , length = 36)
-    private String id;
+    String id;
 
     @Column(name = "anagrafica", length = 100)
-    private String anagrafica;
+    String anagrafica;
 
     @Column(name = "email")
-    private String email;
+    String email;
 
     @Column(name = "password", length = 45)
-    private String password;
+    String password;
 
     @Column(name = "provider", length = 15)
-    private String provider;
+    String provider;
 
     @Lob
     @Column(name = "photo_url")
-    private String photoUrl;
+    String photoUrl;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "tipo_utente", nullable = false)
-    private TplUtente tipoUtente;
+    TplUtente tipoUtente;
 
     @OneToMany(mappedBy = "utente")
-    private List<AcquistoProdotto> prodottiAcquistati = new ArrayList<>();
+    List<AcquistoProdotto> prodottiAcquistati = new ArrayList<>();
 
     @OneToMany(mappedBy = "utente")
-    private List<AcquistoEvento> eventiAcquistati = new ArrayList<>();
+    List<AcquistoEvento> eventiAcquistati = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "utente")
-    private List<Token> tokens = new ArrayList<>();
+    List<Token> tokens = new ArrayList<>();
 
 }

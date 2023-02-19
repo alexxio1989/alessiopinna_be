@@ -1,6 +1,6 @@
 package com.example.alessiopinnabe.controller;
 
-import com.example.alessiopinnabe.service.ServicePaypal;
+import com.example.alessiopinnabe.components.PaypalManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +15,7 @@ import java.util.Map;
 public class PaypalController {
 
     @Autowired
-    private ServicePaypal payPalClient;
+    private PaypalManager payPalClient;
 
     @PostMapping(value = "/make/payment")
     public Map<String, Object> makePayment(@RequestParam("sum") String sum){

@@ -17,6 +17,6 @@ public class AcquistoProdotto extends Acquisto {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_servizio",referencedColumnName = "id_servizio", nullable = false)
-    private Prodotto prodotto;
+    Prodotto prodotto;
 
 }

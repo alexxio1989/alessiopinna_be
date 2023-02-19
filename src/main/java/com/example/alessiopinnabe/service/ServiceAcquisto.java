@@ -1,5 +1,7 @@
 package com.example.alessiopinnabe.service;
 
+import com.example.alessiopinnabe.components.EmailSender;
+import com.example.alessiopinnabe.components.GoogleManager;
 import com.example.alessiopinnabe.dto.*;
 import com.example.alessiopinnabe.dto.request.RequestCarrelloDto;
 import com.example.alessiopinnabe.dto.response.ResponseAcquistoDto;
@@ -27,11 +29,11 @@ public class ServiceAcquisto {
     @Autowired
     private AcquistoRepository acquistoRepository;
     @Autowired
-    private ServiceEmail mailService;
+    private EmailSender mailService;
     @Autowired
     private EmailMapper emailMapper;
     @Autowired
-    private ServiceGoogle googleService;
+    private GoogleManager googleService;
     @Autowired
     private TokenRepository userTokenRepository;
     @Autowired

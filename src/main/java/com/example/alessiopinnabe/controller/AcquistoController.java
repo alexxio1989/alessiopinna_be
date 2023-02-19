@@ -16,31 +16,28 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("acquisto")
-@CrossOrigin(origins = "*")
 public class AcquistoController {
 
     @Autowired
     private ServiceAcquisto serviceAcquisto;
 
-    @PostMapping("/save/carrello")
-    @CrossOrigin(origins = "*")
+    @PostMapping
     public ResponseAcquistoDto save(@Nullable @RequestHeader(value="token-google") String tokenString , @RequestBody RequestCarrelloDto carrello) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         TokenDto tokenResponseDto = mapper.readValue(tokenString, TokenDto.class);
         return serviceAcquisto.saveCarrello(carrello, tokenResponseDto);
     }
 
-    @PostMapping("/delete")
-    @CrossOrigin(origins = "*")
+    @DeleteMapping
     public ResponseAcquistoDto delete(@RequestHeader(value="token-google") String tokenString , @RequestBody AcquistoDto prenotazione) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         TokenDto tokenResponseDto = mapper.readValue(tokenString, TokenDto.class);
         return serviceAcquisto.delete(prenotazione, tokenResponseDto);
     }
 
-    @GetMapping("/getAll/{idUtente}")
+    @GetMapping("/{idUtente}")
     @CrossOrigin(origins = "*")
-    public ResponseAcquistoDto getAllByUtente(@RequestHeader(value="token-google") String tokenString , @PathVariable String idUtente) throws JsonProcessingException {
+    public ResponseAcquistoDto getAll(@RequestHeader(value="token-google") String tokenString , @PathVariable String idUtente) throws JsonProcessingException {
         return serviceAcquisto.getAll(idUtente);
     }
 

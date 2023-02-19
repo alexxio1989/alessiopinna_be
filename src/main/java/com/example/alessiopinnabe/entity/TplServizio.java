@@ -23,10 +23,10 @@ public class TplServizio {
     String id;
 
     @Column(name = "descrizione")
-    private String descrizione;
+    String descrizione;
 
     @Lob
     @Column(name = "desc_ext")
-    private String descExt;
+    String descExt;
 
 }
