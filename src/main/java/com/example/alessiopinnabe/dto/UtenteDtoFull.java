@@ -1,6 +1,5 @@
 package com.example.alessiopinnabe.dto;
 
-import com.example.alessiopinnabe.dto.core.ResponseCore;
 import lombok.Getter;
 import lombok.Setter;
 

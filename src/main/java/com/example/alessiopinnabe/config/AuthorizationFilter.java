@@ -1,7 +1,7 @@
 package com.example.alessiopinnabe.config;
 
 import com.example.alessiopinnabe.dto.UtenteDto;
-import com.example.alessiopinnabe.dto.core.ResponseCore;
+import com.example.alessiopinnabe.dto.core.ErrorResponseDto;
 import com.example.alessiopinnabe.entity.Token;
 import com.example.alessiopinnabe.entity.Utente;
 import com.example.alessiopinnabe.exceptions.CoreException;
@@ -10,7 +10,6 @@ import com.example.alessiopinnabe.mapper.mapstruct.UtenteMapper;
 import com.example.alessiopinnabe.repositories.UtenteRepository;
 import com.example.alessiopinnabe.util.Constants;
 import com.example.alessiopinnabe.util.Util;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -80,7 +79,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                         isTokenGoogleExpired ||
                         isTokenDefaultExpired
                 ){
-                    ResponseEntity<ResponseCore> responseCustom = exceptionsHandler.handleRequestException(request, new CoreException("Token scaduto", HttpStatus.UNAUTHORIZED, null));
+                    ResponseEntity<ErrorResponseDto> responseCustom = exceptionsHandler.handleRequestException(request, new CoreException("Token scaduto", HttpStatus.UNAUTHORIZED, null));
                     mapErrorResponse(response, responseCustom);
                     return;
                 } else {
@@ -92,8 +91,8 @@ public class AuthorizationFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
     }
 
-    private void mapErrorResponse(HttpServletResponse response, ResponseEntity<ResponseCore> responseCustom) throws IOException {
-        ResponseCore body = responseCustom.getBody();
+    private void mapErrorResponse(HttpServletResponse response, ResponseEntity<ErrorResponseDto> responseCustom) throws IOException {
+        ErrorResponseDto body = responseCustom.getBody();
         response.setStatus(body .getCode());
         response.setContentType("application/json");
 
