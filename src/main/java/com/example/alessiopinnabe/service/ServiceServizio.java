@@ -86,7 +86,7 @@ public class ServiceServizio implements CrudService<RequestServizioDto,ResponseS
             if(byId.isPresent()){
                 Servizio prodottoEntity = byId.get();
                 prodottoEntity.setEnable(0);
-                servizioRepository.save(prodottoEntity);
+                servizioRepository.delete(prodottoEntity);
             } else {
                 throw new CoreException("Non è stato possibile eliminare alcun servizio con ID : " + id ,HttpStatus.BAD_REQUEST , null);
             }
