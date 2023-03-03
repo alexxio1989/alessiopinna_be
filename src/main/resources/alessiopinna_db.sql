@@ -175,16 +175,13 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
-
--- -----------------------------------------------------
--- Table `alessiopinna`.`img_servizio`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `alessiopinna`.`img_servizio` (
   `id_image` VARCHAR(36) NOT NULL,
-  `img` TINYBLOB NULL DEFAULT NULL,
-  `img_url` VARCHAR(45) NULL DEFAULT NULL,
-  `key` VARCHAR(255) NULL DEFAULT NULL,
   `id_servizio` VARCHAR(36) NOT NULL,
+  `base64` TEXT NULL DEFAULT NULL,
+  `url` VARCHAR(45) NULL DEFAULT NULL,
+
   PRIMARY KEY (`id_image`),
   INDEX `FKc8qb7g4bn585mwygsbna56oqq` (`id_servizio` ASC) VISIBLE,
   CONSTRAINT `FKc8qb7g4bn585mwygsbna56oqq`

@@ -39,7 +39,7 @@ public class ServizioMapperUtil {
         List<ImgServizio> out = new ArrayList<>();
         if(CollectionUtils.isEmpty(servizio.getImages())){
             ImgServizio img = new ImgServizio();
-            img.setImgUrl("default");
+            img.setUrl("default");
             out.add(img);
         } else {
            return servizio.getImages();

@@ -13,9 +13,6 @@ import javax.persistence.ManyToOne;
 @Getter
 @Setter
 public class ImageDto extends ObjectDTO {
-
-    private String key;
-    private String imgUrl;
-    private byte[] img;
-
+    private String base64;
+    private String url;
 }
