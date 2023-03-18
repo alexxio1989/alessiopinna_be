@@ -6,6 +6,7 @@ import com.example.alessiopinnabe.dto.TokenDto;
 import com.example.alessiopinnabe.dto.request.RequestServizioDto;
 import com.example.alessiopinnabe.dto.response.ResponseServiziDto;
 import com.example.alessiopinnabe.dto.ServizioDto;
+import com.example.alessiopinnabe.entity.ImgServizio;
 import com.example.alessiopinnabe.entity.Servizio;
 import com.example.alessiopinnabe.exceptions.CoreException;
 import com.example.alessiopinnabe.mapper.mapstruct.ServizioMapper;
@@ -32,6 +33,8 @@ public class ServiceServizio implements CrudService<RequestServizioDto,ResponseS
     private ServizioRepository servizioRepository;
     @Autowired
     private ServizioMapper servizioMapper;
+    @Autowired
+    private ServiceImages serviceImages;
 
     @Transactional
     @Override
@@ -66,14 +69,18 @@ public class ServiceServizio implements CrudService<RequestServizioDto,ResponseS
     public ResponseEntity<ResponseServiziDto> save(RequestServizioDto request, TokenDto token){
 
         Servizio servizio = null;
+        request.getServizioSelected().setDataCreazione(new Date(Calendar.getInstance().getTime().getTime()));
+        request.getServizioSelected().setEnable(1);
+        servizio = servizioMapper.getEntity(request.getServizioSelected());
         try {
-            request.getServizioSelected().setDataCreazione(new Date(Calendar.getInstance().getTime().getTime()));
-            request.getServizioSelected().setEnable(1);
-            servizio = servizioMapper.getEntity(request.getServizioSelected());
-            servizioRepository.save(servizio);
+            servizio = servizioRepository.save(servizio);
         } catch (DataAccessException ex){
             throw new CoreException("Errore durante il salvataggio del servizio",HttpStatus.INTERNAL_SERVER_ERROR , ex.getMessage());
         }
+
+        List<ImgServizio> imgServizios = serviceImages.deleteAndUpdate(request.getServizioSelected().getImages(), servizio);
+        servizio.setImages(imgServizios);
+
         return getAll();
     }
 
