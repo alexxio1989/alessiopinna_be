@@ -88,10 +88,12 @@ public class ServiceServizio implements CrudService<RequestServizioDto,ResponseS
     @Override
     public ResponseEntity<ResponseServiziDto> delete(String id, TokenDto token) {
         ResponseServiziDto out = new ResponseServiziDto();
+
         try {
             Optional<Servizio> byId = servizioRepository.findById(id);
             if(byId.isPresent()){
                 Servizio prodottoEntity = byId.get();
+                serviceImages.deleteByServizio(prodottoEntity);
                 prodottoEntity.setEnable(0);
                 servizioRepository.delete(prodottoEntity);
             } else {

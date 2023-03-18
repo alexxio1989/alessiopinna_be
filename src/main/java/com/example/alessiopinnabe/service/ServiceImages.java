@@ -27,6 +27,7 @@ public class ServiceImages {
     @Autowired
     private ImagesMapper mapper;
 
+
     public List<ImgServizio> deleteAndUpdate(List<ImageDto> images, Servizio servizio){
         List<ImgServizio> imgServizios = null;
 
@@ -47,4 +48,16 @@ public class ServiceImages {
 
         return imgServizios;
     }
+
+    public long deleteByServizio( Servizio servizio){
+        if(StringUtils.isNotEmpty(servizio.getId())){
+            try {
+                return jpaRepository.deleteByServizio(servizio);
+            } catch (DataAccessException ex){
+                throw new CoreException("Errore durante l'eliminazione delle vecchie immagini del servizio", HttpStatus.INTERNAL_SERVER_ERROR , ex.getMessage());
+            }
+        }
+        return 0;
+    }
+
 }

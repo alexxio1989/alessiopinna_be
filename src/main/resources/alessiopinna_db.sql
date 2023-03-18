@@ -179,7 +179,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `alessiopinna`.`img_servizio` (
   `id_image` VARCHAR(36) NOT NULL,
   `id_servizio` VARCHAR(36) NOT NULL,
-  `base64` TEXT NULL DEFAULT NULL,
+  `base64` LONGTEXT NULL DEFAULT NULL,
   `url` VARCHAR(45) NULL DEFAULT NULL,
 
   PRIMARY KEY (`id_image`),
