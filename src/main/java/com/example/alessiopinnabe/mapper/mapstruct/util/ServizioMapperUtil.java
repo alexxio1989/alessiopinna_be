@@ -15,24 +15,12 @@ public class ServizioMapperUtil {
 
     public static List<Prodotto> getProdotti(List<Servizio> entityList){
         List<Prodotto> out = new ArrayList<>();
-        out = (List<Prodotto>)(List<?>) entityList.stream().filter(s-> s instanceof Prodotto).collect(Collectors.toList());
-        if(CollectionUtils.isNotEmpty(out)){
-            out.forEach(s ->{
-                s.setImages(getDefaultImages(s));
-            });
-        }
-        return out;
+        return (List<Prodotto>)(List<?>) entityList.stream().filter(s-> s instanceof Prodotto).collect(Collectors.toList());
     }
 
     public static List<Evento> getEventi(List<Servizio> entityList){
         List<Evento> out = new ArrayList<>();
-        out = (List<Evento>)(List<?>) entityList.stream().filter(s-> s instanceof Evento).collect(Collectors.toList());
-        if(CollectionUtils.isNotEmpty(out)){
-            out.forEach(s -> {
-                s.setImages(getDefaultImages(s));
-            });
-        }
-        return out;
+        return (List<Evento>)(List<?>) entityList.stream().filter(s-> s instanceof Evento).collect(Collectors.toList());
     }
 
     private static List<ImgServizio> getDefaultImages(Servizio servizio){
